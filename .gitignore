@@ -1,0 +1,21 @@
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+.pytest_cache
+.vscode
+.idea
+*.log
+.DS_Store
+
+# Backend Environment
+enterprise-intelligence-dashboard/backend/venv/
+enterprise-intelligence-dashboard/backend/.env
+
+# Frontend Dependencies
+enterprise-intelligence-dashboard/frontend/node_modules/
+enterprise-intelligence-dashboard/frontend/dist/
+enterprise-intelligence-dashboard/frontend/.env
+
+# Option A: Uncomment the line below to IGNORE the 1GB Odoo core code
+odoo/
