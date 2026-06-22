@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root Menu -->
+    <menuitem id="menu_bi_root"
+              name="Enterprise BI"
+              sequence="10"/>
+
+    <!-- Dashboard Submenu -->
+    <menuitem id="menu_bi_dashboard"
+              name="Dashboard"
+              parent="menu_bi_root"
+              action="action_bi_dashboard"
+              sequence="1"/>
+
+    <!-- Analytics Submenu -->
+    <menuitem id="menu_bi_analytics"
+              name="Analytics"
+              parent="menu_bi_root"
+              sequence="2"/>
+
+    <!-- Analytics Items -->
+    <menuitem id="menu_bi_sales"
+              name="Sales Analytics"
+              parent="menu_bi_analytics"
+              action="action_bi_sales_analysis"
+              sequence="1"/>
+
+    <menuitem id="menu_bi_purchase"
+              name="Purchase Analytics"
+              parent="menu_bi_analytics"
+              action="action_bi_purchase_analysis"
+              sequence="2"/>
+</odoo>
