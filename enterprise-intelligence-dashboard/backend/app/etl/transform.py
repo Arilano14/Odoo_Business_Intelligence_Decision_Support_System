@@ -36,6 +36,13 @@ def transform_product_dimension(products_df: pd.DataFrame, templates_df: pd.Data
     df = pd.merge(products_df, templates_df, left_on='product_tmpl_id', right_on='id', how='left')
     df.rename(columns={'id_x': 'product_id', 'name': 'product_name'}, inplace=True)
     df['category'] = df['categ_id'].astype(str)  # Should map to real category name if available
+    
+    def extract_name(val):
+        if isinstance(val, dict):
+            return val.get('en_US', list(val.values())[0] if val else 'Unknown')
+        return str(val)
+        
+    df['product_name'] = df['product_name'].apply(extract_name)
     return df[['product_id', 'product_name', 'category']]
 
 def transform_sales_fact(sales_line_df: pd.DataFrame, sales_df: pd.DataFrame) -> pd.DataFrame:

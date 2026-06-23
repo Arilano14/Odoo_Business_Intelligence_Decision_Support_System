@@ -4,7 +4,7 @@ import random
 from datetime import datetime, timedelta
 
 # Append Odoo path so we can import it
-sys.path.append(r"C:\Users\Arilano\Downloads\Project ARICE\Project Odoo\odoo")
+sys.path.append(r"C:\Program Files\Odoo 18.0.20241229\server")
 import odoo
 
 # Initialize Odoo
@@ -15,14 +15,6 @@ def generate_mock_data():
     with registry.cursor() as cr:
         env = odoo.api.Environment(cr, odoo.SUPERUSER_ID, {})
         
-        print("Installing required modules...")
-        modules_to_install = ['sale_management', 'stock', 'purchase', 'account', 'crm', 'contacts', 'hr']
-        modules = env['ir.module.module'].search([('name', 'in', modules_to_install), ('state', '!=', 'installed')])
-        if modules:
-            modules.button_immediate_install()
-            print("Modules installed. Please restart the script to apply changes.")
-            return
-            
         print("Generating mock data for 12 months...")
         
         # Ensure some partners exist
