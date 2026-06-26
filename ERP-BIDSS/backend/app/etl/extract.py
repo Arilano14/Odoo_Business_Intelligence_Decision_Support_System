@@ -52,7 +52,7 @@ def extract_all():
     
     crm_df = extract_table("crm_lead", ["id", "name", "stage_id", "expected_revenue", "probability", "create_date"])
     
-    partners_df = extract_table("res_partner", ["id", "name", "country_id"])
+    partners_df = extract_table("res_partner", ["id", "name", "category_id", "country_id"])
     products_df = extract_table("product_product", ["id", "product_tmpl_id", "default_code"])
     product_tmpl_df = extract_table("product_template", ["id", "name", "categ_id"])
     
