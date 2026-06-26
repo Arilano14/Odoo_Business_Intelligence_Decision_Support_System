@@ -9,13 +9,9 @@ __pycache__
 .DS_Store
 
 # Backend Environment
-enterprise-intelligence-dashboard/backend/venv/
-enterprise-intelligence-dashboard/backend/.env
-
-# Frontend Dependencies
-enterprise-intelligence-dashboard/frontend/node_modules/
-enterprise-intelligence-dashboard/frontend/dist/
-enterprise-intelligence-dashboard/frontend/.env
+ERP-BIDSS/backend/.venv/
+ERP-BIDSS/backend/.env
+ERP-BIDSS/backend/venv/
 
 # Option A: Uncomment the line below to IGNORE the 1GB Odoo core code
-odoo/
+# odoo/
