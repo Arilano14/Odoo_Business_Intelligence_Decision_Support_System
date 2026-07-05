@@ -1,13 +1,11 @@
-﻿# Technology Stack
+# Technology Stack
 
-**ERP:** Odoo 18
-**Database:** PostgreSQL
-**Backend (ETL & Analytics):**
-- Python
-- Pandas
-- NumPy
-- SQLAlchemy
-**Forecasting:**
-- Prophet
-- statsmodels
-**BI:** Power BI
+| Layer | Technology |
+| :--- | :--- |
+| **ERP** | Odoo 18 Community Edition |
+| **Database** | PostgreSQL |
+| **ETL & Analytics** | Python, Pandas, SQLAlchemy |
+| **Forecasting** | Moving Average (Pandas) |
+| **Decision Support** | EOQ, ROP, Weighted Scoring (NumPy) |
+| **Visualization** | Microsoft Power BI |
+| **Version Control** | Git, GitHub |

@@ -1,10 +1,21 @@
 # Data Profiling Report
 
-*Status: Simulated Dataset*
-- **Sales Order**: ~10,000 rows
-- **Sales Order Line**: ~50,000 rows
-- **Purchase Order**: ~5,000 rows
-- **Stock Move**: ~30,000 rows
-- **Accounting Journal**: ~10,000 rows
+## Dataset Simulasi — PT Prima Alat Nusantara
 
-*Total volume analyzed: ~105,000 rows*
+| Dataset | Target Rows | Source Table (Odoo 18) |
+| :--- | :--- | :--- |
+| Product (Master) | 500 | product_product + product_template |
+| Customer (Master) | 300 | res_partner (customer_rank > 0) |
+| Vendor (Master) | 300 | res_partner (supplier_rank > 0) |
+| Warehouse (Master) | 5 | stock_warehouse |
+| Company (Master) | 1 | res_company |
+| Sales Order | 2.000 | sale_order |
+| Sales Order Line | ~8.000 | sale_order_line |
+| Purchase Order | 2.000 | purchase_order |
+| Purchase Order Line | ~8.000 | purchase_order_line |
+| Stock Movement | 10.000 | stock_move |
+| Journal Entry | 15.000 | account_move + account_move_line |
+
+**Total Volume:** ≈ 30.000 records
+
+**Catatan:** Seluruh data merupakan dataset simulasi berbasis skenario bisnis selama 12 bulan operasional (Januari–Desember). Distribusi transaksi mengikuti pola scenario-driven, bukan random.

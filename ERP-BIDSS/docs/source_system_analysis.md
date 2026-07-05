@@ -1,24 +1,38 @@
-﻿# Source System Analysis
+# Source System Analysis
 
-## Odoo Tables
+## Source System
+- **ERP:** Odoo 18 Community Edition
+- **Database Engine:** PostgreSQL
+- **Data Owner:** ERP Administrator
+- **Update Frequency:** Real-time (setiap transaksi dicatat oleh Odoo)
+- **Extraction Method:** Python ETL Pipeline (batch, scheduled)
+
+## Odoo 18 Core Tables
+
+### Sales Module
 - sale_order
 - sale_order_line
-- stock_move
-- stock_picking
+
+### Purchase Module
 - purchase_order
 - purchase_order_line
-- ccount_move
-- ccount_move_line
+
+### Inventory Module
+- stock_move
+- stock_quant
+- stock_picking
+- stock_warehouse
+
+### Accounting Module
+- account_move
+- account_move_line
+
+### Master Data
 - product_product
 - product_template
-- es_partner
-- stock_quant
+- product_category
+- res_partner
+- res_company
 
-## External Dataset
-- Kaggle Sales Dataset
-- Kaggle Inventory Dataset
-
-## Metadata
-- **Source owner**: ERP Administrator / Data Engineer
-- **Update frequency**: Daily Batch
-- **Refresh mechanism**: Python ETL Pipeline (Scheduled)
+## Dataset Simulasi
+Seluruh data merupakan dataset simulasi berbasis skenario bisnis perusahaan distributor alat berat. Data di-generate menggunakan Python (Faker + custom logic) dan dimasukkan ke PostgreSQL mengikuti struktur tabel Odoo 18.
