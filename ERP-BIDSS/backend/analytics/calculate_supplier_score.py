@@ -26,20 +26,20 @@ def calculate_supplier_score():
     # Extract data from Analytics Mart (Purchase Fact and Dimension Vendor)
     query = f"""
         SELECT 
-            f.sk_vendor_id,
+            f.vendor_id,
             v.vendor_name,
-            f.po_reference,
+            f.sk_purchase_id,
             f.lead_time_days,
             f.quantity,
             f.price_unit,
-            f.total_cost,
-            p.standard_price,
+            f.subtotal,
+            p.list_price AS standard_price,
             f.date_id,
             -- For simulation, we assume delay if lead_time_days > 5
             CASE WHEN f.lead_time_days > 5 THEN 1 ELSE 0 END as is_delayed
         FROM {SCHEMA}.fact_purchase f
-        JOIN {SCHEMA}.dim_vendor v ON f.sk_vendor_id = v.sk_vendor_id
-        JOIN {SCHEMA}.dim_product p ON f.sk_product_id = p.sk_product_id
+        JOIN {SCHEMA}.dim_vendor v ON f.vendor_id = v.sk_vendor_id
+        JOIN {SCHEMA}.dim_product p ON f.product_id = p.sk_product_id
     """
     
     try:
@@ -52,7 +52,7 @@ def calculate_supplier_score():
         print("No purchase data to calculate Supplier Score.")
         return
         
-    print(f"Evaluating {df['sk_vendor_id'].nunique()} Suppliers across {len(df)} lines...")
+    print(f"Evaluating {df['vendor_id'].nunique()} Suppliers across {len(df)} lines...")
     
     # Calculate dimensions per line
     # 1. Delivery Score (Target 5 days, if 5 days = 100%, each day late -10%)
@@ -75,8 +75,8 @@ def calculate_supplier_score():
     )
     
     # Aggregate by Vendor
-    vendor_stats = df.groupby(['sk_vendor_id', 'vendor_name']).agg(
-        total_pos=('po_reference', 'nunique'),
+    vendor_stats = df.groupby(['vendor_id', 'vendor_name']).agg(
+        total_pos=('sk_purchase_id', 'nunique'),
         total_delayed_lines=('is_delayed', 'sum'),
         total_lines=('is_delayed', 'count'),
         avg_delivery_score=('delivery_score_line', 'mean'),
@@ -107,12 +107,13 @@ def calculate_supplier_score():
 
     # Save to Analytics Mart
     output_df = vendor_stats[[
-        'sk_vendor_id', 'vendor_name', 'total_pos', 'avg_delivery_score', 
+        'vendor_id', 'vendor_name', 'total_pos', 'avg_delivery_score', 
         'avg_fulfillment_score', 'avg_price_consistency', 'delay_frequency_score',
         'final_score', 'recommendation_status'
     ]]
     
     try:
+        output_df = output_df.rename(columns={'vendor_id': 'sk_vendor_id'})
         output_df.to_sql(
             'fact_supplier_score',
             db.target_engine,

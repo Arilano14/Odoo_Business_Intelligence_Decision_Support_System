@@ -23,9 +23,9 @@ def run_pipeline():
     logger = ETLLogger("OBIDSS_ETL_PIPELINE")
     logger.start()
 
-    print("=" * 60)
+    print("============================================================")
     print("OBIDSS ETL Pipeline — Odoo 18 → Analytics Mart")
-    print("=" * 60)
+    print("============================================================")
 
     # ── STEP 1: EXTRACT ──────────────────────────────────────
     print("\n[PHASE 1] Extracting from Odoo 18...")

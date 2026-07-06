@@ -26,8 +26,8 @@ MONTH_WEIGHTS = {
     12: {'so': 191, 'po': 185, 'lead_time': 5},   # Dec: SO +20%, PO +15%
 }
 
-TOTAL_SO = 2000
-TOTAL_PO = 2000
+TOTAL_SO = 400
+TOTAL_PO = 400
 NUM_PROD = 500
 NUM_CUST = 300
 NUM_VEND = 300
@@ -120,8 +120,8 @@ def generate_data():
                     'order_line': []
                 }
                 
-                # 1 to 4 lines per PO
-                for _ in range(random.randint(1, 4)):
+                # 5 to 12 lines per PO
+                for _ in range(random.randint(5, 12)):
                     prod = random.choice(products)
                     po_vals['order_line'].append((0, 0, {
                         'product_id': prod.id,
@@ -167,7 +167,7 @@ def generate_data():
                     'order_line': []
                 }
                 
-                for _ in range(random.randint(1, 4)):
+                for _ in range(random.randint(5, 12)):
                     prod = random.choice(products)
                     # Simulated stockout for March: Some SOs cannot be fulfilled immediately, but we will simplify
                     # by just making the orders smaller or less frequent via weights.

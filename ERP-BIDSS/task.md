@@ -1,6 +1,6 @@
 - `[x]` 1. Create Business Story Canon, Assumptions, and Traceability Matrix
-- `[/]` 2. Build and run Odoo ORM Data Generator (`generate_mock_data.py`)
-- `[ ]` 3. Run ETL Pipeline to load generated data into Analytics Mart
-- `[ ]` 4. Create and run Dataset Validation Report
-- `[ ]` 5. Implement Python DSS Engine (Decision Support & Supplier Score)
+- `[x]` 2. Build and run Odoo ORM Data Generator (`generate_mock_data.py`)
+- `[x]` 3. Run ETL Pipeline to load generated data into Analytics Mart
+- `[x]` 4. Create and run Dataset Validation Report
+- `[x]` 5. Implement Python DSS Engine (Decision Support & Supplier Score)
 - `[x]` 6. Create KPI Catalog

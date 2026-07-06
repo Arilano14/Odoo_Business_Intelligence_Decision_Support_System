@@ -51,12 +51,12 @@ def validate_dataset():
         try:
             march_lt = pd.read_sql(f"""
                 SELECT 
-                    EXTRACT(MONTH FROM to_date(d.date_actual, 'YYYY-MM-DD')) as month,
+                    EXTRACT(MONTH FROM d.full_date) as month,
                     AVG(f.lead_time_days) as avg_lead_time
                 FROM {SCHEMA}.fact_purchase f
                 JOIN {SCHEMA}.dim_date d ON f.date_id = d.date_id
-                GROUP BY month
-                ORDER BY month
+                GROUP BY 1
+                ORDER BY 1
             """, db.target_engine)
             
             f.write("## 2. Validasi Skenario Krisis (Maret)\n")
@@ -79,12 +79,12 @@ def validate_dataset():
         try:
             apr_po = pd.read_sql(f"""
                 SELECT 
-                    EXTRACT(MONTH FROM to_date(d.date_actual, 'YYYY-MM-DD')) as month,
+                    EXTRACT(MONTH FROM d.full_date) as month,
                     SUM(f.quantity) as total_qty_purchased
                 FROM {SCHEMA}.fact_purchase f
                 JOIN {SCHEMA}.dim_date d ON f.date_id = d.date_id
-                GROUP BY month
-                ORDER BY month
+                GROUP BY 1
+                ORDER BY 1
             """, db.target_engine)
             
             f.write("## 3. Validasi Skenario Reaksi (April)\n")

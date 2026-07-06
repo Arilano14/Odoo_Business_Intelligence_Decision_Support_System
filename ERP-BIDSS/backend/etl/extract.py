@@ -19,23 +19,23 @@ QUERIES = {
         WHERE pp.active = True
     """,
     "product_template": """
-        SELECT pt.id, pt.name, pt.list_price, pt.standard_price,
+        SELECT pt.id, pt.name->>'en_US' as name, pt.list_price,
                pt.categ_id, pt.type, pt.sale_ok, pt.purchase_ok
         FROM product_template pt
     """,
     "product_category": """
-        SELECT pc.id, pc.name, pc.parent_id
+        SELECT pc.id, pc.name->>'en_US' as name, pc.parent_id
         FROM product_category pc
     """,
     "res_partner_customer": """
         SELECT rp.id, rp.name, rp.email, rp.phone, rp.city,
-               rp.customer_rank, rp.company_type
+               rp.customer_rank, rp.is_company
         FROM res_partner rp
         WHERE rp.customer_rank > 0 AND rp.active = True
     """,
     "res_partner_vendor": """
         SELECT rp.id, rp.name, rp.email, rp.phone, rp.city,
-               rp.supplier_rank, rp.company_type
+               rp.supplier_rank, rp.is_company
         FROM res_partner rp
         WHERE rp.supplier_rank > 0 AND rp.active = True
     """,

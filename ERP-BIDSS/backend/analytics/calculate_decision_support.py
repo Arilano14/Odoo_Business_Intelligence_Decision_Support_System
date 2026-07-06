@@ -61,7 +61,7 @@ def calculate_decision_support():
         SELECT 
             p.sk_product_id AS product_id,
             p.product_name,
-            p.standard_price,
+            p.list_price AS standard_price,
             COALESCE(s.annual_demand, 0) AS annual_demand,
             COALESCE(s.avg_daily_demand, 0) AS avg_daily_demand,
             COALESCE(s.max_daily_demand, 0) AS max_daily_demand,
@@ -72,7 +72,7 @@ def calculate_decision_support():
         FROM {SCHEMA}.dim_product p
         LEFT JOIN product_stats s ON p.sk_product_id = s.product_id
         LEFT JOIN lead_time_stats l ON p.sk_product_id = l.product_id
-        WHERE p.standard_price > 0
+        WHERE p.list_price > 0
     """
     
     try:
