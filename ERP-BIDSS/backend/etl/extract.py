@@ -24,7 +24,7 @@ QUERIES = {
         FROM product_template pt
     """,
     "product_category": """
-        SELECT pc.id, pc.name->>'en_US' as name, pc.parent_id
+        SELECT pc.id, pc.name as name, pc.parent_id
         FROM product_category pc
     """,
     "res_partner_customer": """

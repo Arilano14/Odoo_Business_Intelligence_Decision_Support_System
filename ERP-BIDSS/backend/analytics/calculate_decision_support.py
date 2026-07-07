@@ -166,5 +166,88 @@ def calculate_decision_support():
     except Exception as e:
         print(f"❌ Failed to write DSS data: {e}")
 
+def calculate_forecast():
+    print("\n" + "=" * 60)
+    print("PHASE 6 — Calculating 3-Month Moving Average Forecast")
+    print("=" * 60)
+    
+    SCHEMA = settings.TARGET_SCHEMA
+    
+    # 1. Get Monthly Demand per Product
+    query = f"""
+        SELECT 
+            product_id,
+            SUBSTRING(date_id::TEXT, 1, 6) AS month_id,
+            SUM(quantity) AS actual_qty
+        FROM {SCHEMA}.fact_sales
+        GROUP BY product_id, month_id
+        ORDER BY product_id, month_id
+    """
+    
+    try:
+        df = pd.read_sql(query, db.target_engine)
+    except Exception as e:
+        print(f"Error fetching data for forecast: {e}")
+        return
+
+    if df.empty:
+        print("No sales data available for forecasting.")
+        return
+
+    # Pivot to ensure missing months are 0
+    df['month_id'] = pd.to_datetime(df['month_id'], format='%Y%m')
+    
+    # Generate full combinations of product & month
+    all_products = df['product_id'].unique()
+    all_months = pd.date_range(start=df['month_id'].min(), end=df['month_id'].max(), freq='MS')
+    full_idx = pd.MultiIndex.from_product([all_products, all_months], names=['product_id', 'month_id'])
+    
+    df = df.set_index(['product_id', 'month_id']).reindex(full_idx, fill_value=0).reset_index()
+    
+    # Calculate 3-Month Moving Average (shift by 1 so we predict based on past 3 months)
+    df['ma3_forecast'] = df.groupby('product_id')['actual_qty'].transform(
+        lambda x: x.rolling(window=3, min_periods=1).mean().shift(1)
+    ).fillna(0).round(0).astype(int)
+    
+    # Calculate Forecast Error (%)
+    df['forecast_error_pct'] = np.where(
+        df['actual_qty'] > 0,
+        abs(df['actual_qty'] - df['ma3_forecast']) / df['actual_qty'] * 100,
+        np.where(df['ma3_forecast'] > 0, 100, 0)
+    ).round(2)
+    
+    # Generate Interpretation
+    def get_interpretation(row):
+        if row['ma3_forecast'] == 0:
+            return "Baseline (Tidak cukup data historis)"
+            
+        error = row['forecast_error_pct']
+        if error <= 10:
+            return "Akurat. Prediksi sesuai dengan permintaan aktual."
+        elif row['actual_qty'] > row['ma3_forecast']:
+            return f"Under-forecast (Error {error}%). Permintaan aktual lebih tinggi dari prediksi. Kemungkinan imbas Panic Buying atau lonjakan proyek."
+        else:
+            return f"Over-forecast (Error {error}%). Permintaan aktual lebih rendah dari prediksi. Waspada risiko overstock jika PO tidak ditahan."
+
+    df['interpretation'] = df.apply(get_interpretation, axis=1)
+    
+    # Convert month_id back to integer format YYYYMM
+    df['month_id'] = df['month_id'].dt.strftime('%Y%m').astype(int)
+    
+    # Save to Analytics Mart
+    try:
+        df.to_sql(
+            'fact_forecast_monthly',
+            db.target_engine,
+            schema=SCHEMA,
+            if_exists='replace',
+            index=False
+        )
+        print(f"✅ Successfully wrote {len(df)} rows to {SCHEMA}.fact_forecast_monthly")
+    except Exception as e:
+        print(f"❌ Failed to write Forecast data: {e}")
+
 if __name__ == "__main__":
     calculate_decision_support()
+    calculate_forecast()
+

@@ -12,11 +12,11 @@ class Settings:
     """
     SOURCE_DB_URL = os.getenv(
         "SOURCE_DB_URL",
-        "postgresql://openpg:openpgpwd@localhost:5432/Business_Intelegent_Project"
+        "postgresql://openpg:openpgpwd@localhost:5432/Business_Intelegent_Project_v2"
     )
     TARGET_DB_URL = os.getenv(
         "TARGET_DB_URL",
-        "postgresql://openpg:openpgpwd@localhost:5432/Business_Intelegent_Project"
+        "postgresql://openpg:openpgpwd@localhost:5432/Business_Intelegent_Project_v2"
     )
     TARGET_SCHEMA = os.getenv("TARGET_SCHEMA", "mart")
     ETL_BATCH_SIZE = int(os.getenv("ETL_BATCH_SIZE", "5000"))

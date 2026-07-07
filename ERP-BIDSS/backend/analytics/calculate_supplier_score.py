@@ -1,11 +1,10 @@
 """
 Supplier Score Calculator
 
-Evaluates suppliers based on 4 criteria:
-- Delivery Speed (40%): Comparing actual receipt date vs order date vs standard lead time (5 days).
-- Order Fulfillment (30%): Quantity Received / Quantity Ordered
-- Price Consistency (20%): Standard Price / PO Price
-- Delay Frequency (10%): Percentage of POs where receipt date > planned date
+Evaluates suppliers based on 3 criteria:
+- On Time Delivery (40%): Percentage of lines delivered on or before standard lead time (5 days).
+- Order Fulfillment (35%): Quantity Received / Quantity Ordered (Simulated as 100%).
+- Lead Time Stability (25%): Based on Standard Deviation of Lead Time (Consistent = 100%).
 """
 import sys
 import os
@@ -54,48 +53,40 @@ def calculate_supplier_score():
         
     print(f"Evaluating {df['vendor_id'].nunique()} Suppliers across {len(df)} lines...")
     
-    # Calculate dimensions per line
-    # 1. Delivery Score (Target 5 days, if 5 days = 100%, each day late -10%)
-    df['delivery_score_line'] = np.where(
-        df['lead_time_days'] <= 5, 
-        100, 
-        np.maximum(0, 100 - ((df['lead_time_days'] - 5) * 10))
-    )
+    # 1. Delivery Score (On Time Delivery % per line)
+    df['is_on_time'] = np.where(df['lead_time_days'] <= 5, 1, 0)
     
-    # 2. Fulfillment (For simulation simplicity, assume 100% since ORM does full receipt)
-    # If partial receipt was simulated, it would be qty_received / qty_ordered
+    # 2. Fulfillment (For simulation simplicity, assume 100%)
     df['fulfillment_score_line'] = 100
-    
-    # 3. Price Consistency (Standard Price / PO Price)
-    # Cap at 100%
-    df['price_consistency_line'] = np.where(
-        df['price_unit'] > 0,
-        np.minimum(100, (df['standard_price'] / df['price_unit']) * 100),
-        100
-    )
     
     # Aggregate by Vendor
     vendor_stats = df.groupby(['vendor_id', 'vendor_name']).agg(
         total_pos=('sk_purchase_id', 'nunique'),
-        total_delayed_lines=('is_delayed', 'sum'),
-        total_lines=('is_delayed', 'count'),
-        avg_delivery_score=('delivery_score_line', 'mean'),
+        total_lines=('sk_purchase_id', 'count'),
+        on_time_lines=('is_on_time', 'sum'),
         avg_fulfillment_score=('fulfillment_score_line', 'mean'),
-        avg_price_consistency=('price_consistency_line', 'mean')
+        stddev_lead_time=('lead_time_days', 'std')
     ).reset_index()
     
-    # 4. Delay Frequency Score
-    # 0 delays = 100%. 100% delay = 0%.
-    vendor_stats['delay_frequency'] = vendor_stats['total_delayed_lines'] / vendor_stats['total_lines']
-    vendor_stats['delay_frequency_score'] = (1 - vendor_stats['delay_frequency']) * 100
+    # Fill NaN for stddev (if only 1 PO line)
+    vendor_stats['stddev_lead_time'] = vendor_stats['stddev_lead_time'].fillna(0)
     
-    # Calculate Final Weighted Score
-    # 40% Delivery, 30% Fulfillment, 20% Price, 10% Delay Freq
+    # Calculate Component Scores
+    # 1. On Time Delivery Score (40%)
+    vendor_stats['on_time_delivery_score'] = (vendor_stats['on_time_lines'] / vendor_stats['total_lines']) * 100
+    
+    # 2. Fulfillment Score (35%)
+    vendor_stats['fulfillment_score'] = vendor_stats['avg_fulfillment_score']
+    
+    # 3. Lead Time Stability Score (25%)
+    # If stddev is 0, score is 100. Every 1 day of stddev reduces score by 10.
+    vendor_stats['lead_time_stability_score'] = np.maximum(0, 100 - (vendor_stats['stddev_lead_time'] * 10))
+    
+    # Final Weighted Score
     vendor_stats['final_score'] = (
-        (vendor_stats['avg_delivery_score'] * 0.40) +
-        (vendor_stats['avg_fulfillment_score'] * 0.30) +
-        (vendor_stats['avg_price_consistency'] * 0.20) +
-        (vendor_stats['delay_frequency_score'] * 0.10)
+        (vendor_stats['on_time_delivery_score'] * 0.40) +
+        (vendor_stats['fulfillment_score'] * 0.35) +
+        (vendor_stats['lead_time_stability_score'] * 0.25)
     ).round(2)
     
     def get_alert(row):

@@ -1,24 +1,66 @@
-# Traceability Matrix
+# Business Traceability Matrix
 
-Matriks ini memastikan setiap elemen Business Intelligence (Dashboard, KPI, Rekomendasi) dapat dilacak balik (*traceable*) ke tabel data operasional (Product 1 ERP) dan masalah bisnis awal. 
-Tidak ada indikator yang dibuat secara "acak", semuanya merupakan solusi langsung atas *Business Problem* yang dialami PT Prima Alat Nusantara.
+Matriks ini memastikan setiap elemen Business Intelligence (Dashboard, KPI, Rekomendasi) dapat dilacak balik (*traceable*) secara eksplisit mulai dari masalah bisnis yang mendasarinya, transaksi sistem ERP yang merekamnya, hingga keputusan manajerial yang harus diambil. 
 
-| Business Problem (Masalah Operasional) | KPI / Indikator (Solusi Analisis) | Sumber Data Odoo (ERP Output) | Analitik Mart (ETL Output) | Dashboard / Report Target | Algoritma / Rekomendasi (DSS) |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Kekosongan Stok (Stockout)** secara tiba-tiba karena tidak ada rekap harian yang akurat. | Stock Availability, Stockout Rate, Daily Demand | `sale_order`, `stock_move` | `fact_sales`, `fact_inventory` | Inventory Dashboard | **ROP (Reorder Point)**: Rekomendasi titik aman pembelian kembali. |
-| **Penumpukan Barang (Overstock)** akibat kepanikan pemesanan tanpa perhitungan matang. | Inventory Turnover, Days Inventory Outstanding (DIO), Slow Moving Product | `stock_move`, `stock_quant` | `fact_inventory`, `fact_sales` | Inventory Dashboard | **EOQ (Economic Order Quantity)**: Rekomendasi jumlah pembelian optimal. |
-| **Keterlambatan Supplier** yang merusak rantai pasok. Evaluasi supplier saat ini hanya berdasarkan memori. | Lead Time, Delivery Performance, Delay Frequency | `purchase_order`, `stock_move` | `fact_purchase`, `fact_inventory` | Purchase Dashboard | **Supplier Score & Alert**: Rekomendasi peninjauan kontrak. |
-| **Fluktuasi Pendapatan (Revenue)** yang tidak bisa diprediksi. | Revenue Growth, Sales Trend (Monthly), Demand Forecast | `sale_order`, `sale_order_line` | `fact_sales` | Executive & Sales Dashboard | **3-Month Moving Average**: Prediksi permintaan (Forecast) 3 bulan ke depan. |
-| **Proporsi Pembelian Tidak Terkontrol**, biaya pembelian melonjak untuk barang yang lambat terjual. | Purchase Growth, Purchase Value per Vendor | `purchase_order`, `purchase_order_line` | `fact_purchase` | Purchase Dashboard | **Forecast vs Purchase Comparison**: Sinkronisasi pembelian dengan prediksi. |
-| **Sulit Mengetahui Kinerja Bisnis Keseluruhan**, laporan akhir bulan memakan waktu mingguan. | Total Revenue, Total Transaction, Revenue Contribution (Top Product) | `sale_order`, `sale_order_line` | `fact_sales` | Executive Dashboard | **Automated Aggregation (DAX)**: Info aktual secara real-time. |
+Ini adalah penghubung utama antara **Product 1 (Laporan Implementasi ERP)** dan **Product 2 (Business Intelligence)**.
+
+## 1. Flow: Mengatasi Keterlambatan Rantai Pasok
+
+```mermaid
+graph TD
+    A[Business Problem: Supplier Sering Terlambat] --> B[ERP Transaction: purchase_order]
+    B --> C[Analytics Mart: fact_purchase]
+    C --> D[KPI: Lead Time & Fulfillment Rate]
+    D --> E[Dashboard: Purchase Dashboard]
+    E --> F[Recommendation: Supplier Score < 70]
+    F --> G[Business Decision: Review & Ganti Supplier]
+```
+
+## 2. Flow: Mencegah Kehabisan Stok (Stockout)
+
+```mermaid
+graph TD
+    A[Business Problem: Kehabisan Stok Tiba-Tiba] --> B[ERP Transaction: sale_order & stock_move]
+    B --> C[Analytics Mart: fact_sales & fact_inventory]
+    C --> D[KPI: Daily Demand & Stock Availability]
+    D --> E[Dashboard: Inventory Dashboard]
+    E --> F[Recommendation: Current Stock <= ROP]
+    F --> G[Business Decision: Buat Draft PO Baru]
+```
+
+## 3. Flow: Mengatasi Penumpukan Barang (Overstock)
+
+```mermaid
+graph TD
+    A[Business Problem: Penumpukan Barang di Gudang] --> B[ERP Transaction: stock_move & purchase_order]
+    B --> C[Analytics Mart: fact_inventory & fact_purchase]
+    C --> D[KPI: Inventory Turnover & DIO]
+    D --> E[Dashboard: Inventory Dashboard]
+    E --> F[Recommendation: Slow Moving Product]
+    F --> G[Business Decision: Tunda Pembelian & Buat Promosi]
+```
+
+## 4. Flow: Memprediksi Permintaan Pasar
+
+```mermaid
+graph TD
+    A[Business Problem: Fluktuasi Pendapatan Sulit Ditebak] --> B[ERP Transaction: sale_order_line]
+    B --> C[Analytics Mart: fact_sales]
+    C --> D[KPI: Revenue Trend & Demand Forecast]
+    D --> E[Dashboard: Executive & Sales Dashboard]
+    E --> F[Recommendation: Forecast Error Check]
+    F --> G[Business Decision: Sesuaikan Safety Stock & Target Sales]
+```
+
+---
 
 ## Analisis Lapisan (Layer Analysis)
 
-Matriks di atas membuktikan pemisahan tanggung jawab yang telah kita bahas:
+Traceability Matrix di atas menegaskan pembagian kerja teknis yang telah kita terapkan:
 
 1. **ERP Output (Odoo) $\rightarrow$ ETL Output (Analytics Mart):**
-   Ini adalah wilayah **Data Engineering (Phase 5)**. Mengubah data Odoo yang tersebar menjadi Fact dan Dimension tables.
+   *(Phase 5 - Data Engineering)* Mengekstrak transaksi *raw* Odoo menjadi struktur *Fact* dan *Dimension*.
 2. **Algoritma / Rekomendasi (DSS):**
-   Ini adalah wilayah **Data Science / Analytics Python (Phase 6)**. Menghitung EOQ, ROP, MA3, dan Supplier Score. Parameter ini tidak bisa (sangat tidak efisien) dihitung dinamis menggunakan DAX murni.
+   *(Phase 6 - Python Analytics)* Menghitung logika *prescriptive* (EOQ, ROP, MA3, Supplier Score). Parameter tingkat lanjut yang terlalu berat jika dihitung secara dinamis hanya menggunakan rumus BI biasa.
 3. **Dashboard & KPI Dasar:**
-   Ini adalah wilayah **Business Intelligence Power BI (Phase 7)**. Agregasi visual (Total Revenue, Total Cost, Turnover) dihitung menggunakan DAX (Data Analysis Expressions) dan dirender secara interaktif untuk manajemen.
+   *(Phase 7 - Power BI)* Menyajikan agregasi visual interaktif (Sales, Growth, Margin) melalui DAX untuk konsumsi manajemen puncak.

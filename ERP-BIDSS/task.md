@@ -1,6 +1,9 @@
-- `[x]` 1. Create Business Story Canon, Assumptions, and Traceability Matrix
-- `[x]` 2. Build and run Odoo ORM Data Generator (`generate_mock_data.py`)
-- `[x]` 3. Run ETL Pipeline to load generated data into Analytics Mart
-- `[x]` 4. Create and run Dataset Validation Report
-- `[x]` 5. Implement Python DSS Engine (Decision Support & Supplier Score)
-- `[x]` 6. Create KPI Catalog
+- `[x]` 1. Review and Update Business Traceability Matrix (`docs/phase6/traceability_matrix.md`)
+- `[x]` 2. Create Dataset Canon Spec (`docs/phase6/dataset_canon.md`)
+- `[x]` 3. Refactor Generator (`generate_mock_data.py`) to strict KPI targets & ORM relations
+- `[x]` 4. Create Reset & Generate Pipeline (`reset_mock_dataset.py`)
+- `[x]` 5. Update Forecast Module (`calculate_decision_support.py`) with Interpretation
+- `[x]` 6. Update Supplier Score (`calculate_supplier_score.py`) with Lead Time Stability
+- `[x]` 7. Refactor KPI Validation (`validate_dataset_scenario.py`) with ±2% tolerance
+- `[/]` 8. Run Reset Pipeline & ETL
+- `[ ]` 9. Verify and Freeze Dataset

@@ -196,11 +196,13 @@ def build_fact_purchase(df_po, df_pol, dim_product, dim_vendor, dim_date) -> pd.
 
     # DERIVED: lead_time_days
     lead_time = pd.Series(0, index=fact.index, dtype=int)
-    if "date_planned" in fact.columns and "date_order" in fact.columns:
-        lead_time = (
-            pd.to_datetime(fact.get("date_planned_line", fact.get("date_planned")))
-            - pd.to_datetime(fact["date_order"])
-        ).dt.days.fillna(0).astype(int)
+    if "date_order" in fact.columns:
+        date_planned_col = "date_planned_order" if "date_planned_order" in fact.columns else "date_planned_line" if "date_planned_line" in fact.columns else None
+        if date_planned_col:
+            lead_time = (
+                pd.to_datetime(fact[date_planned_col], utc=True)
+                - pd.to_datetime(fact["date_order"], utc=True)
+            ).dt.days.fillna(0).astype(int)
 
     # Surrogate key mapping
     product_sk = pd.Series(0, index=fact.index)

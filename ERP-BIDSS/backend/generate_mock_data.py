@@ -7,23 +7,24 @@ from datetime import datetime, timedelta
 sys.path.append(r"C:\Program Files\Odoo 18.0.20241229\server")
 import odoo
 
-odoo.tools.config.parse_config(['-c', r'C:\Users\Arilano\Downloads\Project ARICE\Project Odoo\odoo.conf'])
+# Config is handled by the caller or at bottom of this file
 
-# Scenario weights for 2024 (Jan - Dec)
-# Used to distribute 2000 SOs and 2000 POs across the year
+
+# Business Scenario Engine (KPI Targets 12 Months)
+# Baseline: ~33 POs, ~33 SOs per month. Qty per line ~20.
 MONTH_WEIGHTS = {
-    1:  {'so': 100, 'po': 100, 'lead_time': 5},   # Jan: Baseline
-    2:  {'so': 108, 'po': 105, 'lead_time': 5},   # Feb: SO +8%, PO +5%
-    3:  {'so': 103, 'po': 110, 'lead_time': 10},  # Mar: SO -5%, PO +5%, Delay
-    4:  {'so': 113, 'po': 154, 'lead_time': 6},   # Apr: SO +10%, PO +40%
-    5:  {'so': 102, 'po': 146, 'lead_time': 5},   # May: SO -10%, PO -5%
-    6:  {'so': 102, 'po': 146, 'lead_time': 5},   # Jun: SO 0%, PO 0%
-    7:  {'so': 107, 'po': 153, 'lead_time': 5},   # Jul: SO +5%, PO +5%
-    8:  {'so': 112, 'po': 138, 'lead_time': 5},   # Aug: SO +5%, PO -10%
-    9:  {'so': 123, 'po': 131, 'lead_time': 5},   # Sep: SO +10%, PO -5%
-    10: {'so': 138, 'po': 144, 'lead_time': 5},   # Oct: SO +12%, PO +10%
-    11: {'so': 159, 'po': 161, 'lead_time': 5},   # Nov: SO +15%, PO +12%
-    12: {'so': 191, 'po': 185, 'lead_time': 5},   # Dec: SO +20%, PO +15%
+    1:  {'so_count': 1.0, 'po_count': 1.0, 'po_qty': 1.0, 'so_qty': 1.0, 'lead_time': 5},    # Jan: Baseline Normal
+    2:  {'so_count': 1.08, 'po_count': 1.0, 'po_qty': 1.0, 'so_qty': 1.08, 'lead_time': 5},  # Feb: Sales naik 8%
+    3:  {'so_count': 0.95, 'po_count': 1.0, 'po_qty': 1.0, 'so_qty': 0.95, 'lead_time': 10}, # Mar: Supplier Delay (Lead Time 10), Stockout
+    4:  {'so_count': 1.0, 'po_count': 1.4, 'po_qty': 1.4, 'so_qty': 1.0, 'lead_time': 6},    # Apr: Panic Buying (+40% purchase)
+    5:  {'so_count': 0.9, 'po_count': 0.8, 'po_qty': 0.8, 'so_qty': 0.9, 'lead_time': 5},    # May: Overstock (Demand turun, stop purchase)
+    6:  {'so_count': 0.9, 'po_count': 0.8, 'po_qty': 0.8, 'so_qty': 0.9, 'lead_time': 5},    # Jun: Warehouse Full
+    7:  {'so_count': 0.8, 'po_count': 0.9, 'po_qty': 0.9, 'so_qty': 0.8, 'lead_time': 5},    # Jul: Slow Moving
+    8:  {'so_count': 1.1, 'po_count': 1.0, 'po_qty': 1.0, 'so_qty': 1.1, 'lead_time': 5},    # Aug: Promosi (Sales naik)
+    9:  {'so_count': 1.0, 'po_count': 1.0, 'po_qty': 1.0, 'so_qty': 1.0, 'lead_time': 5},    # Sep: Recovery
+    10: {'so_count': 1.0, 'po_count': 1.0, 'po_qty': 1.0, 'so_qty': 1.0, 'lead_time': 5},    # Oct: Stabil
+    11: {'so_count': 1.2, 'po_count': 1.2, 'po_qty': 1.2, 'so_qty': 1.2, 'lead_time': 5},    # Nov: Peak Mining Project
+    12: {'so_count': 1.1, 'po_count': 1.1, 'po_qty': 1.1, 'so_qty': 1.1, 'lead_time': 5},    # Dec: Year End Closing
 }
 
 TOTAL_SO = 400
@@ -34,7 +35,7 @@ NUM_VEND = 300
 YEAR = 2024
 
 def generate_data():
-    registry = odoo.modules.registry.Registry('Business_Intelegent_Project')
+    registry = odoo.modules.registry.Registry('Business_Intelegent_Project_v2')
     with registry.cursor() as cr:
         env = odoo.api.Environment(cr, odoo.SUPERUSER_ID, {})
 
@@ -94,14 +95,15 @@ def generate_data():
         customers = env['res.partner'].search([('ref', '=like', 'BIDSS-CUST-%')])
         vendors = env['res.partner'].search([('ref', '=like', 'BIDSS-VEND-%')])
 
-        # Pre-calculate counts per month
-        so_weight_total = sum(m['so'] for m in MONTH_WEIGHTS.values())
-        po_weight_total = sum(m['po'] for m in MONTH_WEIGHTS.values())
+        # Base values
+        base_po_count = TOTAL_PO // 12
+        base_so_count = TOTAL_SO // 12
 
         print("\n[2/4] Generating Purchase Orders (with delay simulation)...")
         for month, w in MONTH_WEIGHTS.items():
-            month_pos = int((w['po'] / po_weight_total) * TOTAL_PO)
+            month_pos = int(base_po_count * w['po_count'])
             lead_time = w['lead_time']
+            po_qty_mult = w['po_qty']
             
             # Start and end of month
             start_date = datetime(YEAR, month, 1)
@@ -123,14 +125,19 @@ def generate_data():
                 # 5 to 12 lines per PO
                 for _ in range(random.randint(5, 12)):
                     prod = random.choice(products)
+                    base_qty = random.randint(10, 40)
+                    qty = int(base_qty * po_qty_mult)
                     po_vals['order_line'].append((0, 0, {
                         'product_id': prod.id,
-                        'product_qty': random.randint(10, 50),
+                        'product_qty': max(1, qty),
                         'price_unit': prod.standard_price,
                     }))
                 
                 po = env['purchase.order'].create(po_vals)
                 po.button_confirm()
+                
+                # FIX: Force date_planned back to our simulated date (Odoo overrides it on confirm)
+                po.write({'date_planned': planned_date.strftime('%Y-%m-%d %H:%M:%S')})
 
                 # Validate receipt to generate stock_move as done
                 if hasattr(po, 'picking_ids'):
@@ -151,7 +158,8 @@ def generate_data():
 
         print("\n[3/4] Generating Sales Orders...")
         for month, w in MONTH_WEIGHTS.items():
-            month_sos = int((w['so'] / so_weight_total) * TOTAL_SO)
+            month_sos = int(base_so_count * w['so_count'])
+            so_qty_mult = w['so_qty']
             
             start_date = datetime(YEAR, month, 1)
             end_date = (datetime(YEAR, month % 12 + 1, 1) - timedelta(days=1)) if month < 12 else datetime(YEAR, 12, 31)
@@ -169,16 +177,19 @@ def generate_data():
                 
                 for _ in range(random.randint(5, 12)):
                     prod = random.choice(products)
-                    # Simulated stockout for March: Some SOs cannot be fulfilled immediately, but we will simplify
-                    # by just making the orders smaller or less frequent via weights.
+                    base_qty = random.randint(1, 10)
+                    qty = int(base_qty * so_qty_mult)
                     so_vals['order_line'].append((0, 0, {
                         'product_id': prod.id,
-                        'product_uom_qty': random.randint(1, 10),
+                        'product_uom_qty': max(1, qty),
                         'price_unit': prod.list_price,
                     }))
                 
                 so = env['sale.order'].create(so_vals)
                 so.action_confirm()
+                
+                # FIX: Force date_order back to our simulated date
+                so.write({'date_order': order_date.strftime('%Y-%m-%d %H:%M:%S')})
 
                 # Validate delivery
                 if hasattr(so, 'picking_ids'):
@@ -194,10 +205,10 @@ def generate_data():
                 if inv:
                     inv.invoice_date = order_date.strftime('%Y-%m-%d')
                     inv.action_post()
-
             cr.commit()
 
         print("\n[4/4] Data Generation Complete!")
 
 if __name__ == "__main__":
+    odoo.tools.config.parse_config(['-c', r'C:\Users\Arilano\Downloads\Project ARICE\Project Odoo\odoo.conf', '-d', 'Business_Intelegent_Project_v2'])
     generate_data()
