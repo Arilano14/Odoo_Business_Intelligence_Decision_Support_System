@@ -14,7 +14,8 @@ from config.database import db
 QUERIES = {
     # Master Data
     "product_product": """
-        SELECT pp.id, pp.product_tmpl_id, pp.default_code, pp.active
+        SELECT pp.id, pp.product_tmpl_id, pp.default_code, pp.active,
+               CAST(pp.standard_price->>'1' AS NUMERIC) as standard_price
         FROM product_product pp
         WHERE pp.active = True
     """,
