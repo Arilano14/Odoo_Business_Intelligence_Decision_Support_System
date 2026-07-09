@@ -30,7 +30,7 @@ Implementasi meliputi:
 
 ## Business Process
 
-![Business Process](datasets/simulation/Odoo_Flow.png)
+![Business Process](ERP-BIDSS/datasets/simulation/Odoo_Flow.png)
 
 Diagram di atas menunjukkan alur proses bisnis utama yang diimplementasikan pada Odoo mulai dari proses pembelian hingga penjualan serta integrasi antar modul ERP.
 
@@ -38,7 +38,7 @@ Diagram di atas menunjukkan alur proses bisnis utama yang diimplementasikan pada
 
 ## Requirement Gathering
 
-![Requirement Gathering](datasets/simulation/Gathering%20Requiment.png)
+![Requirement Gathering](ERP-BIDSS/datasets/simulation/Gathering%20Requiment.png)
 
 Tahap awal proyek dilakukan melalui identifikasi kebutuhan pengguna dan pemetaan proses bisnis sebagai dasar implementasi sistem ERP.
 
@@ -46,7 +46,7 @@ Tahap awal proyek dilakukan melalui identifikasi kebutuhan pengguna dan pemetaan
 
 ## Gap Requirement menuju Go-Live
 
-![Gap Requirement](datasets/simulation/Gap%20Requirement%20-%20Go%20Live_Flow.png)
+![Gap Requirement](ERP-BIDSS/datasets/simulation/Gap%20Requirement%20-%20Go%20Live_Flow.png)
 
 Seluruh kebutuhan bisnis dibandingkan dengan proses standar Odoo untuk menentukan konfigurasi yang diperlukan sebelum implementasi Go-Live.
 
@@ -54,7 +54,7 @@ Seluruh kebutuhan bisnis dibandingkan dengan proses standar Odoo untuk menentuka
 
 ## Business Scenario
 
-![Business Scenario](datasets/simulation/Jan-Des%20Dataset%20scenario.png)
+![Business Scenario](ERP-BIDSS/datasets/simulation/Jan-Des%20Dataset%20scenario.png)
 
 Dataset dikembangkan menggunakan skenario bisnis selama satu tahun untuk menghasilkan variasi kondisi operasional yang mendukung proses analisis Business Intelligence.
 
@@ -73,7 +73,7 @@ Pendekatan ini menghasilkan data yang lebih realistis dibandingkan penggunaan da
 
 ## Enterprise Data Warehouse
 
-![Power BI ERD](database/erd/Power%20BI_ERD.png)
+![Power BI ERD](ERP-BIDSS/database/erd/Power%20BI_ERD.png)
 
 Arsitektur data menggunakan pendekatan **Star Schema** yang terdiri atas tabel dimensi dan tabel fakta sehingga proses analisis Power BI menjadi lebih efisien.
 
