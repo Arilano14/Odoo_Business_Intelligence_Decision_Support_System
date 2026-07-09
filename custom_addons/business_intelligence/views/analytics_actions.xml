@@ -5,6 +5,7 @@
         <field name="name">Sales Analytics</field>
         <field name="res_model">sale.report</field>
         <field name="view_mode">graph,pivot</field>
+        <field name="domain">[('date', '&gt;=', '2024-01-01'), ('date', '&lt;=', '2024-12-31')]</field>
     </record>
 
     <!-- Purchase Analysis -->
@@ -12,6 +13,7 @@
         <field name="name">Purchase Analytics</field>
         <field name="res_model">purchase.report</field>
         <field name="view_mode">graph,pivot</field>
+        <field name="domain">[('date_order', '&gt;=', '2024-01-01'), ('date_order', '&lt;=', '2024-12-31')]</field>
     </record>
 
     <!-- CRM Analysis -->
@@ -19,6 +21,7 @@
         <field name="name">CRM Analytics</field>
         <field name="res_model">crm.lead</field>
         <field name="view_mode">graph,pivot,tree</field>
+        <field name="domain">[('create_date', '&gt;=', '2024-01-01'), ('create_date', '&lt;=', '2024-12-31')]</field>
     </record>
 
     <!-- Finance/Account Analysis -->
@@ -26,6 +29,7 @@
         <field name="name">Finance Analytics</field>
         <field name="res_model">account.invoice.report</field>
         <field name="view_mode">graph,pivot</field>
+        <field name="domain">[('invoice_date', '&gt;=', '2024-01-01'), ('invoice_date', '&lt;=', '2024-12-31')]</field>
     </record>
 
     <!-- Inventory Analysis -->
@@ -33,5 +37,6 @@
         <field name="name">Inventory Analytics</field>
         <field name="res_model">stock.move.line</field>
         <field name="view_mode">graph,pivot,tree</field>
+        <field name="domain">[('date', '&gt;=', '2024-01-01'), ('date', '&lt;=', '2024-12-31')]</field>
     </record>
 </odoo>
