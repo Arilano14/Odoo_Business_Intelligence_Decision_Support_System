@@ -89,6 +89,8 @@ def calculate_supplier_score():
         (vendor_stats['lead_time_stability_score'] * 0.25)
     ).round(2)
     
+    vendor_stats['delay_frequency'] = 1.0 - (vendor_stats['on_time_delivery_score'] / 100.0)
+    
     def get_alert(row):
         if row['delay_frequency'] > 0.10 or row['final_score'] < 70:
             return "Review Supplier - Evaluasi Kontrak"
@@ -98,8 +100,8 @@ def calculate_supplier_score():
 
     # Save to Analytics Mart
     output_df = vendor_stats[[
-        'vendor_id', 'vendor_name', 'total_pos', 'avg_delivery_score', 
-        'avg_fulfillment_score', 'avg_price_consistency', 'delay_frequency_score',
+        'vendor_id', 'vendor_name', 'total_pos', 'on_time_delivery_score', 
+        'fulfillment_score', 'lead_time_stability_score', 'delay_frequency',
         'final_score', 'recommendation_status'
     ]]
     

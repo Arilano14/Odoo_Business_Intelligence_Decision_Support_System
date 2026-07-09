@@ -37,15 +37,15 @@ def build_dim_product(engine):
     query = """
         SELECT
             pp.id           AS odoo_product_id,
-            pt.name         AS product_name,
+            COALESCE(pt.name->>'en_US', pt.name->>'id_ID', 'Unknown Product') AS product_name,
             pc.name         AS category,
             pp.default_code AS default_code,
             pt.list_price   AS list_price,
-            pt.standard_price AS standard_price
+            COALESCE((pp.standard_price->>'1')::numeric, 0) AS standard_price
         FROM product_product pp
         JOIN product_template pt ON pp.product_tmpl_id = pt.id
         LEFT JOIN product_category pc ON pt.categ_id = pc.id
-        WHERE pp.active = True
+        WHERE pt.active = True
         ORDER BY pp.id
     """
     try:
