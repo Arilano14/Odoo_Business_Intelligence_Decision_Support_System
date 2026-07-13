@@ -168,7 +168,7 @@ def build_fact_inventory(source_engine, dim_data):
             sm.location_dest_id  AS location_dest_id,
             sm.reference         AS reference
         FROM stock_move sm
-        WHERE sm.state = 'done'
+        WHERE sm.state IN ('done', 'assigned')
         ORDER BY sm.date
     """
     try:
@@ -196,11 +196,19 @@ def build_fact_inventory(source_engine, dim_data):
 
     # Derive movement_type based on Odoo location logic
     if internal_locs:
-        fact["movement_type"] = np.where(
-            fact["location_dest_id"].isin(internal_locs),
-            "incoming",
-            "outgoing"
-        )
+        is_dest_internal = fact["location_dest_id"].isin(internal_locs)
+        is_src_internal = fact["location_id"].isin(internal_locs)
+        
+        # If destination is internal and source is not -> incoming
+        # If source is internal and destination is not -> outgoing
+        # If both are internal -> internal
+        conditions = [
+            (~is_src_internal) & is_dest_internal,
+            is_src_internal & (~is_dest_internal),
+            is_src_internal & is_dest_internal
+        ]
+        choices = ["incoming", "outgoing", "internal"]
+        fact["movement_type"] = np.select(conditions, choices, default="other")
     else:
         # Fallback: use location_id < location_dest_id heuristic
         fact["movement_type"] = np.where(

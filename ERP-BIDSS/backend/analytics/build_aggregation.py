@@ -1,0 +1,168 @@
+import pandas as pd
+from config.database import db
+from config.settings import settings
+
+
+def build_monthly_summary(engine):
+    """Build mart.monthly_summary for Sales, Purchase, and Forecast KPIs."""
+    query = """
+    WITH sales_agg AS (
+        SELECT 
+            LEFT(CAST(fs.date_id AS VARCHAR), 6) AS month_id,
+            SUM(fs.revenue) AS revenue,
+            SUM(fs.cost) AS cost,
+            SUM(fs.margin) AS margin,
+            COUNT(DISTINCT fs.sk_sales_id) AS total_sales_trx
+        FROM mart.fact_sales fs
+        GROUP BY 1
+    ),
+    purchase_agg AS (
+        SELECT 
+            LEFT(CAST(fp.date_id AS VARCHAR), 6) AS month_id,
+            SUM(fp.subtotal) AS purchase_total,
+            COUNT(*) AS purchase_lines,
+            AVG(fp.lead_time_days) AS avg_lead_time,
+            SUM(CASE WHEN fp.lead_time_days <= 5 THEN 1 ELSE 0 END) AS on_time_lines
+        FROM mart.fact_purchase fp
+        GROUP BY 1
+    ),
+    forecast_agg AS (
+        SELECT 
+            CAST(ff.month_id AS VARCHAR) AS month_id,
+            AVG(ABS(ff.actual_qty - ff.ma3_forecast) / NULLIF(ff.actual_qty, 0)) AS error_rate
+        FROM mart.fact_forecast_monthly ff
+        GROUP BY 1
+    ),
+    dim_months AS (
+        SELECT DISTINCT 
+            LEFT(CAST(date_id AS VARCHAR), 6) AS month_id,
+            month_name
+        FROM mart.dim_date
+    )
+    SELECT 
+        dm.month_id,
+        dm.month_name,
+        COALESCE(sa.revenue, 0) AS revenue,
+        COALESCE(sa.cost, 0) AS cost,
+        COALESCE(sa.margin, 0) AS margin,
+        CASE WHEN COALESCE(sa.revenue, 0) = 0 THEN 0 ELSE (sa.margin / sa.revenue) * 100 END AS margin_pct,
+        COALESCE(sa.total_sales_trx, 0) AS total_sales_trx,
+        CASE WHEN COALESCE(sa.total_sales_trx, 0) = 0 THEN 0 ELSE (sa.revenue / sa.total_sales_trx) END AS avg_order_value,
+        COALESCE(pa.purchase_total, 0) AS purchase_total,
+        COALESCE(pa.purchase_lines, 0) AS purchase_lines,
+        COALESCE(pa.avg_lead_time, 0) AS avg_lead_time,
+        CASE WHEN COALESCE(pa.purchase_lines, 0) = 0 THEN 0 ELSE (CAST(pa.on_time_lines AS FLOAT) / pa.purchase_lines) END AS on_time_rate,
+        CASE WHEN COALESCE(sa.revenue, 0) = 0 THEN 0 ELSE (pa.purchase_total / sa.revenue) END AS procurement_ratio,
+        CASE WHEN fa.error_rate IS NULL THEN 1 ELSE (1 - fa.error_rate) END AS forecast_accuracy
+    FROM dim_months dm
+    LEFT JOIN sales_agg sa ON dm.month_id = sa.month_id
+    LEFT JOIN purchase_agg pa ON dm.month_id = pa.month_id
+    LEFT JOIN forecast_agg fa ON dm.month_id = fa.month_id
+    WHERE sa.revenue IS NOT NULL OR pa.purchase_total IS NOT NULL
+    ORDER BY dm.month_id;
+    """
+    
+    try:
+        df = pd.read_sql(query, engine)
+        print(f"  [OK] monthly_summary: {len(df)} rows")
+        
+        # Calculate revenue_growth_pct (requires shift)
+        df['prev_revenue'] = df['revenue'].shift(1)
+        df['revenue_growth_pct'] = ((df['revenue'] - df['prev_revenue']) / df['prev_revenue'] * 100).fillna(0)
+        df.drop(columns=['prev_revenue'], inplace=True)
+        
+        return df
+    except Exception as e:
+        print(f"  [FAIL] monthly_summary: {e}")
+        return pd.DataFrame()
+
+
+def build_inventory_monthly_summary(engine):
+    """Build mart.inventory_monthly_summary for Inventory KPIs."""
+    query = """
+    WITH inv_agg AS (
+        SELECT 
+            LEFT(CAST(fi.date_id AS VARCHAR), 6) AS month_id,
+            SUM(CASE WHEN fi.movement_type = 'incoming' THEN fi.quantity ELSE 0 END) AS incoming_qty,
+            SUM(CASE WHEN fi.movement_type = 'outgoing' THEN fi.quantity ELSE 0 END) AS outgoing_qty,
+            SUM(CASE WHEN fi.movement_type = 'incoming' THEN fi.value ELSE 0 END) AS incoming_value,
+            SUM(CASE WHEN fi.movement_type = 'outgoing' THEN fi.value ELSE 0 END) AS outgoing_value
+        FROM mart.fact_inventory fi
+        GROUP BY 1
+    ),
+    dim_months AS (
+        SELECT DISTINCT 
+            LEFT(CAST(date_id AS VARCHAR), 6) AS month_id
+        FROM mart.dim_date
+    )
+    SELECT 
+        dm.month_id,
+        COALESCE(ia.incoming_qty, 0) AS incoming_qty,
+        COALESCE(ia.outgoing_qty, 0) AS outgoing_qty,
+        COALESCE(ia.incoming_value, 0) AS incoming_value,
+        COALESCE(ia.outgoing_value, 0) AS outgoing_value,
+        COALESCE(ia.incoming_value, 0) - COALESCE(ia.outgoing_value, 0) AS net_stock_movement_value
+    FROM dim_months dm
+    LEFT JOIN inv_agg ia ON dm.month_id = ia.month_id
+    WHERE ia.incoming_qty > 0 OR ia.outgoing_qty > 0
+    ORDER BY dm.month_id;
+    """
+    
+    try:
+        df = pd.read_sql(query, engine)
+        print(f"  [OK] inventory_monthly_summary: {len(df)} rows")
+        return df
+    except Exception as e:
+        print(f"  [FAIL] inventory_monthly_summary: {e}")
+        return pd.DataFrame()
+
+
+def load_aggregation(df, table_name):
+    """Load a single aggregation table into mart schema (full refresh)."""
+    if df.empty:
+        print(f"  [SKIP] {table_name}: empty")
+        return 0
+    try:
+        df.to_sql(
+            table_name,
+            db.target_engine,
+            schema=settings.TARGET_SCHEMA,
+            if_exists="replace",
+            index=False,
+            method="multi",
+        )
+        print(f"  [LOADED] {table_name}: {len(df)} rows → mart.{table_name}")
+        return len(df)
+    except Exception as e:
+        print(f"  [FAIL] Loading {table_name}: {e}")
+        return 0
+
+
+def build_all_aggregations():
+    """Build and load all aggregation tables."""
+    print("\n" + "=" * 60)
+    print("PHASE 7 — Building Aggregation Tables (BI Presentation Layer)")
+    print("=" * 60)
+    
+    target = db.target_engine
+    results = {}
+    
+    agg = {
+        "monthly_summary": build_monthly_summary(target),
+        "inventory_monthly_summary": build_inventory_monthly_summary(target)
+    }
+    
+    for name, df in agg.items():
+        results[name] = load_aggregation(df, name)
+        
+    print("\n── Aggregation Summary ──")
+    total = 0
+    for name, count in results.items():
+        print(f"  {name}: {count} rows")
+        total += count
+    print(f"  TOTAL: {total} rows")
+    
+    return results
+
+if __name__ == "__main__":
+    build_all_aggregations()
