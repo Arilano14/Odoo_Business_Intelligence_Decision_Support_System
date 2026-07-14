@@ -152,11 +152,14 @@ def build_fact_purchase(source_engine, dim_data):
 
 
 def build_fact_inventory(source_engine, dim_data):
-    """Build fact_inventory from stock_move (state='done').
+    """Build fact_inventory from stock_move (state='done' or 'assigned').
 
     Derived metrics:
-    - movement_type = 'incoming' or 'outgoing' based on location logic
+    - movement_type = 'incoming', 'outgoing', or 'internal' based on location logic
     - value = quantity × standard_price
+    
+    IMPORTANT: Uses origin document date (PO/SO) instead of stock_move.date
+    to ensure temporal alignment with fact_purchase and fact_sales.
     """
     query = """
         SELECT
@@ -166,8 +169,11 @@ def build_fact_inventory(source_engine, dim_data):
             sm.product_uom_qty   AS quantity,
             sm.location_id       AS location_id,
             sm.location_dest_id  AS location_dest_id,
-            sm.reference         AS reference
+            sm.reference         AS reference,
+            sp.origin            AS picking_origin,
+            sp.picking_type_id   AS picking_type_id
         FROM stock_move sm
+        LEFT JOIN stock_picking sp ON sm.picking_id = sp.id
         WHERE sm.state IN ('done', 'assigned')
         ORDER BY sm.date
     """
@@ -191,7 +197,41 @@ def build_fact_inventory(source_engine, dim_data):
     except Exception:
         internal_locs = []
 
-    fact["date_id"] = pd.to_datetime(fact["move_date"]).dt.strftime("%Y%m%d").astype(int)
+    # ---------- Date mapping: Use origin document date ----------
+    # Load PO dates keyed by PO name (e.g., "P00001")
+    try:
+        po_dates = pd.read_sql(
+            "SELECT name, date_order FROM purchase_order WHERE state = 'purchase'",
+            source_engine
+        )
+        po_date_map = po_dates.set_index("name")["date_order"].to_dict()
+    except Exception:
+        po_date_map = {}
+
+    # Load SO dates keyed by SO name (e.g., "S00001")
+    try:
+        so_dates = pd.read_sql(
+            "SELECT name, date_order FROM sale_order WHERE state = 'sale'",
+            source_engine
+        )
+        so_date_map = so_dates.set_index("name")["date_order"].to_dict()
+    except Exception:
+        so_date_map = {}
+
+    # Map origin to PO/SO date; fallback to stock_move.date
+    def resolve_date(row):
+        origin = row.get("picking_origin")
+        if pd.notna(origin) and isinstance(origin, str):
+            # Try PO first
+            if origin in po_date_map:
+                return po_date_map[origin]
+            # Try SO
+            if origin in so_date_map:
+                return so_date_map[origin]
+        return row["move_date"]
+
+    fact["business_date"] = fact.apply(resolve_date, axis=1)
+    fact["date_id"] = pd.to_datetime(fact["business_date"]).dt.strftime("%Y%m%d").astype(int)
     fact["product_id"] = fact["odoo_product_id"].map(product_map).fillna(0).astype(int)
 
     # Derive movement_type based on Odoo location logic
