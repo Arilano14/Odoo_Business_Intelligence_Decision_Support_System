@@ -2,7 +2,6 @@ import pandas as pd
 from config.database import db
 from config.settings import settings
 
-
 def build_monthly_summary(engine):
     """Build mart.monthly_summary for Sales, Purchase, and Forecast KPIs."""
     query = """
@@ -33,6 +32,17 @@ def build_monthly_summary(engine):
         FROM mart.fact_forecast_monthly ff
         GROUP BY 1
     ),
+    inv_agg AS (
+        SELECT 
+            LEFT(CAST(fi.date_id AS VARCHAR), 6) AS month_id,
+            SUM(CASE WHEN fi.movement_type = 'incoming' THEN fi.value ELSE -fi.value END) AS net_movement_value
+        FROM mart.fact_inventory fi
+        GROUP BY 1
+    ),
+    supplier_agg AS (
+        SELECT AVG(final_score) AS supplier_avg_score
+        FROM mart.fact_supplier_score
+    ),
     dim_months AS (
         SELECT DISTINCT 
             LEFT(CAST(date_id AS VARCHAR), 6) AS month_id,
@@ -53,29 +63,27 @@ def build_monthly_summary(engine):
         COALESCE(pa.avg_lead_time, 0) AS avg_lead_time,
         CASE WHEN COALESCE(pa.purchase_lines, 0) = 0 THEN 0 ELSE (CAST(pa.on_time_lines AS FLOAT) / pa.purchase_lines) END AS on_time_rate,
         CASE WHEN COALESCE(sa.revenue, 0) = 0 THEN 0 ELSE (pa.purchase_total / sa.revenue) END AS procurement_ratio,
-        CASE WHEN fa.error_rate IS NULL THEN 1 ELSE (1 - fa.error_rate) END AS forecast_accuracy
+        CASE WHEN fa.error_rate IS NULL THEN 1 ELSE GREATEST(0, 1 - fa.error_rate) END AS forecast_accuracy,
+        COALESCE(ia.net_movement_value, 0) AS inventory_value,
+        (SELECT supplier_avg_score FROM supplier_agg) AS supplier_avg_score
     FROM dim_months dm
     LEFT JOIN sales_agg sa ON dm.month_id = sa.month_id
     LEFT JOIN purchase_agg pa ON dm.month_id = pa.month_id
     LEFT JOIN forecast_agg fa ON dm.month_id = fa.month_id
+    LEFT JOIN inv_agg ia ON dm.month_id = ia.month_id
     WHERE sa.revenue IS NOT NULL OR pa.purchase_total IS NOT NULL
     ORDER BY dm.month_id;
     """
-    
     try:
         df = pd.read_sql(query, engine)
         print(f"  [OK] monthly_summary: {len(df)} rows")
-        
-        # Calculate revenue_growth_pct (requires shift)
         df['prev_revenue'] = df['revenue'].shift(1)
         df['revenue_growth_pct'] = ((df['revenue'] - df['prev_revenue']) / df['prev_revenue'] * 100).fillna(0)
         df.drop(columns=['prev_revenue'], inplace=True)
-        
         return df
     except Exception as e:
         print(f"  [FAIL] monthly_summary: {e}")
         return pd.DataFrame()
-
 
 def build_inventory_monthly_summary(engine):
     """Build mart.inventory_monthly_summary for Inventory KPIs."""
@@ -107,7 +115,6 @@ def build_inventory_monthly_summary(engine):
     WHERE ia.incoming_qty > 0 OR ia.outgoing_qty > 0
     ORDER BY dm.month_id;
     """
-    
     try:
         df = pd.read_sql(query, engine)
         print(f"  [OK] inventory_monthly_summary: {len(df)} rows")
@@ -116,6 +123,94 @@ def build_inventory_monthly_summary(engine):
         print(f"  [FAIL] inventory_monthly_summary: {e}")
         return pd.DataFrame()
 
+def build_supplier_summary(engine):
+    query = """
+    SELECT 
+        sk_vendor_id AS vendor_id,
+        vendor_name,
+        total_pos,
+        delivery_pct,
+        fulfillment_pct,
+        avg_lead_time_days,
+        price_consistency_pct,
+        lead_time_stability_score,
+        delay_frequency,
+        final_score,
+        category,
+        recommendation_status
+    FROM mart.fact_supplier_score
+    """
+    try:
+        df = pd.read_sql(query, engine)
+        print(f"  [OK] supplier_summary: {len(df)} rows")
+        return df
+    except Exception as e:
+        print(f"  [FAIL] supplier_summary: {e}")
+        return pd.DataFrame()
+
+def build_sales_summary(engine):
+    query = """
+    SELECT 
+        fs.product_id,
+        dp.product_name,
+        SUM(fs.revenue) AS total_revenue,
+        SUM(fs.quantity) AS total_qty,
+        SUM(fs.margin) AS total_margin,
+        CASE WHEN SUM(fs.revenue) = 0 THEN 0 ELSE (SUM(fs.margin)/SUM(fs.revenue))*100 END AS margin_pct,
+        COUNT(fs.sk_sales_id) AS trx_count,
+        RANK() OVER(ORDER BY SUM(fs.revenue) DESC) AS rank_by_revenue,
+        RANK() OVER(ORDER BY SUM(fs.margin) DESC) AS rank_by_margin
+    FROM mart.fact_sales fs
+    JOIN mart.dim_product dp ON fs.product_id = dp.sk_product_id
+    GROUP BY 1, 2
+    """
+    try:
+        df = pd.read_sql(query, engine)
+        print(f"  [OK] sales_summary: {len(df)} rows")
+        return df
+    except Exception as e:
+        print(f"  [FAIL] sales_summary: {e}")
+        return pd.DataFrame()
+
+def build_inventory_summary(engine):
+    query = """
+    SELECT 
+        dp.sk_product_id AS product_id,
+        dp.product_name,
+        dss.current_stock,
+        dss.inventory_status,
+        dss.inventory_age_days,
+        dss.stock_coverage_days,
+        dss.inventory_turnover,
+        dss.annual_demand
+    FROM mart.fact_decision_support dss
+    JOIN mart.dim_product dp ON dss.product_id = dp.sk_product_id
+    """
+    try:
+        df = pd.read_sql(query, engine)
+        print(f"  [OK] inventory_summary: {len(df)} rows")
+        return df
+    except Exception as e:
+        print(f"  [FAIL] inventory_summary: {e}")
+        return pd.DataFrame()
+
+def build_executive_summary(monthly_summary_df, engine):
+    if monthly_summary_df.empty:
+        return pd.DataFrame()
+    
+    # products_at_risk dihilangkan dari executive_summary karena bersifat
+    # snapshot statis (tidak bervariasi per bulan). Akan ditampilkan
+    # sebagai single KPI card di Power BI langsung dari fact_decision_support.
+    
+    executive_df = monthly_summary_df[[
+        'month_id', 'month_name', 'revenue', 'purchase_total', 'margin', 
+        'margin_pct', 'revenue_growth_pct', 'avg_lead_time', 'inventory_value',
+        'supplier_avg_score', 'forecast_accuracy', 'on_time_rate', 
+        'total_sales_trx'
+    ]].copy()
+    
+    print(f"  [OK] executive_summary: {len(executive_df)} rows")
+    return executive_df
 
 def load_aggregation(df, table_name):
     """Load a single aggregation table into mart schema (full refresh)."""
@@ -137,9 +232,7 @@ def load_aggregation(df, table_name):
         print(f"  [FAIL] Loading {table_name}: {e}")
         return 0
 
-
 def build_all_aggregations():
-    """Build and load all aggregation tables."""
     print("\n" + "=" * 60)
     print("PHASE 7 — Building Aggregation Tables (BI Presentation Layer)")
     print("=" * 60)
@@ -147,9 +240,15 @@ def build_all_aggregations():
     target = db.target_engine
     results = {}
     
+    ms_df = build_monthly_summary(target)
+    
     agg = {
-        "monthly_summary": build_monthly_summary(target),
-        "inventory_monthly_summary": build_inventory_monthly_summary(target)
+        "monthly_summary": ms_df,
+        "inventory_monthly_summary": build_inventory_monthly_summary(target),
+        "supplier_summary": build_supplier_summary(target),
+        "sales_summary": build_sales_summary(target),
+        "inventory_summary": build_inventory_summary(target),
+        "executive_summary": build_executive_summary(ms_df, target)
     }
     
     for name, df in agg.items():

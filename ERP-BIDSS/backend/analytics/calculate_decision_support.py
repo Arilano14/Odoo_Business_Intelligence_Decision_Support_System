@@ -121,7 +121,8 @@ def calculate_decision_support():
     stock_query = f"""
         SELECT 
             product_id,
-            SUM(CASE WHEN movement_type = 'incoming' THEN quantity ELSE -quantity END) as current_stock
+            SUM(CASE WHEN movement_type = 'incoming' THEN quantity ELSE -quantity END) as current_stock,
+            MAX(date_id) as last_movement_date
         FROM {SCHEMA}.fact_inventory
         GROUP BY product_id
     """
@@ -129,14 +130,29 @@ def calculate_decision_support():
         stock_df = pd.read_sql(stock_query, db.target_engine)
         df = df.merge(stock_df, on='product_id', how='left')
         df['current_stock'] = df['current_stock'].fillna(0)
+        
+        # Calculate Inventory Age Days based on last_movement_date
+        # Convert integer YYYYMMDD to datetime
+        # Use 2026-12-31 as current date for age calculation since dataset goes up to end of 2026
+        df['last_movement_date'] = pd.to_datetime(df['last_movement_date'], format='%Y%m%d', errors='coerce')
+        current_date_for_aging = pd.to_datetime('2026-12-31')
+        df['inventory_age_days'] = (current_date_for_aging - df['last_movement_date']).dt.days.fillna(999).astype(int)
     except Exception:
         df['current_stock'] = 0
+        df['inventory_age_days'] = 999
         
     df['inventory_turnover'] = np.where(
         df['current_stock'] > 0, 
         df['annual_demand'] / df['current_stock'], 
         0
     )
+    
+    # Calculate Stock Coverage Days
+    df['stock_coverage_days'] = np.where(
+        df['avg_daily_demand'] > 0,
+        df['current_stock'] / df['avg_daily_demand'],
+        999
+    ).round(0).astype(int)
         
     def get_status(row):
         if row['inventory_turnover'] < 2 and row['annual_demand'] > 0:
@@ -148,10 +164,77 @@ def calculate_decision_support():
             
     df['recommendation_status'] = df.apply(get_status, axis=1)
 
+    # 6. Inventory Status (Fast / Slow / Dead)
+    # Threshold dihitung berdasarkan distribusi aktual data (data-driven):
+    # Median turnover = 0.07, P75 = 0.12, P90 = 0.21
+    # Disesuaikan untuk konteks distributor alat berat (volume rendah, harga tinggi)
+    products_with_demand = df[df['annual_demand'] > 0]['inventory_turnover']
+    if len(products_with_demand) > 0:
+        p25 = products_with_demand.quantile(0.25)
+        p75 = products_with_demand.quantile(0.75)
+    else:
+        p25, p75 = 0.03, 0.12
+    
+    def get_inventory_status(row):
+        if row['annual_demand'] == 0:
+            return "Dead Stock"
+        elif row['inventory_turnover'] >= p75:
+            return "Fast Moving"
+        elif row['inventory_turnover'] >= p25:
+            return "Normal"
+        else:
+            return "Slow Moving"
+            
+    df['inventory_status'] = df.apply(get_inventory_status, axis=1)
+
+    # 7. Risk Level & Priority
+    # Urutan evaluasi: Stock Out → Near Reorder → Dead Stock → Slow Moving Overstock → Normal
+    # Menggunakan stock_coverage_days sebagai secondary trigger karena
+    # gap SS-ROP sangat sempit pada data distributor alat berat
+    def get_risk_and_priority(row):
+        risk = "Low"
+        priority = 5
+        impact = 0
+        action = "Pantau pergerakan rutin"
+        
+        # Priority 1: Stock Out — stok di bawah safety stock, ada demand aktif
+        if row['current_stock'] <= row['safety_stock'] and row['annual_demand'] > 0:
+            risk = "High"
+            priority = 1
+            impact = (row['avg_daily_demand'] * row['avg_lead_time'] * row['standard_price'])
+            action = "Segera buat PO Express"
+            
+        # Priority 2: Near Reorder — stok mendekati habis (coverage < 30 hari), ada demand
+        elif row['stock_coverage_days'] < 30 and row['annual_demand'] > 0 and row['current_stock'] > 0:
+            risk = "Medium"
+            priority = 2
+            impact = (row['eoq'] * row['standard_price']) * 0.1
+            action = "Buat Draft PO sejumlah EOQ"
+            
+        # Priority 3: Dead Stock — tidak ada demand, stok menumpuk
+        elif row['inventory_status'] == 'Dead Stock' and row['current_stock'] > 0:
+            risk = "High"
+            priority = 3
+            impact = row['current_stock'] * row['standard_price']
+            action = "Beri diskon cuci gudang / Retur supplier"
+            
+        # Priority 4: Slow Moving Overstock — demand rendah, stok berlebih
+        elif row['inventory_status'] == 'Slow Moving' and row['stock_coverage_days'] > 180:
+            risk = "Medium"
+            priority = 4
+            impact = (row['current_stock'] * row['standard_price']) * HOLDING_COST_RATE
+            action = "Hentikan pembelian, buat promo bundling"
+            
+        return pd.Series([risk, priority, impact, action])
+
+    df[['risk_level', 'priority', 'business_impact', 'suggested_action']] = df.apply(get_risk_and_priority, axis=1)
+
     # Save to Analytics Mart
     output_df = df[[
         'product_id', 'annual_demand', 'avg_daily_demand', 'avg_lead_time',
-        'eoq', 'safety_stock', 'rop', 'current_stock', 'recommendation_status'
+        'eoq', 'safety_stock', 'rop', 'current_stock', 'recommendation_status',
+        'inventory_status', 'inventory_age_days', 'stock_coverage_days',
+        'inventory_turnover', 'priority', 'risk_level', 'business_impact', 'suggested_action'
     ]]
     
     try:
