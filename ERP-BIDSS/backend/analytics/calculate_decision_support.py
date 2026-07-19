@@ -229,10 +229,23 @@ def calculate_decision_support():
 
     df[['risk_level', 'priority', 'business_impact', 'suggested_action']] = df.apply(get_risk_and_priority, axis=1)
 
+    # Fetch latest forecast from fact_forecast_monthly
+    try:
+        latest_forecast_query = f"""
+            SELECT product_id, ma3_forecast AS forecast_qty
+            FROM {SCHEMA}.fact_forecast_monthly
+            WHERE month_id = (SELECT MAX(month_id) FROM {SCHEMA}.fact_forecast_monthly)
+        """
+        forecast_df = pd.read_sql(latest_forecast_query, db.target_engine)
+        df = df.merge(forecast_df, on='product_id', how='left')
+        df['forecast_qty'] = df['forecast_qty'].fillna(0).astype(int)
+    except Exception:
+        df['forecast_qty'] = 0
+
     # Save to Analytics Mart
     output_df = df[[
-        'product_id', 'annual_demand', 'avg_daily_demand', 'avg_lead_time',
-        'eoq', 'safety_stock', 'rop', 'current_stock', 'recommendation_status',
+        'product_id', 'product_name', 'annual_demand', 'avg_daily_demand', 'avg_lead_time',
+        'forecast_qty', 'eoq', 'safety_stock', 'rop', 'current_stock', 'recommendation_status',
         'inventory_status', 'inventory_age_days', 'stock_coverage_days',
         'inventory_turnover', 'priority', 'risk_level', 'business_impact', 'suggested_action'
     ]]
@@ -331,6 +344,6 @@ def calculate_forecast():
         print(f"❌ Failed to write Forecast data: {e}")
 
 if __name__ == "__main__":
-    calculate_decision_support()
     calculate_forecast()
+    calculate_decision_support()
 

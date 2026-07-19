@@ -1,4 +1,5 @@
 import pandas as pd
+import datetime
 from config.database import db
 from config.settings import settings
 
@@ -125,20 +126,35 @@ def build_inventory_monthly_summary(engine):
 
 def build_supplier_summary(engine):
     query = """
+    WITH purchase_stats AS (
+        SELECT 
+            vendor_id,
+            SUM(subtotal) AS purchase_value,
+            SUM(quantity) AS purchase_qty
+        FROM mart.fact_purchase
+        GROUP BY vendor_id
+    ),
+    total_purchase AS (
+        SELECT SUM(subtotal) as global_purchase_value FROM mart.fact_purchase
+    )
     SELECT 
-        sk_vendor_id AS vendor_id,
-        vendor_name,
-        total_pos,
-        delivery_pct,
-        fulfillment_pct,
-        avg_lead_time_days,
-        price_consistency_pct,
-        lead_time_stability_score,
-        delay_frequency,
-        final_score,
-        category,
-        recommendation_status
-    FROM mart.fact_supplier_score
+        fss.sk_vendor_id AS vendor_id,
+        fss.vendor_name,
+        fss.total_pos,
+        COALESCE(ps.purchase_value, 0) AS purchase_value,
+        COALESCE(ps.purchase_qty, 0) AS purchase_qty,
+        fss.delivery_pct,
+        fss.fulfillment_pct,
+        fss.avg_lead_time_days,
+        fss.price_consistency_pct,
+        fss.lead_time_stability_score,
+        fss.delay_frequency,
+        fss.final_score,
+        fss.category,
+        CASE WHEN (SELECT global_purchase_value FROM total_purchase) = 0 THEN 0 ELSE (COALESCE(ps.purchase_value, 0) / (SELECT global_purchase_value FROM total_purchase)) * 100 END AS purchase_contribution_pct,
+        fss.recommendation_status
+    FROM mart.fact_supplier_score fss
+    LEFT JOIN purchase_stats ps ON fss.sk_vendor_id = ps.vendor_id
     """
     try:
         df = pd.read_sql(query, engine)
@@ -150,6 +166,9 @@ def build_supplier_summary(engine):
 
 def build_sales_summary(engine):
     query = """
+    WITH total_sales AS (
+        SELECT SUM(revenue) as global_revenue FROM mart.fact_sales
+    )
     SELECT 
         fs.product_id,
         dp.product_name,
@@ -159,7 +178,8 @@ def build_sales_summary(engine):
         CASE WHEN SUM(fs.revenue) = 0 THEN 0 ELSE (SUM(fs.margin)/SUM(fs.revenue))*100 END AS margin_pct,
         COUNT(fs.sk_sales_id) AS trx_count,
         RANK() OVER(ORDER BY SUM(fs.revenue) DESC) AS rank_by_revenue,
-        RANK() OVER(ORDER BY SUM(fs.margin) DESC) AS rank_by_margin
+        RANK() OVER(ORDER BY SUM(fs.margin) DESC) AS rank_by_margin,
+        CASE WHEN (SELECT global_revenue FROM total_sales) = 0 THEN 0 ELSE (SUM(fs.revenue) / (SELECT global_revenue FROM total_sales)) * 100 END AS revenue_contribution_pct
     FROM mart.fact_sales fs
     JOIN mart.dim_product dp ON fs.product_id = dp.sk_product_id
     GROUP BY 1, 2
@@ -178,11 +198,16 @@ def build_inventory_summary(engine):
         dp.sk_product_id AS product_id,
         dp.product_name,
         dss.current_stock,
+        dss.annual_demand,
+        dss.current_stock * dp.list_price AS inventory_value,
+        dss.inventory_turnover,
+        dss.stock_coverage_days,
         dss.inventory_status,
         dss.inventory_age_days,
-        dss.stock_coverage_days,
-        dss.inventory_turnover,
-        dss.annual_demand
+        dss.eoq,
+        dss.safety_stock,
+        dss.rop,
+        dss.recommendation_status AS recommendation
     FROM mart.fact_decision_support dss
     JOIN mart.dim_product dp ON dss.product_id = dp.sk_product_id
     """
@@ -198,13 +223,16 @@ def build_executive_summary(monthly_summary_df, engine):
     if monthly_summary_df.empty:
         return pd.DataFrame()
     
-    # products_at_risk dihilangkan dari executive_summary karena bersifat
-    # snapshot statis (tidak bervariasi per bulan). Akan ditampilkan
-    # sebagai single KPI card di Power BI langsung dari fact_decision_support.
+    # Calculate purchase_growth_pct
+    df = monthly_summary_df.copy()
+    df['prev_purchase'] = df['purchase_total'].shift(1)
+    df['purchase_growth_pct'] = ((df['purchase_total'] - df['prev_purchase']) / df['prev_purchase'] * 100).fillna(0)
+    df.drop(columns=['prev_purchase'], inplace=True)
     
-    executive_df = monthly_summary_df[[
-        'month_id', 'month_name', 'revenue', 'purchase_total', 'margin', 
-        'margin_pct', 'revenue_growth_pct', 'avg_lead_time', 'inventory_value',
+    executive_df = df[[
+        'month_id', 'month_name', 'revenue', 'revenue_growth_pct',
+        'purchase_total', 'purchase_growth_pct', 'margin', 
+        'margin_pct', 'inventory_value', 'avg_lead_time',
         'supplier_avg_score', 'forecast_accuracy', 'on_time_rate', 
         'total_sales_trx'
     ]].copy()
@@ -218,6 +246,11 @@ def load_aggregation(df, table_name):
         print(f"  [SKIP] {table_name}: empty")
         return 0
     try:
+        # Task 6: Add Metadata
+        df['generated_at'] = datetime.datetime.now()
+        df['data_period_start'] = '2024-01-01'
+        df['data_period_end'] = '2026-12-31'
+
         df.to_sql(
             table_name,
             db.target_engine,
