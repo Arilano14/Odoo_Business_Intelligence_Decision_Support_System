@@ -1,8 +1,17 @@
 import argparse
 import sys
+import os
+
+# Add parent directory to path so validation module can find odoo
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from odoo.audit_logic import run_audit
 from odoo.repair_odoo_records import repair_integrity
 from odoo.cleanup_portfolio_data import perform_cleanup
+from odoo.setup_company import setup_company
+from odoo.setup_partners import setup_partners
+from odoo.setup_products import setup_products
+from validation.validate_phase8 import validate as run_validation
 
 def audit():
     print("[PHASE 8] Running Audit...")
@@ -16,9 +25,12 @@ def cleanup(dry_run, apply, confirm):
 
 def setup_master():
     print("[PHASE 8] Running Master Setup...")
+    setup_company()
+    setup_partners()
+    setup_products()
 
 def validate():
-    print("[PHASE 8] Running Validation...")
+    run_validation()
 
 def idempotency_test():
     print("[PHASE 8] Running Idempotency Test...")
