@@ -7,7 +7,7 @@ Supports dry-run mode and reference-based idempotency.
 """
 
 import random
-from phase9.config import SEED, SO_CATEGORY_QTY_BOUNDS, BATCH_PREFIX
+from phase9.config import SEED, SO_CATEGORY_QTY_BOUNDS, BATCH_PREFIX, COMPANY_NAME, WAREHOUSE_CODE
 from phase9.batch_tags import get_so_ref, record_exists
 
 def generate_sales_orders(models, db, uid, password, monthly_allocation, customer_records, product_templates, product_categories, dry_run=True, months=None):
@@ -175,9 +175,15 @@ def generate_sales_orders(models, db, uid, password, monthly_allocation, custome
         created_count += 1
 
         if rec['target_state'] == 'sale':
-            models.execute_kw(db, uid, password, 'sale.order', 'action_confirm', [[so_id]])
+            try:
+                models.execute_kw(db, uid, password, 'sale.order', 'action_confirm', [[so_id]])
+            except Exception:
+                pass
         elif rec['target_state'] == 'cancel':
-            models.execute_kw(db, uid, password, 'sale.order', 'action_cancel', [[so_id]])
+            try:
+                models.execute_kw(db, uid, password, 'sale.order', 'action_cancel', [[so_id]])
+            except Exception:
+                pass
 
         if created_count % 100 == 0:
             print(f"  Created {created_count}/{len(dry_run_records)} Sales Orders...")

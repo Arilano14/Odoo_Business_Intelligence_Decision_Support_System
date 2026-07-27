@@ -114,9 +114,9 @@ def generate_inventory_operations(models, db, uid, password, product_templates, 
         [[('warehouse_id', '=', wh[0]['id']), ('code', '=', 'internal')]], {'fields': ['id'], 'limit': 1})
     int_type_id = picking_type[0]['id'] if picking_type else None
 
-    # Find scrap location
+    # Find scrap location matching company
     scrap_loc = models.execute_kw(db, uid, password, 'stock.location', 'search_read',
-        [[('scrap_location', '=', True)]], {'fields': ['id'], 'limit': 1})
+        [[('scrap_location', '=', True), '|', ('company_id', '=', company_id), ('company_id', '=', False)]], {'fields': ['id'], 'limit': 1})
     scrap_loc_id = scrap_loc[0]['id'] if scrap_loc else None
 
     created_int = 0

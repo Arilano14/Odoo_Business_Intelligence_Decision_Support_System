@@ -13,12 +13,15 @@ def setup_company():
     # We use the first one (usually ID 1, My Company)
     main_company_id = companies[0]['id']
     
-    # Get IDR currency
-    currencies = models.execute_kw(db, uid, password, 'res.currency', 'search_read', [[('name', '=', 'IDR')]], {'fields': ['id']})
+    # Get IDR currency (active or inactive)
+    currencies = models.execute_kw(db, uid, password, 'res.currency', 'search_read',
+        [[('name', '=', 'IDR'), ('active', 'in', [True, False])]], {'fields': ['id', 'active']})
     if not currencies:
         print("ERROR: IDR currency not found.")
         return
     idr_id = currencies[0]['id']
+    if not currencies[0].get('active'):
+        models.execute_kw(db, uid, password, 'res.currency', 'write', [[idr_id], {'active': True}])
 
     # Update company
     models.execute_kw(db, uid, password, 'res.company', 'write', [[main_company_id], {

@@ -89,7 +89,13 @@ def generate_opening_inventory(models, db, uid, password, demand_plan, dry_run=T
 
     # 2. Pre-fetch all existing quants at stock_loc_id in bulk (1 query)
     existing_quants = models.execute_kw(db, uid, password, 'stock.quant', 'search_read',
-        [[('product_id', 'in', var_ids), ('location_id', '=', stock_loc_id)]], {'fields': ['id', 'product_id']})
+        [[('product_id', 'in', var_ids), ('location_id', '=', stock_loc_id)]], {'fields': ['id', 'product_id', 'quantity']})
+    
+    applied_count = sum(1 for q in existing_quants if q.get('quantity', 0) > 0)
+    if applied_count >= len(all_tmpl_ids) * 0.8:
+        print(f"*** OPENING INVENTORY ALREADY APPLIED ({applied_count}/{len(all_tmpl_ids)} products with stock) — SKIPPING APPLY ***")
+        return opening_quantities
+
     var_to_quant = {q['product_id'][0]: q['id'] for q in existing_quants}
 
     quants_to_create = []
