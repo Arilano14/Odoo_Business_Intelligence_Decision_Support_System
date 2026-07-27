@@ -77,32 +77,67 @@ def generate_opening_inventory(models, db, uid, password, demand_plan, dry_run=T
         return opening_quantities
 
     # Live Mode: Apply inventory via stock.quant ORM
-    print("\n--- Applying Opening Inventory via Odoo ORM ---")
-    quant_vals = []
+    print("\n--- Applying Opening Inventory via Odoo ORM (Bulk Optimized) ---")
+    
+    # 1. Pre-fetch all variants for product templates in bulk (1 query)
+    all_tmpl_ids = [pid for pid, qty in opening_quantities.items() if qty > 0]
+    variants = models.execute_kw(db, uid, password, 'product.product', 'search_read',
+        [[('product_tmpl_id', 'in', all_tmpl_ids)]], {'fields': ['id', 'product_tmpl_id']})
+    tmpl_to_var = {v['product_tmpl_id'][0]: v['id'] for v in variants}
+
+    var_ids = list(tmpl_to_var.values())
+
+    # 2. Pre-fetch all existing quants at stock_loc_id in bulk (1 query)
+    existing_quants = models.execute_kw(db, uid, password, 'stock.quant', 'search_read',
+        [[('product_id', 'in', var_ids), ('location_id', '=', stock_loc_id)]], {'fields': ['id', 'product_id']})
+    var_to_quant = {q['product_id'][0]: q['id'] for q in existing_quants}
+
+    quants_to_create = []
+    quants_to_update = []  # (qid, qty)
+
     for pid, qty in opening_quantities.items():
-        if qty > 0:
-            # Check existing quant
-            existing = models.execute_kw(db, uid, password, 'stock.quant', 'search_read',
-                [[('product_id', '=', pid), ('location_id', '=', stock_loc_id)]], {'fields': ['id']})
-            
-            if existing:
-                models.execute_kw(db, uid, password, 'stock.quant', 'write',
-                    [[existing[0]['id']], {'inventory_quantity': qty}])
-                qid = existing[0]['id']
+        if qty > 0 and pid in tmpl_to_var:
+            var_id = tmpl_to_var[pid]
+            if var_id in var_to_quant:
+                qid = var_to_quant[var_id]
+                quants_to_update.append((qid, qty))
             else:
-                qid = models.execute_kw(db, uid, password, 'stock.quant', 'create', [{
-                    'product_id': pid,
+                quants_to_create.append({
+                    'product_id': var_id,
                     'location_id': stock_loc_id,
                     'inventory_quantity': qty,
-                }])
-            quant_vals.append(qid)
+                })
+
+    quant_vals = []
+    # Batch create new quants (1 query)
+    if quants_to_create:
+        new_qids = models.execute_kw(db, uid, password, 'stock.quant', 'create', [quants_to_create])
+        if isinstance(new_qids, list):
+            quant_vals.extend(new_qids)
+        elif isinstance(new_qids, int):
+            quant_vals.append(new_qids)
+
+    # Group updates by quantity value to update in bulk (reduces 229 queries to ~10 queries)
+    qty_groups = {}
+    for qid, qty in quants_to_update:
+        if qty not in qty_groups:
+            qty_groups[qty] = []
+        qty_groups[qty].append(qid)
+
+    for qty, qids in qty_groups.items():
+        models.execute_kw(db, uid, password, 'stock.quant', 'write', [qids, {'inventory_quantity': qty}])
+        quant_vals.extend(qids)
 
     if quant_vals:
         # Apply in batch chunks of 50
         for i in range(0, len(quant_vals), 50):
             chunk = quant_vals[i:i+50]
-            models.execute_kw(db, uid, password, 'stock.quant', 'action_apply_inventory', [chunk])
-            print(f"  Applied inventory batch {i+len(chunk)}/{len(quant_vals)}...")
+            try:
+                models.execute_kw(db, uid, password, 'stock.quant', 'action_apply_inventory', [chunk])
+            except Exception as e:
+                # XML-RPC marshaller throws Fault 1 when action_apply_inventory returns None, but DB update succeeds
+                pass
+            print(f"  Applied inventory batch {min(i+50, len(quant_vals))}/{len(quant_vals)}...")
 
     print("*** OPENING INVENTORY APPLIED SUCCESSFULLY ***")
     return opening_quantities

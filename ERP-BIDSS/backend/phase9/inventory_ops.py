@@ -18,12 +18,13 @@ SCRAP_QTY_BOUNDS = {
     'Consumables': (1, 10),
 }
 
-def generate_inventory_operations(models, db, uid, password, product_templates, product_categories, dry_run=True):
+def generate_inventory_operations(models, db, uid, password, product_templates, product_categories, dry_run=True, months=None):
     """
     Args:
         product_templates: list of 240 product template dicts
         product_categories: dict mapping cat_id -> cat_name
         dry_run: bool
+        months: list of ints (e.g. [1] or [1,2,3,4,5]), None for all 12 months
     Returns:
         ops_summary: dict with counts of internal transfers and scrap operations
     """
@@ -101,11 +102,12 @@ def generate_inventory_operations(models, db, uid, password, product_templates, 
 
     # Fetch PAN warehouse internal stock locations
     wh = models.execute_kw(db, uid, password, 'stock.warehouse', 'search_read',
-        [[('code', '=', WAREHOUSE_CODE)]], {'fields': ['id', 'lot_stock_id'], 'limit': 1})
+        [[('code', '=', WAREHOUSE_CODE)]], {'fields': ['id', 'lot_stock_id', 'company_id'], 'limit': 1})
     if not wh:
         raise ValueError(f"Main warehouse '{WAREHOUSE_CODE}' not found!")
 
     stock_loc_id = wh[0]['lot_stock_id'][0]
+    company_id = wh[0]['company_id'][0]
 
     # Find internal picking type for PAN
     picking_type = models.execute_kw(db, uid, password, 'stock.picking.type', 'search_read',
@@ -120,8 +122,11 @@ def generate_inventory_operations(models, db, uid, password, product_templates, 
     created_int = 0
     skipped_int = 0
 
+    target_int_records = [r for r in int_records if (months is None or int(r['date'].split('-')[1]) in months)]
+    target_scrap_records = [r for r in scrap_records if (months is None or int(r['date'].split('-')[1]) in months)]
+
     if int_type_id:
-        for rec in int_records:
+        for rec in target_int_records:
             existing = record_exists(models, db, uid, password, 'stock.picking', 'origin', rec['ref'])
             if existing:
                 skipped_int += 1
@@ -141,6 +146,7 @@ def generate_inventory_operations(models, db, uid, password, product_templates, 
                 'location_dest_id': stock_loc_id,  # Internal transfer within warehouse
                 'origin': rec['ref'],
                 'date': rec['date'],
+                'company_id': company_id,
             }
             picking_id = models.execute_kw(db, uid, password, 'stock.picking', 'create', [picking_val])
 
@@ -152,6 +158,7 @@ def generate_inventory_operations(models, db, uid, password, product_templates, 
                 'picking_id': picking_id,
                 'location_id': stock_loc_id,
                 'location_dest_id': stock_loc_id,
+                'company_id': company_id,
             }
             models.execute_kw(db, uid, password, 'stock.move', 'create', [move_val])
             models.execute_kw(db, uid, password, 'stock.picking', 'action_confirm', [[picking_id]])
@@ -173,7 +180,7 @@ def generate_inventory_operations(models, db, uid, password, product_templates, 
     skipped_scrap = 0
 
     if scrap_loc_id:
-        for rec in scrap_records:
+        for rec in target_scrap_records:
             existing = record_exists(models, db, uid, password, 'stock.scrap', 'origin', rec['ref'])
             if existing:
                 skipped_scrap += 1
@@ -194,6 +201,7 @@ def generate_inventory_operations(models, db, uid, password, product_templates, 
                 'location_id': stock_loc_id,
                 'scrap_location_id': scrap_loc_id,
                 'origin': rec['ref'],
+                'company_id': company_id,
             }
             scrap_id = models.execute_kw(db, uid, password, 'stock.scrap', 'create', [scrap_val])
             try:

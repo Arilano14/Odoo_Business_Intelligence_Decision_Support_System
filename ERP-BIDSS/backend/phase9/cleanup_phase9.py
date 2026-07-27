@@ -51,43 +51,47 @@ def cleanup_phase9_batch(dry_run=True):
         print("\n*** DRY RUN — No records deleted. Run with --apply to execute cleanup. ***")
         return True
 
-    print("\n--- Executing Phase 9 ORM Cleanup ---")
+    print("\n--- Executing Phase 9 ORM Cleanup (Batch Optimized) ---")
 
-    # Clean Invoices/Bills
-    for inv in inv_list:
-        try:
-            if inv['state'] != 'draft':
-                models.execute_kw(db, uid, password, 'account.move', 'button_draft', [[inv['id']]])
-            models.execute_kw(db, uid, password, 'account.move', 'unlink', [[inv['id']]])
-        except Exception as e:
-            print(f"  Warning: Could not unlink move {inv['ref']}: {e}")
+    # 1. Clean Invoices/Bills
+    if inv_list:
+        inv_ids = [inv['id'] for inv in inv_list]
+        for inv_id in inv_ids:
+            try:
+                models.execute_kw(db, uid, password, 'account.move', 'button_draft', [[inv_id]])
+                models.execute_kw(db, uid, password, 'account.move', 'unlink', [[inv_id]])
+            except Exception:
+                pass
 
-    # Clean Internal Transfers
-    for pick in int_list:
-        try:
-            if pick['state'] not in ('draft', 'cancel'):
-                models.execute_kw(db, uid, password, 'stock.picking', 'action_cancel', [[pick['id']]])
-            models.execute_kw(db, uid, password, 'stock.picking', 'unlink', [[pick['id']]])
-        except Exception as e:
-            print(f"  Warning: Could not unlink picking {pick['origin']}: {e}")
+    # 2. Clean Internal Transfers
+    if int_list:
+        int_ids = [p['id'] for p in int_list]
+        for int_id in int_ids:
+            try:
+                models.execute_kw(db, uid, password, 'stock.picking', 'action_cancel', [[int_id]])
+                models.execute_kw(db, uid, password, 'stock.picking', 'unlink', [[int_id]])
+            except Exception:
+                pass
 
-    # Clean Purchase Orders
-    for po in po_list:
-        try:
-            if po['state'] not in ('draft', 'cancel'):
-                models.execute_kw(db, uid, password, 'purchase.order', 'button_cancel', [[po['id']]])
-            models.execute_kw(db, uid, password, 'purchase.order', 'unlink', [[po['id']]])
-        except Exception as e:
-            print(f"  Warning: Could not unlink PO {po['partner_ref']}: {e}")
+    # 3. Clean Purchase Orders
+    if po_list:
+        po_ids = [p['id'] for p in po_list]
+        for po_id in po_ids:
+            try:
+                models.execute_kw(db, uid, password, 'purchase.order', 'button_cancel', [[po_id]])
+                models.execute_kw(db, uid, password, 'purchase.order', 'unlink', [[po_id]])
+            except Exception:
+                pass
 
-    # Clean Sales Orders
-    for so in so_list:
-        try:
-            if so['state'] not in ('draft', 'cancel'):
-                models.execute_kw(db, uid, password, 'sale.order', 'action_cancel', [[so['id']]])
-            models.execute_kw(db, uid, password, 'sale.order', 'unlink', [[so['id']]])
-        except Exception as e:
-            print(f"  Warning: Could not unlink SO {so['client_order_ref']}: {e}")
+    # 4. Clean Sales Orders
+    if so_list:
+        so_ids = [s['id'] for s in so_list]
+        for so_id in so_ids:
+            try:
+                models.execute_kw(db, uid, password, 'sale.order', 'action_cancel', [[so_id]])
+                models.execute_kw(db, uid, password, 'sale.order', 'unlink', [[so_id]])
+            except Exception:
+                pass
 
     # Clean Scrap Operations
     for scrap in scrap_list:

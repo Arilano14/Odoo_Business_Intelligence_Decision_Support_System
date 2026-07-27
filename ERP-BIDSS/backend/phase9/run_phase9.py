@@ -140,6 +140,40 @@ def run_dry_run():
 
     print("\n[GATE 9B DRY-RUN SUCCESS] All projected counts and contract constraints match 100%.")
 
+def run_live_generation(months, gate_name):
+    print("=" * 70)
+    print(f"PHASE 9 {gate_name} — LIVE TRANSACTION GENERATION")
+    print("=" * 70)
+
+    data = load_master_data()
+    demand_plan = plan_product_demand(data['products_by_category'])
+    cust_plan = allocate_customers(data['customers'])
+    supp_plan = allocate_suppliers(data['suppliers'], data['supplierinfo'])
+
+    # 1. Opening inventory (always applies for 240 products on 2026-01-01)
+    generate_opening_inventory(data['models'], data['db'], data['uid'], data['password'], demand_plan, dry_run=False)
+
+    # 2. Sales Orders
+    generate_sales_orders(data['models'], data['db'], data['uid'], data['password'],
+        cust_plan['monthly_allocation'], data['customers'], data['product_templates'], data['categories'], dry_run=False, months=months)
+
+    # 3. Purchase Orders
+    generate_purchase_orders(data['models'], data['db'], data['uid'], data['password'],
+        supp_plan['monthly_allocation'], supp_plan['supplier_products'], data['product_templates'],
+        data['categories'], data['supplierinfo'], dry_run=False, months=months)
+
+    # 4. Inventory Ops
+    generate_inventory_operations(data['models'], data['db'], data['uid'], data['password'],
+        data['product_templates'], data['categories'], dry_run=False, months=months)
+
+    print(f"\n[{gate_name} SUCCESS] Live generation for months {months if months else '1-12'} completed.")
+
+def run_validate():
+    from validation.validate_phase9 import validate_phase9
+    code = validate_phase9()
+    if code != 0:
+        sys.exit(code)
+
 def main():
     parser = argparse.ArgumentParser(description="Phase 9 Orchestrator CLI")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -157,10 +191,16 @@ def main():
 
     if args.command == "dry-run":
         run_dry_run()
+    elif args.command == "january-pilot":
+        run_live_generation(months=[1], gate_name="GATE 9C (JANUARY PILOT)")
+    elif args.command == "scenario-pilot":
+        run_live_generation(months=[1, 2, 3, 4, 5], gate_name="GATE 9D (SCENARIO PILOT JAN-MAY)")
+    elif args.command == "full-year":
+        run_live_generation(months=list(range(1, 13)), gate_name="GATE 9E (FULL-YEAR JAN-DEC)")
+    elif args.command == "validate":
+        run_validate()
     elif args.command == "cleanup":
         cleanup_phase9_batch(dry_run=not args.apply)
-    else:
-        print(f"Command '{args.command}' ready for gate execution.")
 
 if __name__ == "__main__":
     main()

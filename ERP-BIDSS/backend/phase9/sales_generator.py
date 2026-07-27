@@ -10,7 +10,7 @@ import random
 from phase9.config import SEED, SO_CATEGORY_QTY_BOUNDS, BATCH_PREFIX
 from phase9.batch_tags import get_so_ref, record_exists
 
-def generate_sales_orders(models, db, uid, password, monthly_allocation, customer_records, product_templates, product_categories, dry_run=True):
+def generate_sales_orders(models, db, uid, password, monthly_allocation, customer_records, product_templates, product_categories, dry_run=True, months=None):
     """
     Args:
         monthly_allocation: dict mapping month (1..12) -> list of customer partner_ids
@@ -18,6 +18,7 @@ def generate_sales_orders(models, db, uid, password, monthly_allocation, custome
         product_templates: list of 240 product template dicts
         product_categories: dict mapping cat_id -> cat_name
         dry_run: bool
+        months: list of ints (e.g. [1] or [1,2,3,4,5]), None for all 12 months
     Returns:
         so_summary: dict with state breakdown and counts
     """
@@ -125,19 +126,34 @@ def generate_sales_orders(models, db, uid, password, monthly_allocation, custome
     created_count = 0
     skipped_count = 0
 
-    for rec in dry_run_records:
+    target_records = [r for r in dry_run_records if (months is None or r['month'] in months)]
+    print(f"Targeting {len(target_records)} Sales Orders for months {months if months else '1-12'}...")
+
+    # Bulk pre-fetch variant IDs for all product templates (1 query)
+    all_tmpl_ids = [p['id'] for p in product_templates]
+    variants = models.execute_kw(db, uid, password, 'product.product', 'search_read',
+        [[('product_tmpl_id', 'in', all_tmpl_ids)]], {'fields': ['id', 'product_tmpl_id']})
+    tmpl_to_var = {v['product_tmpl_id'][0]: v['id'] for v in variants}
+
+    # Fetch PT Prima Alat Nusantara company ID and PAN warehouse ID
+    comp = models.execute_kw(db, uid, password, 'res.company', 'search_read',
+        [[('name', '=', COMPANY_NAME)]], {'fields': ['id'], 'limit': 1})
+    company_id = comp[0]['id'] if comp else 1
+
+    wh = models.execute_kw(db, uid, password, 'stock.warehouse', 'search_read',
+        [[('code', '=', WAREHOUSE_CODE)]], {'fields': ['id'], 'limit': 1})
+    warehouse_id = wh[0]['id'] if wh else 1
+
+    for rec in target_records:
         existing_id = record_exists(models, db, uid, password, 'sale.order', 'client_order_ref', rec['ref'])
         if existing_id:
             skipped_count += 1
             continue
 
-        # Convert template IDs to product variant IDs
+        # Convert template IDs to product variant IDs using bulk map
         order_line_vals = []
         for line in rec['lines']:
-            # Find variant ID for product template
-            variant = models.execute_kw(db, uid, password, 'product.product', 'search_read',
-                [[('product_tmpl_id', '=', line['product_tmpl_id'])]], {'fields': ['id'], 'limit': 1})
-            var_id = variant[0]['id'] if variant else line['product_tmpl_id']
+            var_id = tmpl_to_var.get(line['product_tmpl_id'], line['product_tmpl_id'])
 
             order_line_vals.append((0, 0, {
                 'product_id': var_id,
@@ -151,6 +167,8 @@ def generate_sales_orders(models, db, uid, password, monthly_allocation, custome
             'date_order': rec['date_order'],
             'client_order_ref': rec['ref'],
             'order_line': order_line_vals,
+            'company_id': company_id,
+            'warehouse_id': warehouse_id,
         }
 
         so_id = models.execute_kw(db, uid, password, 'sale.order', 'create', [so_val])

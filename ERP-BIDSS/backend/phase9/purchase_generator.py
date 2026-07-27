@@ -10,7 +10,7 @@ import random
 from phase9.config import SEED, PO_CATEGORY_QTY_BOUNDS, BATCH_PREFIX
 from phase9.batch_tags import get_po_ref, record_exists
 
-def generate_purchase_orders(models, db, uid, password, monthly_allocation, supplier_products, product_templates, product_categories, supplierinfo_records, dry_run=True):
+def generate_purchase_orders(models, db, uid, password, monthly_allocation, supplier_products, product_templates, product_categories, supplierinfo_records, dry_run=True, months=None):
     """
     Args:
         monthly_allocation: dict mapping month (1..12) -> list of supplier partner_ids
@@ -19,6 +19,7 @@ def generate_purchase_orders(models, db, uid, password, monthly_allocation, supp
         product_categories: dict mapping cat_id -> cat_name
         supplierinfo_records: list of product.supplierinfo dicts
         dry_run: bool
+        months: list of ints (e.g. [1] or [1,2,3,4,5]), None for all 12 months
     Returns:
         po_summary: dict with state breakdown and counts
     """
@@ -125,7 +126,21 @@ def generate_purchase_orders(models, db, uid, password, monthly_allocation, supp
     created_count = 0
     skipped_count = 0
 
-    for rec in dry_run_records:
+    target_records = [r for r in dry_run_records if (months is None or r['month'] in months)]
+    print(f"Targeting {len(target_records)} Purchase Orders for months {months if months else '1-12'}...")
+
+    # Bulk pre-fetch variant IDs for all product templates (1 query)
+    all_tmpl_ids = [p['id'] for p in product_templates]
+    variants = models.execute_kw(db, uid, password, 'product.product', 'search_read',
+        [[('product_tmpl_id', 'in', all_tmpl_ids)]], {'fields': ['id', 'product_tmpl_id']})
+    tmpl_to_var = {v['product_tmpl_id'][0]: v['id'] for v in variants}
+
+    # Fetch PT Prima Alat Nusantara company ID
+    comp = models.execute_kw(db, uid, password, 'res.company', 'search_read',
+        [[('name', '=', COMPANY_NAME)]], {'fields': ['id'], 'limit': 1})
+    company_id = comp[0]['id'] if comp else 1
+
+    for rec in target_records:
         existing_id = record_exists(models, db, uid, password, 'purchase.order', 'partner_ref', rec['ref'])
         if existing_id:
             skipped_count += 1
@@ -133,9 +148,7 @@ def generate_purchase_orders(models, db, uid, password, monthly_allocation, supp
 
         order_line_vals = []
         for line in rec['lines']:
-            variant = models.execute_kw(db, uid, password, 'product.product', 'search_read',
-                [[('product_tmpl_id', '=', line['product_tmpl_id'])]], {'fields': ['id'], 'limit': 1})
-            var_id = variant[0]['id'] if variant else line['product_tmpl_id']
+            var_id = tmpl_to_var.get(line['product_tmpl_id'], line['product_tmpl_id'])
 
             order_line_vals.append((0, 0, {
                 'product_id': var_id,
@@ -149,6 +162,7 @@ def generate_purchase_orders(models, db, uid, password, monthly_allocation, supp
             'date_order': rec['date_order'],
             'partner_ref': rec['ref'],
             'order_line': order_line_vals,
+            'company_id': company_id,
         }
 
         po_id = models.execute_kw(db, uid, password, 'purchase.order', 'create', [po_val])
