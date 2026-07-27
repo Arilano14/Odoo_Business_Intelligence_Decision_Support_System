@@ -111,8 +111,19 @@ def generate_inventory_operations(models, db, uid, password, product_templates, 
 
     # Find internal picking type for PAN
     picking_type = models.execute_kw(db, uid, password, 'stock.picking.type', 'search_read',
-        [[('warehouse_id', '=', wh[0]['id']), ('code', '=', 'internal')]], {'fields': ['id'], 'limit': 1})
-    int_type_id = picking_type[0]['id'] if picking_type else None
+        [[('company_id', '=', company_id), ('code', '=', 'internal')]], {'fields': ['id'], 'limit': 1})
+    if picking_type:
+        int_type_id = picking_type[0]['id']
+    else:
+        int_type_id = models.execute_kw(db, uid, password, 'stock.picking.type', 'create', [{
+            'name': 'Internal Transfers',
+            'code': 'internal',
+            'sequence_code': 'INT',
+            'warehouse_id': wh[0]['id'],
+            'company_id': company_id,
+            'default_location_src_id': stock_loc_id,
+            'default_location_dest_id': stock_loc_id,
+        }])
 
     # Find scrap location matching company
     scrap_loc = models.execute_kw(db, uid, password, 'stock.location', 'search_read',
@@ -125,10 +136,27 @@ def generate_inventory_operations(models, db, uid, password, product_templates, 
     target_int_records = [r for r in int_records if (months is None or int(r['date'].split('-')[1]) in months)]
     target_scrap_records = [r for r in scrap_records if (months is None or int(r['date'].split('-')[1]) in months)]
 
+    # Destination location for internal transfers (sub-location under PAN/Stock)
+    dest_loc = models.execute_kw(db, uid, password, 'stock.location', 'search_read',
+        [[('complete_name', '=', 'PAN/Stock/Zone A')]], {'fields': ['id'], 'limit': 1})
+    if dest_loc:
+        dest_loc_id = dest_loc[0]['id']
+    else:
+        dest_loc_id = models.execute_kw(db, uid, password, 'stock.location', 'create', [{
+            'name': 'Zone A',
+            'location_id': stock_loc_id,
+            'usage': 'internal',
+            'company_id': company_id,
+        }])
+
+    # Bulk pre-fetch existing internal transfer refs
+    existing_pickings = models.execute_kw(db, uid, password, 'stock.picking', 'search_read',
+        [[('origin', '=like', 'PORTFOLIO_2026_V1-INT-%')]], {'fields': ['origin']})
+    existing_int_refs = {p['origin'] for p in existing_pickings if p.get('origin')}
+
     if int_type_id:
         for rec in target_int_records:
-            existing = record_exists(models, db, uid, password, 'stock.picking', 'origin', rec['ref'])
-            if existing:
+            if rec['ref'] in existing_int_refs:
                 skipped_int += 1
                 continue
 
@@ -143,7 +171,7 @@ def generate_inventory_operations(models, db, uid, password, product_templates, 
             picking_val = {
                 'picking_type_id': int_type_id,
                 'location_id': stock_loc_id,
-                'location_dest_id': stock_loc_id,  # Internal transfer within warehouse
+                'location_dest_id': dest_loc_id,  # Internal transfer within warehouse
                 'origin': rec['ref'],
                 'date': rec['date'],
                 'company_id': company_id,
@@ -157,11 +185,14 @@ def generate_inventory_operations(models, db, uid, password, product_templates, 
                 'product_uom': uom_id,
                 'picking_id': picking_id,
                 'location_id': stock_loc_id,
-                'location_dest_id': stock_loc_id,
+                'location_dest_id': dest_loc_id,
                 'company_id': company_id,
             }
             models.execute_kw(db, uid, password, 'stock.move', 'create', [move_val])
-            models.execute_kw(db, uid, password, 'stock.picking', 'action_confirm', [[picking_id]])
+            try:
+                models.execute_kw(db, uid, password, 'stock.picking', 'action_confirm', [[picking_id]])
+            except Exception:
+                pass
 
             if rec['is_done']:
                 try:

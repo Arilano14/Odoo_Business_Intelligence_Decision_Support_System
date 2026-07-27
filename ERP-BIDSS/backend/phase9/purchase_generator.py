@@ -140,9 +140,13 @@ def generate_purchase_orders(models, db, uid, password, monthly_allocation, supp
         [[('name', '=', COMPANY_NAME)]], {'fields': ['id'], 'limit': 1})
     company_id = comp[0]['id'] if comp else 1
 
+    # Bulk pre-fetch existing PO refs (1 query instead of 240 queries)
+    existing_pos = models.execute_kw(db, uid, password, 'purchase.order', 'search_read',
+        [[('partner_ref', '=like', f'{BATCH_PREFIX}-PO-%')]], {'fields': ['partner_ref']})
+    existing_refs = {p['partner_ref'] for p in existing_pos if p.get('partner_ref')}
+
     for rec in target_records:
-        existing_id = record_exists(models, db, uid, password, 'purchase.order', 'partner_ref', rec['ref'])
-        if existing_id:
+        if rec['ref'] in existing_refs:
             skipped_count += 1
             continue
 
@@ -178,6 +182,9 @@ def generate_purchase_orders(models, db, uid, password, monthly_allocation, supp
                 models.execute_kw(db, uid, password, 'purchase.order', 'button_cancel', [[po_id]])
             except Exception:
                 pass
+
+        # Re-write target date_order so confirmed order preserves exact plan date
+        models.execute_kw(db, uid, password, 'purchase.order', 'write', [[po_id], {'date_order': rec['date_order']}])
 
         if created_count % 50 == 0:
             print(f"  Created {created_count}/{len(dry_run_records)} Purchase Orders...")

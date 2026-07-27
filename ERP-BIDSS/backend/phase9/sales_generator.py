@@ -144,9 +144,13 @@ def generate_sales_orders(models, db, uid, password, monthly_allocation, custome
         [[('code', '=', WAREHOUSE_CODE)]], {'fields': ['id'], 'limit': 1})
     warehouse_id = wh[0]['id'] if wh else 1
 
+    # Bulk pre-fetch existing SO refs (1 query instead of 720 queries)
+    existing_sos = models.execute_kw(db, uid, password, 'sale.order', 'search_read',
+        [[('client_order_ref', '=like', f'{BATCH_PREFIX}-SO-%')]], {'fields': ['client_order_ref']})
+    existing_refs = {s['client_order_ref'] for s in existing_sos if s.get('client_order_ref')}
+
     for rec in target_records:
-        existing_id = record_exists(models, db, uid, password, 'sale.order', 'client_order_ref', rec['ref'])
-        if existing_id:
+        if rec['ref'] in existing_refs:
             skipped_count += 1
             continue
 
@@ -184,6 +188,9 @@ def generate_sales_orders(models, db, uid, password, monthly_allocation, custome
                 models.execute_kw(db, uid, password, 'sale.order', 'action_cancel', [[so_id]])
             except Exception:
                 pass
+
+        # Re-write target date_order so confirmed order preserves exact plan date
+        models.execute_kw(db, uid, password, 'sale.order', 'write', [[so_id], {'date_order': rec['date_order']}])
 
         if created_count % 100 == 0:
             print(f"  Created {created_count}/{len(dry_run_records)} Sales Orders...")
