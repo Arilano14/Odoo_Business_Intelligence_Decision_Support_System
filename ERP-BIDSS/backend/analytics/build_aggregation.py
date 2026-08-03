@@ -248,8 +248,8 @@ def load_aggregation(df, table_name):
     try:
         # Task 6: Add Metadata
         df['generated_at'] = datetime.datetime.now()
-        df['data_period_start'] = '2024-01-01'
-        df['data_period_end'] = '2026-12-31'
+        df['data_period_start'] = settings.ANALYSIS_START_DATE
+        df['data_period_end'] = settings.ANALYSIS_END_DATE
 
         df.to_sql(
             table_name,
@@ -259,7 +259,7 @@ def load_aggregation(df, table_name):
             index=False,
             method="multi",
         )
-        print(f"  [LOADED] {table_name}: {len(df)} rows → mart.{table_name}")
+        print(f"  [LOADED] {table_name}: {len(df)} rows -> mart.{table_name}")
         return len(df)
     except Exception as e:
         print(f"  [FAIL] Loading {table_name}: {e}")
@@ -287,7 +287,7 @@ def build_all_aggregations():
     for name, df in agg.items():
         results[name] = load_aggregation(df, name)
         
-    print("\n── Aggregation Summary ──")
+    print("\n-- Aggregation Summary --")
     total = 0
     for name, count in results.items():
         print(f"  {name}: {count} rows")

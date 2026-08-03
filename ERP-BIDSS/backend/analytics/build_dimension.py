@@ -14,7 +14,7 @@ from config.database import db
 from config.settings import settings
 
 
-def build_dim_date(start="2024-01-01", end="2026-12-31"):
+def build_dim_date(start=settings.ANALYSIS_START_DATE, end=settings.ANALYSIS_END_DATE):
     """Generate calendar dimension table (365 rows for 1 year)."""
     dates = pd.date_range(start=start, end=end, freq="D")
     dim = pd.DataFrame({
@@ -171,7 +171,7 @@ def build_all_dimensions():
     results = {}
 
     # 1. dim_date (generated, no source needed)
-    dim_date = build_dim_date("2024-01-01", "2026-12-31")
+    dim_date = build_dim_date(settings.ANALYSIS_START_DATE, settings.ANALYSIS_END_DATE)
     results["dim_date"] = load_dimension(dim_date, "dim_date")
 
     # 2-6. Dimensions from Odoo source

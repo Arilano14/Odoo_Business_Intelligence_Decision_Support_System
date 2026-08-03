@@ -230,11 +230,12 @@ def calculate_decision_support():
     df[['risk_level', 'priority', 'business_impact', 'suggested_action']] = df.apply(get_risk_and_priority, axis=1)
 
     # Fetch latest forecast from fact_forecast_monthly
+    # Fetch latest forecast from fact_forecast_monthly
     try:
         latest_forecast_query = f"""
             SELECT product_id, ma3_forecast AS forecast_qty
             FROM {SCHEMA}.fact_forecast_monthly
-            WHERE month_id = (SELECT MAX(month_id) FROM {SCHEMA}.fact_forecast_monthly)
+            WHERE month_id = (SELECT MAX(month_id) FROM {SCHEMA}.fact_forecast_monthly WHERE ma3_forecast > 0)
         """
         forecast_df = pd.read_sql(latest_forecast_query, db.target_engine)
         df = df.merge(forecast_df, on='product_id', how='left')
@@ -258,13 +259,13 @@ def calculate_decision_support():
             if_exists='replace',
             index=False
         )
-        print(f"✅ Successfully wrote {len(output_df)} rows to {SCHEMA}.fact_decision_support")
+        print(f"  [OK] Successfully wrote {len(output_df)} rows to {SCHEMA}.fact_decision_support")
     except Exception as e:
-        print(f"❌ Failed to write DSS data: {e}")
+        print(f"  [FAIL] Failed to write DSS data: {e}")
 
 def calculate_forecast():
     print("\n" + "=" * 60)
-    print("PHASE 6 — Calculating 3-Month Moving Average Forecast")
+    print("PHASE 11 -- Calculating 3-Month Moving Average Forecast")
     print("=" * 60)
     
     SCHEMA = settings.TARGET_SCHEMA
@@ -300,10 +301,13 @@ def calculate_forecast():
     
     df = df.set_index(['product_id', 'month_id']).reindex(full_idx, fill_value=0).reset_index()
     
-    # Calculate 3-Month Moving Average (shift by 1 so we predict based on past 3 months)
-    df['ma3_forecast'] = df.groupby('product_id')['actual_qty'].transform(
-        lambda x: x.rolling(window=3, min_periods=1).mean().shift(1)
-    ).fillna(0).round(0).astype(int)
+    # Calculate 3-Month Moving Average (requires 3 historical months min_periods=3)
+    raw_ma3 = df.groupby('product_id')['actual_qty'].transform(
+        lambda x: x.rolling(window=3, min_periods=3).mean().shift(1)
+    )
+    df['forecast_available'] = raw_ma3.notna()
+    df['ma3_forecast'] = raw_ma3.fillna(0).round(0).astype(int)
+    df['absolute_error'] = np.where(df['forecast_available'], abs(df['actual_qty'] - df['ma3_forecast']), 0)
     
     # Calculate Forecast Error (%)
     df['forecast_error_pct'] = np.where(
@@ -314,16 +318,16 @@ def calculate_forecast():
     
     # Generate Interpretation
     def get_interpretation(row):
-        if row['ma3_forecast'] == 0:
-            return "Baseline (Tidak cukup data historis)"
+        if not row['forecast_available']:
+            return "Baseline (Tidak cukup data historis - Membutuhkan 3 bulan)"
             
         error = row['forecast_error_pct']
         if error <= 10:
             return "Akurat. Prediksi sesuai dengan permintaan aktual."
         elif row['actual_qty'] > row['ma3_forecast']:
-            return f"Under-forecast (Error {error}%). Permintaan aktual lebih tinggi dari prediksi. Kemungkinan imbas Panic Buying atau lonjakan proyek."
+            return f"Under-forecast (Error {error}%). Permintaan aktual lebih tinggi dari prediksi."
         else:
-            return f"Over-forecast (Error {error}%). Permintaan aktual lebih rendah dari prediksi. Waspada risiko overstock jika PO tidak ditahan."
+            return f"Over-forecast (Error {error}%). Permintaan aktual lebih rendah dari prediksi."
 
     df['interpretation'] = df.apply(get_interpretation, axis=1)
     
@@ -339,9 +343,9 @@ def calculate_forecast():
             if_exists='replace',
             index=False
         )
-        print(f"✅ Successfully wrote {len(df)} rows to {SCHEMA}.fact_forecast_monthly")
+        print(f"  [OK] Successfully wrote {len(df)} rows to {SCHEMA}.fact_forecast_monthly")
     except Exception as e:
-        print(f"❌ Failed to write Forecast data: {e}")
+        print(f"  [FAIL] Failed to write Forecast data: {e}")
 
 if __name__ == "__main__":
     calculate_forecast()
