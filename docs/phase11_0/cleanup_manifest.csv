@@ -1,0 +1,7 @@
+model,record_id,record_name,xml_id,module_owner,company_id,period,batch_tag,classification,dependency_count,proposed_action,reason,risk,rollback_method,approval_required
+spreadsheet.dashboard,1,Invoicing,dashboard_invoicing,spreadsheet_dashboard_account,2,2026,CORE,KEEP_CORE,3,MODULE_UPDATE,Repopulate binary via CLI update,Low,Restore DB dump,Yes
+spreadsheet.dashboard,2,Warehouse Metrics,spreadsheet_dashboard_warehouse_metrics,spreadsheet_dashboard_stock_account,2,2026,CORE,KEEP_CORE,3,MODULE_UPDATE,Repopulate binary via CLI update,Low,Restore DB dump,Yes
+spreadsheet.dashboard,3,Sales,spreadsheet_dashboard_sales,spreadsheet_dashboard_sale,2,2026,CORE,KEEP_CORE,3,MODULE_UPDATE,Repopulate binary via CLI update,Low,Restore DB dump,Yes
+spreadsheet.dashboard,4,Product,spreadsheet_dashboard_product,spreadsheet_dashboard_sale,2,2026,CORE,KEEP_CORE,3,MODULE_UPDATE,Repopulate binary via CLI update,Low,Restore DB dump,Yes
+sale.order,1..720,Portfolio Sales Orders,PORTFOLIO_2026_SO,custom_gen,2,2026,PORTFOLIO_2026,KEEP_PORTFOLIO_2026,1952,KEEP,Active FY 2026 dataset,Low,N/A,No
+purchase.order,1..240,Portfolio Purchase Orders,PORTFOLIO_2026_PO,custom_gen,2,2026,PORTFOLIO_2026,KEEP_PORTFOLIO_2026,1093,KEEP,Active FY 2026 dataset,Low,N/A,No

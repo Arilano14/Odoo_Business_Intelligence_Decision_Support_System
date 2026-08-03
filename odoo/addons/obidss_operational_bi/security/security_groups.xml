@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Security Category -->
+        <record id="module_category_obidss" model="ir.module.category">
+            <field name="name">OBIDSS Operational BI</field>
+            <field name="description">Access rights for OBIDSS Operational Business Intelligence Application</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <!-- Group 1: OBIDSS Operational User -->
+        <record id="group_obidss_user" model="res.groups">
+            <field name="name">OBIDSS Operational User</field>
+            <field name="category_id" ref="module_category_obidss"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Basic operational access to OBIDSS dashboards and Odoo transactions.</field>
+        </record>
+
+        <!-- Group 2: OBIDSS Manager -->
+        <record id="group_obidss_manager" model="res.groups">
+            <field name="name">OBIDSS Manager</field>
+            <field name="category_id" ref="module_category_obidss"/>
+            <field name="implied_ids" eval="[(4, ref('group_obidss_user'))]"/>
+            <field name="comment">Managerial access to OBIDSS operational dashboards and performance summary.</field>
+        </record>
+
+        <!-- Group 3: OBIDSS BI Reviewer -->
+        <record id="group_obidss_reviewer" model="res.groups">
+            <field name="name">OBIDSS BI Reviewer</field>
+            <field name="category_id" ref="module_category_obidss"/>
+            <field name="implied_ids" eval="[(4, ref('group_obidss_manager'))]"/>
+            <field name="comment">Access to Data Quality &amp; Reconciliation dashboards and auditing tools.</field>
+        </record>
+
+        <!-- Group 4: OBIDSS Administrator -->
+        <record id="group_obidss_admin" model="res.groups">
+            <field name="name">OBIDSS Administrator</field>
+            <field name="category_id" ref="module_category_obidss"/>
+            <field name="implied_ids" eval="[(4, ref('group_obidss_reviewer'))]"/>
+            <field name="comment">Full administrative access to OBIDSS Configuration and system settings.</field>
+        </record>
+    </data>
+</odoo>

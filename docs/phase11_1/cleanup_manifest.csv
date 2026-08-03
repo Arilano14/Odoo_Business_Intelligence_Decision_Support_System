@@ -1,0 +1,4 @@
+model,record_id,record_name,xml_id,module_owner,company_id,period,batch_tag,classification,dependency_count,proposed_action,reason,risk,rollback_method,approval_required
+ir.ui.menu,menu_obidss_root,OBIDSS,obidss_operational_bi.menu_obidss_root,obidss_operational_bi,2,2026,CORE,KEEP_CORE,7,KEEP,Top-level application menu,Low,N/A,No
+sale.order,1..720,Portfolio Sales Orders,PORTFOLIO_2026_SO,custom_gen,2,2026,PORTFOLIO_2026,KEEP_PORTFOLIO_2026,1952,KEEP,Active FY 2026 dataset,Low,N/A,No
+purchase.order,1..240,Portfolio Purchase Orders,PORTFOLIO_2026_PO,custom_gen,2,2026,PORTFOLIO_2026,KEEP_PORTFOLIO_2026,1093,KEEP,Active FY 2026 dataset,Low,N/A,No

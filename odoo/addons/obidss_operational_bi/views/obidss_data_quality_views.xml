@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree View for Data Quality -->
+        <record id="view_obidss_data_quality_tree" model="ir.ui.view">
+            <field name="name">obidss.data.quality.tree</field>
+            <field name="model">obidss.data.quality</field>
+            <field name="arch" type="xml">
+                <list string="OBIDSS Data Quality &amp; Reconciliation" create="false" edit="false" delete="false">
+                    <field name="table_name"/>
+                    <field name="source_row_count"/>
+                    <field name="mart_row_count"/>
+                    <field name="row_difference"/>
+                    <field name="orphan_key_count"/>
+                    <field name="duplicate_key_count"/>
+                    <field name="status" widget="badge" decoration-success="status == 'PASS'"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Action for Data Quality -->
+        <record id="action_obidss_data_quality" model="ir.actions.act_window">
+            <field name="name">Data Quality &amp; Reconciliation</field>
+            <field name="res_model">obidss.data.quality</field>
+            <field name="view_mode">list</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    OBIDSS Data Quality Bridge Status
+                </p>
+                <p>
+                    Provides real-time reconciliation between Odoo PostgreSQL source operational tables and PostgreSQL schema 'mart' Data Warehouse.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

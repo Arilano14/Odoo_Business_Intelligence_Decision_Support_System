@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_obidss_data_quality_user,obidss.data.quality.user,model_obidss_data_quality,obidss_operational_bi.group_obidss_user,1,0,0,0
+access_obidss_data_quality_manager,obidss.data.quality.manager,model_obidss_data_quality,obidss_operational_bi.group_obidss_manager,1,0,0,0
+access_obidss_data_quality_reviewer,obidss.data.quality.reviewer,model_obidss_data_quality,obidss_operational_bi.group_obidss_reviewer,1,0,0,0
+access_obidss_data_quality_admin,obidss.data.quality.admin,model_obidss_data_quality,obidss_operational_bi.group_obidss_admin,1,0,0,0
