@@ -48,11 +48,14 @@ def load_table(df: pd.DataFrame, table_name: str) -> int:
             if_exists="replace",
             index=False,
         )
-        print(f"[OK] Loaded {table_name}: {len(df)} rows → schema '{settings.TARGET_SCHEMA}'")
+        print(f"[OK] Loaded {table_name}: {len(df)} rows -> schema '{settings.TARGET_SCHEMA}'")
         return len(df)
     except Exception as e:
         print(f"[FAIL] Error loading {table_name}: {e}")
         return 0
+
+
+from sqlalchemy import text
 
 
 def load_all(tables: dict) -> dict:
@@ -64,6 +67,10 @@ def load_all(tables: dict) -> dict:
     Returns:
         Dictionary mapping table_name -> rows_loaded
     """
+    with db.target_engine.connect() as conn:
+        conn.execute(text(f"CREATE SCHEMA IF NOT EXISTS {settings.TARGET_SCHEMA}"))
+        conn.commit()
+
     results = {}
     for name in LOAD_ORDER:
         if name in tables:

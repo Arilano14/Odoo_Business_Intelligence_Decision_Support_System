@@ -7,6 +7,7 @@ from Odoo 18 PostgreSQL to Analytics Mart (Star Schema).
 This pipeline builds 6 Dimension + 4 Fact tables.
 """
 import pandas as pd
+from config.settings import settings
 from etl.extract import extract_all
 from etl.transform import (
     build_dim_date, build_dim_product, build_dim_customer,
@@ -24,7 +25,7 @@ def run_pipeline():
     logger.start()
 
     print("============================================================")
-    print("OBIDSS ETL Pipeline — Odoo 18 → Analytics Mart")
+    print("OBIDSS ETL Pipeline -- Odoo 18 -> Analytics Mart")
     print("============================================================")
 
     # ── STEP 1: EXTRACT ──────────────────────────────────────
@@ -35,7 +36,7 @@ def run_pipeline():
 
     # ── STEP 2: TRANSFORM — Dimensions ───────────────────────
     print("\n[PHASE 2] Building Dimensions...")
-    dim_date = build_dim_date("2024-01-01", "2024-12-31")
+    dim_date = build_dim_date(settings.ANALYSIS_START_DATE, settings.ANALYSIS_END_DATE)
     dim_product = build_dim_product(
         raw.get("product_product", empty),
         raw.get("product_template", empty),

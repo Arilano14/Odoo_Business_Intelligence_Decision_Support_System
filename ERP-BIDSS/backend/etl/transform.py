@@ -12,11 +12,12 @@ Derived Metrics:
 """
 import pandas as pd
 import numpy as np
+from config.settings import settings
 
 
 # ── Dimension Builders ──────────────────────────────────────
 
-def build_dim_date(start="2024-01-01", end="2024-12-31") -> pd.DataFrame:
+def build_dim_date(start=settings.ANALYSIS_START_DATE, end=settings.ANALYSIS_END_DATE) -> pd.DataFrame:
     """Generate a calendar dimension table."""
     dates = pd.date_range(start=start, end=end, freq="D")
     dim = pd.DataFrame({
