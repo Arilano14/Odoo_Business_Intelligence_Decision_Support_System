@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'OBIDSS Operational BI',
-    'version': '18.0.1.1.0',
+    'version': '18.0.1.0.0',
     'category': 'Business Intelligence',
     'summary': 'Custom Operational BI Dashboard and Reporting for PT Prima Alat Nusantara',
     'description': """
@@ -26,8 +26,6 @@
         'security/security_groups.xml',
         'security/ir.model.access.csv',
         'data/dashboard_groups.xml',
-        'views/menu_restructure.xml',
-        'views/obidss_menus.xml',
         'views/obidss_data_quality_views.xml',
     ],
     'installable': True,

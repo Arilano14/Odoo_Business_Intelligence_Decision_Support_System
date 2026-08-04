@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <!-- Top Level Application Menu: OBIDSS -->
+        <!-- Top Level Application Menu: OBIDSS (Hidden from users/reviewers as per requirements) -->
         <menuitem id="menu_obidss_root"
                   name="OBIDSS"
                   web_icon="obidss_operational_bi,static/description/icon.png"
+                  groups="group_obidss_admin"
                   sequence="5"/>
 
         <!-- 1. Executive Operations -->
@@ -12,7 +13,7 @@
                   name="Executive Operations"
                   parent="menu_obidss_root"
                   action="spreadsheet_dashboard.spreadsheet_dashboard_action"
-                  groups="group_obidss_user"
+                  groups="group_obidss_admin"
                   sequence="10"/>
 
         <!-- 2. Sales Operations -->
@@ -20,7 +21,7 @@
                   name="Sales Operations"
                   parent="menu_obidss_root"
                   action="sale.action_orders"
-                  groups="group_obidss_user"
+                  groups="group_obidss_admin"
                   sequence="20"/>
 
         <!-- 3. Purchase & Suppliers -->
@@ -28,7 +29,7 @@
                   name="Purchase &amp; Suppliers"
                   parent="menu_obidss_root"
                   action="purchase.purchase_form_action"
-                  groups="group_obidss_user"
+                  groups="group_obidss_admin"
                   sequence="30"/>
 
         <!-- 4. Inventory Operations -->
@@ -36,7 +37,7 @@
                   name="Inventory Operations"
                   parent="menu_obidss_root"
                   action="stock.action_inventory_at_date"
-                  groups="group_obidss_user"
+                  groups="group_obidss_admin"
                   sequence="40"/>
 
         <!-- 5. Finance & Invoicing -->
@@ -52,7 +53,7 @@
                   name="Data Quality &amp; Reconciliation"
                   parent="menu_obidss_root"
                   action="action_obidss_data_quality"
-                  groups="group_obidss_reviewer"
+                  groups="group_obidss_admin"
                   sequence="60"/>
 
         <!-- 7. Configuration -->

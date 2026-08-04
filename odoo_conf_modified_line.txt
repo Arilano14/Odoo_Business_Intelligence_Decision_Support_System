@@ -1,0 +1,2 @@
+[options]
+addons_path = c:\program files\odoo 18.0.20241229\server\odoo\addons,c:\Users\Arilano\Downloads\Project ARICE\Project Odoo\custom_addons

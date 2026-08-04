@@ -1,0 +1,25 @@
+============================================================
+PRIMARY DATABASE DEPLOYMENT OUTPUT LOG — PHASE 11.2 STAGE 2B
+============================================================
+Primary Database: Business_Intelegent_Project_v2
+Addon: obidss_operational_bi
+Status: STAGE 2B CONTROLLED DEPLOYMENT PASSED
+Exit Code: 0
+Error Count: 0
+
+Registered ORM Records on Primary Database:
+- spreadsheet.dashboard.group: 'OBIDSS Operational BI' (ID 8)
+- spreadsheet.dashboard: 'Executive Operations' (ID 5)
+- spreadsheet.dashboard: 'Sales Operations' (ID 6)
+- spreadsheet.dashboard: 'Purchase & Suppliers' (ID 7)
+- spreadsheet.dashboard: 'Inventory Operations' (ID 8)
+- spreadsheet.dashboard: 'Finance & Invoicing' (ID 9)
+- spreadsheet.dashboard: 'Data Quality & Reconciliation' (ID 10)
+- Menu reparenting: menu 377 -> parent 177 (parent_path: '177/377/')
+
+Reconciled Metrics on Primary Database:
+- Confirmed Sales Value    : Rp 17,552,025,691.43 (677 Confirmed SOs)
+- Confirmed Purchase Value : Rp 30,088,422,406.50 (225 Confirmed POs)
+- Total Sales Orders       : 740 SOs
+- Total Purchase Orders    : 251 POs
+- Active Portfolio Products: 96 Variants
