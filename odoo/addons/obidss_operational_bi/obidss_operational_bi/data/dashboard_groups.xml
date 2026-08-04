@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- 1. Dashboard Group for OBIDSS -->
+        <record id="dashboard_group_obidss" model="spreadsheet.dashboard.group">
+            <field name="name">OBIDSS Operational BI</field>
+            <field name="sequence">5</field>
+        </record>
+
+        <!-- 2. Executive Operations Dashboard Record -->
+        <record id="dashboard_executive" model="spreadsheet.dashboard">
+            <field name="name">Executive Operations</field>
+            <field name="dashboard_group_id" ref="dashboard_group_obidss"/>
+            <field name="sequence">10</field>
+            <field name="group_ids" eval="[(4, ref('group_obidss_user'))]"/>
+        </record>
+
+        <!-- 3. Sales Operations Dashboard Record -->
+        <record id="dashboard_sales" model="spreadsheet.dashboard">
+            <field name="name">Sales Operations</field>
+            <field name="dashboard_group_id" ref="dashboard_group_obidss"/>
+            <field name="sequence">20</field>
+            <field name="group_ids" eval="[(4, ref('group_obidss_user'))]"/>
+        </record>
+
+        <!-- 4. Purchase & Suppliers Dashboard Record -->
+        <record id="dashboard_purchase" model="spreadsheet.dashboard">
+            <field name="name">Purchase &amp; Suppliers</field>
+            <field name="dashboard_group_id" ref="dashboard_group_obidss"/>
+            <field name="sequence">30</field>
+            <field name="group_ids" eval="[(4, ref('group_obidss_user'))]"/>
+        </record>
+
+        <!-- 5. Inventory Operations Dashboard Record -->
+        <record id="dashboard_inventory" model="spreadsheet.dashboard">
+            <field name="name">Inventory Operations</field>
+            <field name="dashboard_group_id" ref="dashboard_group_obidss"/>
+            <field name="sequence">40</field>
+            <field name="group_ids" eval="[(4, ref('group_obidss_user'))]"/>
+        </record>
+
+        <!-- 6. Finance & Invoicing Dashboard Record -->
+        <record id="dashboard_finance" model="spreadsheet.dashboard">
+            <field name="name">Finance &amp; Invoicing</field>
+            <field name="dashboard_group_id" ref="dashboard_group_obidss"/>
+            <field name="sequence">50</field>
+            <field name="group_ids" eval="[(4, ref('group_obidss_manager'))]"/>
+        </record>
+
+        <!-- 7. Data Quality & Reconciliation Dashboard Record -->
+        <record id="dashboard_data_quality" model="spreadsheet.dashboard">
+            <field name="name">Data Quality &amp; Reconciliation</field>
+            <field name="dashboard_group_id" ref="dashboard_group_obidss"/>
+            <field name="sequence">60</field>
+            <field name="group_ids" eval="[(4, ref('group_obidss_reviewer'))]"/>
+        </record>
+    </data>
+</odoo>

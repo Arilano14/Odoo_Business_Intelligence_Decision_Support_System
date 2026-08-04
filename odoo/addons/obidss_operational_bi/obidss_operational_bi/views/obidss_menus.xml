@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Top Level Application Menu: OBIDSS -->
+        <menuitem id="menu_obidss_root"
+                  name="OBIDSS"
+                  web_icon="obidss_operational_bi,static/description/icon.png"
+                  sequence="5"/>
+
+        <!-- 1. Executive Operations -->
+        <menuitem id="menu_obidss_executive"
+                  name="Executive Operations"
+                  parent="menu_obidss_root"
+                  action="spreadsheet_dashboard.spreadsheet_dashboard_action"
+                  groups="group_obidss_user"
+                  sequence="10"/>
+
+        <!-- 2. Sales Operations -->
+        <menuitem id="menu_obidss_sales"
+                  name="Sales Operations"
+                  parent="menu_obidss_root"
+                  action="sale.action_orders"
+                  groups="group_obidss_user"
+                  sequence="20"/>
+
+        <!-- 3. Purchase & Suppliers -->
+        <menuitem id="menu_obidss_purchase"
+                  name="Purchase &amp; Suppliers"
+                  parent="menu_obidss_root"
+                  action="purchase.purchase_form_action"
+                  groups="group_obidss_user"
+                  sequence="30"/>
+
+        <!-- 4. Inventory Operations -->
+        <menuitem id="menu_obidss_inventory"
+                  name="Inventory Operations"
+                  parent="menu_obidss_root"
+                  action="stock.action_inventory_at_date"
+                  groups="group_obidss_user"
+                  sequence="40"/>
+
+        <!-- 5. Finance & Invoicing -->
+        <menuitem id="menu_obidss_finance"
+                  name="Finance &amp; Invoicing"
+                  parent="menu_obidss_root"
+                  action="account.action_move_out_invoice_type"
+                  groups="group_obidss_manager"
+                  sequence="50"/>
+
+        <!-- 6. Data Quality & Reconciliation -->
+        <menuitem id="menu_obidss_data_quality"
+                  name="Data Quality &amp; Reconciliation"
+                  parent="menu_obidss_root"
+                  action="action_obidss_data_quality"
+                  groups="group_obidss_reviewer"
+                  sequence="60"/>
+
+        <!-- 7. Configuration -->
+        <menuitem id="menu_obidss_config"
+                  name="Configuration"
+                  parent="menu_obidss_root"
+                  action="spreadsheet_dashboard.spreadsheet_dashboard_dashboard_action"
+                  groups="group_obidss_admin"
+                  sequence="70"/>
+    </data>
+</odoo>

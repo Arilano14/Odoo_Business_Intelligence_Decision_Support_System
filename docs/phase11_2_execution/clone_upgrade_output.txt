@@ -1,0 +1,20 @@
+============================================================
+MODULE UPGRADE OUTPUT LOG — CLONE DATABASE
+============================================================
+Database: Business_Intelegent_Project_v2_phase11_2_clone
+Addon: obidss_operational_bi
+Authentication: XML-RPC Auth OK (UID 2)
+Module ID: 652
+Status: button_immediate_upgrade COMPLETED SUCCESSFULLY!
+Exit Code: 0
+Error Count: 0
+
+Registered Records on Clone Database:
+- spreadsheet.dashboard.group: 'OBIDSS Operational BI' (ID 9)
+- spreadsheet.dashboard: 'Executive Operations' (ID 11)
+- spreadsheet.dashboard: 'Sales Operations' (ID 12)
+- spreadsheet.dashboard: 'Purchase & Suppliers' (ID 13)
+- spreadsheet.dashboard: 'Inventory Operations' (ID 14)
+- spreadsheet.dashboard: 'Finance & Invoicing' (ID 15)
+- spreadsheet.dashboard: 'Data Quality & Reconciliation' (ID 16)
+- ir.ui.menu reparenting: menu 377 -> parent 177 (parent_path: '177/377/')

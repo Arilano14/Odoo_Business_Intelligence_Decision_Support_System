@@ -1,0 +1,9 @@
+model,record_id,record_name,xml_id,module_owner,company_id,period,batch_tag,classification,dependency_count,proposed_action,reason,risk,rollback_method,approval_required
+ir.ui.menu,377,OBIDSS Root Menu,obidss_operational_bi.menu_obidss_root,obidss_operational_bi,2,2026,CORE,HIDE_FOR_TARGET_GROUP,7,HIDE_ROOT_MENU,Consolidate dashboards inside Dashboards app,Low,Reparent menu,No
+ir.ui.menu,82,Discuss,mail.menu_root_discuss,mail,2,2026,CORE,HIDE_FOR_TARGET_GROUP,2,HIDE_FOR_TARGET_GROUP,Irrelevant app for BI users,Low,Re-add group,No
+ir.ui.menu,338,Email Marketing,mass_mailing.mass_mailing_menu_root,mass_mailing,2,2026,CORE,HIDE_FOR_TARGET_GROUP,5,HIDE_FOR_TARGET_GROUP,Irrelevant app for BI users,Low,Re-add group,No
+ir.ui.menu,312,Surveys,survey.menu_surveys,survey,2,2026,CORE,HIDE_FOR_TARGET_GROUP,3,HIDE_FOR_TARGET_GROUP,Irrelevant app for BI users,Low,Re-add group,No
+ir.ui.menu,319,Employees,hr.menu_hr_root,hr,2,2026,CORE,HIDE_FOR_TARGET_GROUP,7,HIDE_FOR_TARGET_GROUP,Irrelevant app for BI users,Low,Re-add group,No
+spreadsheet.dashboard,1..4,Standard Sample Dashboards,spreadsheet_dashboard_sale.spreadsheet_dashboard_sales,spreadsheet_dashboard,2,2026,CORE,HIDE_FOR_TARGET_GROUP,4,HIDE_FOR_TARGET_GROUP,Replaced by live OBIDSS views,Low,Re-add group,No
+sale.order,1..740,Portfolio Sales Orders,PORTFOLIO_2026_SO,custom_gen,2,2026,PORTFOLIO_2026,KEEP_PORTFOLIO_2026,2130,KEEP,Active FY 2026 dataset,Low,N/A,No
+purchase.order,1..251,Portfolio Purchase Orders,PORTFOLIO_2026_PO,custom_gen,2,2026,PORTFOLIO_2026,KEEP_PORTFOLIO_2026,1183,KEEP,Active FY 2026 dataset,Low,N/A,No

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- 1. Reparent Root OBIDSS Menu under Host Dashboards Application -->
+        <record id="menu_obidss_root" model="ir.ui.menu">
+            <field name="parent_id" ref="spreadsheet_dashboard.spreadsheet_dashboard_menu_root"/>
+            <field name="sequence">5</field>
+        </record>
+
+        <!-- 2. Restrict Irrelevant Applications to Administrator Only -->
+        <record id="mail.menu_root_discuss" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('base.group_system')])]"/>
+        </record>
+
+        <record id="mass_mailing.mass_mailing_menu_root" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('base.group_system')])]"/>
+        </record>
+
+        <record id="survey.menu_surveys" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('base.group_system')])]"/>
+        </record>
+
+        <record id="hr.menu_hr_root" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('base.group_system')])]"/>
+        </record>
+    </data>
+</odoo>
