@@ -28,6 +28,7 @@
         'data/dashboard_groups.xml',
         'views/obidss_data_quality_views.xml',
     ],
+    'post_init_hook': 'post_init_hook',
     'installable': True,
     'application': True,
     'auto_install': False,
