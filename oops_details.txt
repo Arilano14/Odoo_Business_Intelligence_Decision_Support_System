@@ -1,0 +1,18 @@
+Odoo Client Error
+
+UncaughtPromiseError > OwlError
+
+Uncaught Promise > An error occured in the owl lifecycle (see this Error's "cause" property)
+
+Occured on localhost:8070 on 2026-08-04 12:04:21 GMT
+
+OwlError: An error occured in the owl lifecycle (see this Error's "cause" property)
+    Error: An error occured in the owl lifecycle (see this Error's "cause" property)
+        at handleError (http://localhost:8070/web/assets/1c187ba/web.assets_web.min.js:952:101)
+        at App.handleError (http://localhost:8070/web/assets/1c187ba/web.assets_web.min.js:1595:29)
+        at ComponentNode.initiateRender (http://localhost:8070/web/assets/1c187ba/web.assets_web.min.js:1044:19)
+
+Caused by: AssetsLoadingError: The loading of /web/assets/2bd5530/web.assets_backend_lazy.min.js failed
+    Error: The loading of /web/assets/2bd5530/web.assets_backend_lazy.min.js failed
+        at http://localhost:8070/web/assets/1c187ba/web.assets_web.min.js:1676:254
+        at HTMLScriptElement.onErrorListener (http://localhost:8070/web/assets/1c187ba/web.assets_web.min.js:1662:284)

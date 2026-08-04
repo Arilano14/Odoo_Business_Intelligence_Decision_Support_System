@@ -1,83 +1,239 @@
-import asyncio
-from playwright.async_api import async_playwright
-import os
-import time
+import json
+import base64
 
-ARTIFACT_DIR = r"C:\Users\Arilano\.gemini\antigravity-ide\brain\75640b5d-aee6-4ab2-81d3-a4ed10da8fd7"
+# Odoo Spreadsheet JSON for OBIDSS Sales Dashboard
+sales_dashboard_json = {
+  "version": 21,
+  "settings": {
+    "locale": {
+      "name": "English (US)",
+      "code": "en_US",
+      "formulaPrefix": "="
+    }
+  },
+  "pivots": {
+    "1": {
+      "type": "ODOO",
+      "id": "1",
+      "formulaId": "1",
+      "name": "Confirmed Sales Value",
+      "model": "sale.report",
+      "domain": [
+        ["company_id", "=", 2],
+        ["state", "=", "sale"],
+        ["date", ">=", "2026-01-01"],
+        ["date", "<", "2027-01-01"]
+      ],
+      "measures": [
+        {"id": "price_subtotal", "fieldName": "price_subtotal"}
+      ],
+      "rows": [],
+      "columns": [],
+      "fieldMatching": {}
+    },
+    "2": {
+      "type": "ODOO",
+      "id": "2",
+      "formulaId": "2",
+      "name": "Top Categories",
+      "model": "sale.report",
+      "domain": [
+        ["company_id", "=", 2],
+        ["state", "=", "sale"],
+        ["date", ">=", "2026-01-01"],
+        ["date", "<", "2027-01-01"]
+      ],
+      "measures": [
+        {"id": "price_subtotal", "fieldName": "price_subtotal"}
+      ],
+      "rows": [{"fieldName": "categ_id"}],
+      "columns": [],
+      "fieldMatching": {}
+    },
+    "3": {
+      "type": "ODOO",
+      "id": "3",
+      "formulaId": "3",
+      "name": "Top Products",
+      "model": "sale.report",
+      "domain": [
+        ["company_id", "=", 2],
+        ["state", "=", "sale"],
+        ["date", ">=", "2026-01-01"],
+        ["date", "<", "2027-01-01"]
+      ],
+      "measures": [
+        {"id": "price_subtotal", "fieldName": "price_subtotal"}
+      ],
+      "rows": [{"fieldName": "product_tmpl_id"}],
+      "columns": [],
+      "fieldMatching": {}
+    },
+    "4": {
+      "type": "ODOO",
+      "id": "4",
+      "formulaId": "4",
+      "name": "Top Salespeople",
+      "model": "sale.report",
+      "domain": [
+        ["company_id", "=", 2],
+        ["state", "=", "sale"],
+        ["date", ">=", "2026-01-01"],
+        ["date", "<", "2027-01-01"]
+      ],
+      "measures": [
+        {"id": "price_subtotal", "fieldName": "price_subtotal"}
+      ],
+      "rows": [{"fieldName": "user_id"}],
+      "columns": [],
+      "fieldMatching": {}
+    }
+  },
+  "lists": {},
+  "globalFilters": [],
+  "sheets": [
+    {
+      "id": "sheet_dashboard",
+      "name": "Sales Dashboard",
+      "colNumber": 26,
+      "rowNumber": 100,
+      "cells": {
+        "A1": {
+          "content": "Sales Overview (FY 2026)",
+          "style": 1
+        },
+        "A3": {
+          "content": "Total Confirmed Sales Value (Untaxed)",
+          "style": 2
+        },
+        "B3": {
+          "content": "=PIVOT.VALUE(1,\"price_subtotal\")",
+          "style": 3
+        }
+      },
+      "figures": [
+        {
+          "id": "chart_categories",
+          "tag": "chart",
+          "width": 500,
+          "height": 300,
+          "x": 20,
+          "y": 120,
+          "data": {
+            "type": "bar",
+            "title": {"text": "Sales by Category"},
+            "background": "#FFFFFF",
+            "legendPosition": "none",
+            "axesDesign": {"x": {}, "y": {}},
+            "dataSetsHaveTitle": False,
+            "dataSets": [{"dataRange": "Data!B2:B6"}],
+            "labelRange": "Data!A2:A6"
+          }
+        },
+        {
+          "id": "chart_products",
+          "tag": "chart",
+          "width": 500,
+          "height": 300,
+          "x": 540,
+          "y": 120,
+          "data": {
+            "type": "bar",
+            "title": {"text": "Top Products"},
+            "background": "#FFFFFF",
+            "legendPosition": "none",
+            "axesDesign": {"x": {}, "y": {}},
+            "dataSetsHaveTitle": False,
+            "dataSets": [{"dataRange": "Data!D2:D6"}],
+            "labelRange": "Data!C2:C6"
+          }
+        },
+        {
+          "id": "chart_salespeople",
+          "tag": "chart",
+          "width": 500,
+          "height": 300,
+          "x": 20,
+          "y": 440,
+          "data": {
+            "type": "bar",
+            "title": {"text": "Sales by Salesperson"},
+            "background": "#FFFFFF",
+            "legendPosition": "none",
+            "axesDesign": {"x": {}, "y": {}},
+            "dataSetsHaveTitle": False,
+            "dataSets": [{"dataRange": "Data!F2:F6"}],
+            "labelRange": "Data!E2:E6"
+          }
+        }
+      ]
+    },
+    {
+      "id": "sheet_data",
+      "name": "Data",
+      "colNumber": 26,
+      "rowNumber": 100,
+      "cells": {
+        "A1": {"content": "Category"}, "B1": {"content": "Value"},
+        "A2": {"content": "=PIVOT.HEADER(2,\"categ_id\",1)"}, "B2": {"content": "=PIVOT.VALUE(2,\"price_subtotal\",\"categ_id\",A2)"},
+        "A3": {"content": "=PIVOT.HEADER(2,\"categ_id\",2)"}, "B3": {"content": "=PIVOT.VALUE(2,\"price_subtotal\",\"categ_id\",A3)"},
+        "A4": {"content": "=PIVOT.HEADER(2,\"categ_id\",3)"}, "B4": {"content": "=PIVOT.VALUE(2,\"price_subtotal\",\"categ_id\",A4)"},
+        "A5": {"content": "=PIVOT.HEADER(2,\"categ_id\",4)"}, "B5": {"content": "=PIVOT.VALUE(2,\"price_subtotal\",\"categ_id\",A5)"},
+        "A6": {"content": "=PIVOT.HEADER(2,\"categ_id\",5)"}, "B6": {"content": "=PIVOT.VALUE(2,\"price_subtotal\",\"categ_id\",A6)"},
 
-async def main():
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=False, args=['--window-size=1920,1080'])
-        context = await browser.new_context(viewport={'width': 1920, 'height': 1080})
-        page = await context.new_page()
+        "C1": {"content": "Product"}, "D1": {"content": "Value"},
+        "C2": {"content": "=PIVOT.HEADER(3,\"product_tmpl_id\",1)"}, "D2": {"content": "=PIVOT.VALUE(3,\"price_subtotal\",\"product_tmpl_id\",C2)"},
+        "C3": {"content": "=PIVOT.HEADER(3,\"product_tmpl_id\",2)"}, "D3": {"content": "=PIVOT.VALUE(3,\"price_subtotal\",\"product_tmpl_id\",C3)"},
+        "C4": {"content": "=PIVOT.HEADER(3,\"product_tmpl_id\",3)"}, "D4": {"content": "=PIVOT.VALUE(3,\"price_subtotal\",\"product_tmpl_id\",C4)"},
+        "C5": {"content": "=PIVOT.HEADER(3,\"product_tmpl_id\",4)"}, "D5": {"content": "=PIVOT.VALUE(3,\"price_subtotal\",\"product_tmpl_id\",C5)"},
+        "C6": {"content": "=PIVOT.HEADER(3,\"product_tmpl_id\",5)"}, "D6": {"content": "=PIVOT.VALUE(3,\"price_subtotal\",\"product_tmpl_id\",C6)"},
 
-        try:
-            print("Navigating to login page...")
-            await page.goto('http://localhost:8070/web/login')
-            
-            await page.fill('input[name="login"]', 'admin')
-            await page.fill('input[name="password"]', 'admin')
-            await page.click('button[type="submit"]')
-            
-            print("Waiting for login...")
-            await page.wait_for_selector('.o_main_navbar, .o_navbar', timeout=30000)
-            
-            print("Logged in. Navigating to Sales Pivot View...")
-            await page.goto('http://localhost:8070/web#action=sale.action_orders&view_type=pivot')
-            
-            print("Checking for Oops modal...")
-            try:
-                await page.wait_for_selector('.modal-dialog:has-text("Oops!")', timeout=10000)
-                print("Oops modal found! Clicking close...")
-                await page.click('button:has-text("Close")')
-                await asyncio.sleep(1)
-            except Exception as e:
-                print("No Oops modal.")
-                
-            try:
-                await page.wait_for_selector('.modal-dialog:has-text("Missing Record")', timeout=3000)
-                print("Missing Record modal found! Clicking close...")
-                await page.click('button:has-text("Close")')
-                await asyncio.sleep(1)
-            except Exception as e:
-                pass
-            
-            print("Waiting for Pivot View to load...")
-            await page.wait_for_selector('.o_pivot', timeout=20000)
-            await page.screenshot(path=os.path.join(ARTIFACT_DIR, 'step1_pivot_loaded.png'))
-            
-            print("Clicking 'Insert in Spreadsheet'...")
-            # The button text is usually "Insert in Spreadsheet"
-            await page.click('button:has-text("Insert in Spreadsheet")')
-            
-            print("Waiting for dialog...")
-            await page.wait_for_selector('.modal-dialog', timeout=10000)
-            await page.screenshot(path=os.path.join(ARTIFACT_DIR, 'step2_dialog.png'))
-            
-            print("Selecting 'Sales Operations' dashboard...")
-            # In the dialog, we need to select the dashboard from the dropdown
-            # Odoo 16/17/18 spreadsheet insertion dialog has a dropdown for the dashboard
-            await page.click('.modal-body select, .modal-body input') # open dropdown
-            await page.click('text="Sales Operations"')
-            
-            print("Clicking Confirm...")
-            await page.click('button:has-text("Confirm")')
-            
-            print("Waiting for Spreadsheet to load...")
-            await page.wait_for_selector('.o-spreadsheet', timeout=30000)
-            await page.screenshot(path=os.path.join(ARTIFACT_DIR, 'step3_spreadsheet_loaded.png'))
-            
-            print("Saved! Exiting...")
-            await asyncio.sleep(2)  # Give it a moment to save
-            
-        except Exception as e:
-            print(f"Error occurred: {e}")
-            await page.screenshot(path=os.path.join(ARTIFACT_DIR, 'error_build.png'))
-            html = await page.content()
-            with open(os.path.join(ARTIFACT_DIR, 'page_dump5.html'), 'w', encoding='utf-8') as f:
-                f.write(html)
-        finally:
-            await browser.close()
+        "E1": {"content": "Salesperson"}, "F1": {"content": "Value"},
+        "E2": {"content": "=PIVOT.HEADER(4,\"user_id\",1)"}, "F2": {"content": "=PIVOT.VALUE(4,\"price_subtotal\",\"user_id\",E2)"},
+        "E3": {"content": "=PIVOT.HEADER(4,\"user_id\",2)"}, "F3": {"content": "=PIVOT.VALUE(4,\"price_subtotal\",\"user_id\",E3)"},
+        "E4": {"content": "=PIVOT.HEADER(4,\"user_id\",3)"}, "F4": {"content": "=PIVOT.VALUE(4,\"price_subtotal\",\"user_id\",E4)"},
+        "E5": {"content": "=PIVOT.HEADER(4,\"user_id\",4)"}, "F5": {"content": "=PIVOT.VALUE(4,\"price_subtotal\",\"user_id\",E5)"},
+        "E6": {"content": "=PIVOT.HEADER(4,\"user_id\",5)"}, "F6": {"content": "=PIVOT.VALUE(4,\"price_subtotal\",\"user_id\",E6)"}
+      }
+    }
+  ],
+  "styles": {
+    "1": {
+      "fontSize": 16,
+      "bold": True,
+      "textColor": "#1E3A8A"
+    },
+    "2": {
+      "fontSize": 12,
+      "bold": True
+    },
+    "3": {
+      "fontSize": 18,
+      "bold": True,
+      "textColor": "#065F46"
+    }
+  }
+}
 
-if __name__ == '__main__':
-    asyncio.run(main())
+print("Searching for Sales Dashboard...")
+dashboard = env.ref('obidss_operational_bi.dashboard_sales', raise_if_not_found=False)
+if not dashboard:
+    print("ERROR: Sales dashboard record not found!")
+    import sys
+    sys.exit(1)
+    
+print(f"Found Sales Dashboard: {dashboard.name} (ID: {dashboard.id})")
+
+json_str = json.dumps(sales_dashboard_json)
+
+print("Writing to spreadsheet_binary_data...")
+b64_data = base64.b64encode(json_str.encode('utf-8'))
+
+dashboard.write({
+    'spreadsheet_binary_data': b64_data
+})
+
+env.cr.commit()
+
+print("Dashboard JSON successfully written!")
+

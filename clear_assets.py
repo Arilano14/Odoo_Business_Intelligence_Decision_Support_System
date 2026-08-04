@@ -1,0 +1,7 @@
+env['ir.attachment'].clear_caches()
+env['ir.qweb'].clear_caches()
+env.registry.clear_cache()
+env.cr.execute("DELETE FROM ir_attachment WHERE url LIKE '/web/assets/%'")
+env.cr.execute("DELETE FROM ir_attachment WHERE url LIKE '/web/content/%'")
+env.cr.commit()
+print("ASSETS CLEARED PROPERLY")

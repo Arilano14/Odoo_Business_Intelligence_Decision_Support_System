@@ -1,0 +1,284 @@
+variant_id,template_id,name,default_code,category,is_confirmed_transacted,is_full_transacted,classification
+3,3,Virtual Interior Design,,All / Saleable / Services,True,True,non_portfolio_transacted
+4,4,Virtual Home Staging,,All / Saleable / Services,True,True,non_portfolio_transacted
+16,10,Corner Desk Right Sit,E-COM06,All / Saleable / Office Furniture,True,True,non_portfolio_transacted
+19,13,Large Desk,E-COM09,All / Saleable / Office Furniture,True,True,non_portfolio_transacted
+7,7,Office Design Software,FURN_9999,All / Saleable / Software,False,False,portfolio_non_transacted
+8,8,Desk Combination,FURN_7800,All / Saleable / Office Furniture,False,False,portfolio_non_transacted
+13,9,Customizable Desk,FURN_0097,All / Saleable / Office Furniture,False,False,portfolio_non_transacted
+14,9,Customizable Desk,FURN_0098,All / Saleable / Office Furniture,False,False,portfolio_non_transacted
+26,18,Corner Desk Left Sit,FURN_1118,All / Saleable / Office Furniture,False,False,portfolio_non_transacted
+29,21,Desk Stand with Screen,FURN_7888,All / Saleable / Office Furniture,False,False,portfolio_non_transacted
+30,22,Individual Workplace,FURN_0789,All / Saleable / Office Furniture,False,False,portfolio_non_transacted
+31,23,Acoustic Bloc Screens,FURN_6666,All / Saleable / Office Furniture,False,False,portfolio_non_transacted
+34,25,Four Person Desk,FURN_8220,All / Saleable / Office Furniture,False,False,portfolio_non_transacted
+38,29,Furniture Assembly,,All / Home Construction,False,False,portfolio_non_transacted
+39,30,Outdoor dining table,,All / Saleable / Outdoor furniture,False,False,portfolio_non_transacted
+40,31,Desk Organizer,FURN_0001,All / Saleable / Office Furniture,False,False,portfolio_non_transacted
+41,32,Desk Pad,FURN_0002,All / Saleable / Office Furniture,False,False,portfolio_non_transacted
+42,33,Monitor Stand,FURN_0006,All / Saleable / Office Furniture,False,False,portfolio_non_transacted
+43,34,Office Combo,,All / Saleable / Office Furniture,False,False,portfolio_non_transacted
+44,35,Cable Management Box,FURN_5555,All / Saleable / Office Furniture,False,False,portfolio_non_transacted
+45,9,Customizable Desk,DESK0005,All / Saleable / Office Furniture,False,False,portfolio_non_transacted
+46,9,Customizable Desk,DESK0006,All / Saleable / Office Furniture,False,False,portfolio_non_transacted
+48,37,Chair floor protection,,All / Saleable / Office Furniture,False,False,portfolio_non_transacted
+5,5,Office Chair,FURN_7777,All / Saleable / Office Furniture,True,True,portfolio_transacted
+6,6,Office Lamp,FURN_8888,All / Saleable / Office Furniture,True,True,portfolio_transacted
+12,9,Customizable Desk,FURN_0096,All / Saleable / Office Furniture,True,True,portfolio_transacted
+25,17,Office Chair Black,FURN_0269,All / Saleable / Office Furniture,True,True,portfolio_transacted
+27,19,Drawer Black,FURN_8900,All / Saleable / Office Furniture,True,True,portfolio_transacted
+28,20,Flipover,FURN_9001,All / Saleable / Office Furniture,True,True,portfolio_transacted
+32,23,Acoustic Bloc Screens,FURN_6667,All / Saleable / Office Furniture,True,True,portfolio_transacted
+33,24,Drawer,FURN_8855,All / Saleable / Office Furniture,True,True,portfolio_transacted
+35,26,Large Meeting Table,FURN_6741,All / Saleable / Office Furniture,True,True,portfolio_transacted
+36,27,Three-Seat Sofa,FURN_8999,All / Saleable / Office Furniture,True,True,portfolio_transacted
+49,38,Heavy Equipment Item 001,PORTFOLIO_2026_V1-PROD-001,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+50,39,Engine and Hydraulic Parts Item 002,PORTFOLIO_2026_V1-PROD-002,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+51,40,Undercarriage Parts Item 003,PORTFOLIO_2026_V1-PROD-003,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+52,41,Filters and Maintenance Parts Item 004,PORTFOLIO_2026_V1-PROD-004,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+53,42,Consumables Item 005,PORTFOLIO_2026_V1-PROD-005,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+54,43,Heavy Equipment Item 006,PORTFOLIO_2026_V1-PROD-006,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+55,44,Engine and Hydraulic Parts Item 007,PORTFOLIO_2026_V1-PROD-007,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+56,45,Undercarriage Parts Item 008,PORTFOLIO_2026_V1-PROD-008,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+57,46,Filters and Maintenance Parts Item 009,PORTFOLIO_2026_V1-PROD-009,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+58,47,Consumables Item 010,PORTFOLIO_2026_V1-PROD-010,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+59,48,Heavy Equipment Item 011,PORTFOLIO_2026_V1-PROD-011,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+60,49,Engine and Hydraulic Parts Item 012,PORTFOLIO_2026_V1-PROD-012,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+61,50,Undercarriage Parts Item 013,PORTFOLIO_2026_V1-PROD-013,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+62,51,Filters and Maintenance Parts Item 014,PORTFOLIO_2026_V1-PROD-014,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+63,52,Consumables Item 015,PORTFOLIO_2026_V1-PROD-015,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+64,53,Heavy Equipment Item 016,PORTFOLIO_2026_V1-PROD-016,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+65,54,Engine and Hydraulic Parts Item 017,PORTFOLIO_2026_V1-PROD-017,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+66,55,Undercarriage Parts Item 018,PORTFOLIO_2026_V1-PROD-018,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+67,56,Filters and Maintenance Parts Item 019,PORTFOLIO_2026_V1-PROD-019,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+68,57,Consumables Item 020,PORTFOLIO_2026_V1-PROD-020,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+69,58,Heavy Equipment Item 021,PORTFOLIO_2026_V1-PROD-021,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+70,59,Engine and Hydraulic Parts Item 022,PORTFOLIO_2026_V1-PROD-022,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+71,60,Undercarriage Parts Item 023,PORTFOLIO_2026_V1-PROD-023,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+72,61,Filters and Maintenance Parts Item 024,PORTFOLIO_2026_V1-PROD-024,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+73,62,Consumables Item 025,PORTFOLIO_2026_V1-PROD-025,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+74,63,Heavy Equipment Item 026,PORTFOLIO_2026_V1-PROD-026,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+75,64,Engine and Hydraulic Parts Item 027,PORTFOLIO_2026_V1-PROD-027,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+76,65,Undercarriage Parts Item 028,PORTFOLIO_2026_V1-PROD-028,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+77,66,Filters and Maintenance Parts Item 029,PORTFOLIO_2026_V1-PROD-029,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+78,67,Consumables Item 030,PORTFOLIO_2026_V1-PROD-030,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+79,68,Heavy Equipment Item 031,PORTFOLIO_2026_V1-PROD-031,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+80,69,Engine and Hydraulic Parts Item 032,PORTFOLIO_2026_V1-PROD-032,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+81,70,Undercarriage Parts Item 033,PORTFOLIO_2026_V1-PROD-033,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+82,71,Filters and Maintenance Parts Item 034,PORTFOLIO_2026_V1-PROD-034,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+83,72,Consumables Item 035,PORTFOLIO_2026_V1-PROD-035,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+84,73,Heavy Equipment Item 036,PORTFOLIO_2026_V1-PROD-036,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+85,74,Engine and Hydraulic Parts Item 037,PORTFOLIO_2026_V1-PROD-037,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+86,75,Undercarriage Parts Item 038,PORTFOLIO_2026_V1-PROD-038,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+87,76,Filters and Maintenance Parts Item 039,PORTFOLIO_2026_V1-PROD-039,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+88,77,Consumables Item 040,PORTFOLIO_2026_V1-PROD-040,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+89,78,Heavy Equipment Item 041,PORTFOLIO_2026_V1-PROD-041,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+90,79,Engine and Hydraulic Parts Item 042,PORTFOLIO_2026_V1-PROD-042,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+91,80,Undercarriage Parts Item 043,PORTFOLIO_2026_V1-PROD-043,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+92,81,Filters and Maintenance Parts Item 044,PORTFOLIO_2026_V1-PROD-044,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+93,82,Consumables Item 045,PORTFOLIO_2026_V1-PROD-045,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+94,83,Heavy Equipment Item 046,PORTFOLIO_2026_V1-PROD-046,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+95,84,Engine and Hydraulic Parts Item 047,PORTFOLIO_2026_V1-PROD-047,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+96,85,Undercarriage Parts Item 048,PORTFOLIO_2026_V1-PROD-048,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+97,86,Filters and Maintenance Parts Item 049,PORTFOLIO_2026_V1-PROD-049,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+98,87,Consumables Item 050,PORTFOLIO_2026_V1-PROD-050,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+99,88,Heavy Equipment Item 051,PORTFOLIO_2026_V1-PROD-051,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+100,89,Engine and Hydraulic Parts Item 052,PORTFOLIO_2026_V1-PROD-052,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+101,90,Undercarriage Parts Item 053,PORTFOLIO_2026_V1-PROD-053,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+102,91,Filters and Maintenance Parts Item 054,PORTFOLIO_2026_V1-PROD-054,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+103,92,Consumables Item 055,PORTFOLIO_2026_V1-PROD-055,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+104,93,Heavy Equipment Item 056,PORTFOLIO_2026_V1-PROD-056,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+105,94,Engine and Hydraulic Parts Item 057,PORTFOLIO_2026_V1-PROD-057,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+106,95,Undercarriage Parts Item 058,PORTFOLIO_2026_V1-PROD-058,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+107,96,Filters and Maintenance Parts Item 059,PORTFOLIO_2026_V1-PROD-059,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+108,97,Consumables Item 060,PORTFOLIO_2026_V1-PROD-060,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+109,98,Heavy Equipment Item 061,PORTFOLIO_2026_V1-PROD-061,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+110,99,Engine and Hydraulic Parts Item 062,PORTFOLIO_2026_V1-PROD-062,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+111,100,Undercarriage Parts Item 063,PORTFOLIO_2026_V1-PROD-063,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+112,101,Filters and Maintenance Parts Item 064,PORTFOLIO_2026_V1-PROD-064,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+113,102,Consumables Item 065,PORTFOLIO_2026_V1-PROD-065,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+114,103,Heavy Equipment Item 066,PORTFOLIO_2026_V1-PROD-066,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+115,104,Engine and Hydraulic Parts Item 067,PORTFOLIO_2026_V1-PROD-067,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+116,105,Undercarriage Parts Item 068,PORTFOLIO_2026_V1-PROD-068,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+117,106,Filters and Maintenance Parts Item 069,PORTFOLIO_2026_V1-PROD-069,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+118,107,Consumables Item 070,PORTFOLIO_2026_V1-PROD-070,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+119,108,Heavy Equipment Item 071,PORTFOLIO_2026_V1-PROD-071,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+120,109,Engine and Hydraulic Parts Item 072,PORTFOLIO_2026_V1-PROD-072,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+121,110,Undercarriage Parts Item 073,PORTFOLIO_2026_V1-PROD-073,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+122,111,Filters and Maintenance Parts Item 074,PORTFOLIO_2026_V1-PROD-074,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+123,112,Consumables Item 075,PORTFOLIO_2026_V1-PROD-075,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+124,113,Heavy Equipment Item 076,PORTFOLIO_2026_V1-PROD-076,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+125,114,Engine and Hydraulic Parts Item 077,PORTFOLIO_2026_V1-PROD-077,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+126,115,Undercarriage Parts Item 078,PORTFOLIO_2026_V1-PROD-078,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+127,116,Filters and Maintenance Parts Item 079,PORTFOLIO_2026_V1-PROD-079,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+128,117,Consumables Item 080,PORTFOLIO_2026_V1-PROD-080,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+129,118,Heavy Equipment Item 081,PORTFOLIO_2026_V1-PROD-081,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+130,119,Engine and Hydraulic Parts Item 082,PORTFOLIO_2026_V1-PROD-082,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+131,120,Undercarriage Parts Item 083,PORTFOLIO_2026_V1-PROD-083,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+132,121,Filters and Maintenance Parts Item 084,PORTFOLIO_2026_V1-PROD-084,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+133,122,Consumables Item 085,PORTFOLIO_2026_V1-PROD-085,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+134,123,Heavy Equipment Item 086,PORTFOLIO_2026_V1-PROD-086,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+135,124,Engine and Hydraulic Parts Item 087,PORTFOLIO_2026_V1-PROD-087,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+136,125,Undercarriage Parts Item 088,PORTFOLIO_2026_V1-PROD-088,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+137,126,Filters and Maintenance Parts Item 089,PORTFOLIO_2026_V1-PROD-089,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+138,127,Consumables Item 090,PORTFOLIO_2026_V1-PROD-090,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+139,128,Heavy Equipment Item 091,PORTFOLIO_2026_V1-PROD-091,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+140,129,Engine and Hydraulic Parts Item 092,PORTFOLIO_2026_V1-PROD-092,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+141,130,Undercarriage Parts Item 093,PORTFOLIO_2026_V1-PROD-093,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+142,131,Filters and Maintenance Parts Item 094,PORTFOLIO_2026_V1-PROD-094,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+143,132,Consumables Item 095,PORTFOLIO_2026_V1-PROD-095,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+144,133,Heavy Equipment Item 096,PORTFOLIO_2026_V1-PROD-096,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+145,134,Engine and Hydraulic Parts Item 097,PORTFOLIO_2026_V1-PROD-097,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+146,135,Undercarriage Parts Item 098,PORTFOLIO_2026_V1-PROD-098,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+147,136,Filters and Maintenance Parts Item 099,PORTFOLIO_2026_V1-PROD-099,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+148,137,Consumables Item 100,PORTFOLIO_2026_V1-PROD-100,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+149,138,Heavy Equipment Item 101,PORTFOLIO_2026_V1-PROD-101,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+150,139,Engine and Hydraulic Parts Item 102,PORTFOLIO_2026_V1-PROD-102,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+151,140,Undercarriage Parts Item 103,PORTFOLIO_2026_V1-PROD-103,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+152,141,Filters and Maintenance Parts Item 104,PORTFOLIO_2026_V1-PROD-104,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+153,142,Consumables Item 105,PORTFOLIO_2026_V1-PROD-105,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+154,143,Heavy Equipment Item 106,PORTFOLIO_2026_V1-PROD-106,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+155,144,Engine and Hydraulic Parts Item 107,PORTFOLIO_2026_V1-PROD-107,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+156,145,Undercarriage Parts Item 108,PORTFOLIO_2026_V1-PROD-108,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+157,146,Filters and Maintenance Parts Item 109,PORTFOLIO_2026_V1-PROD-109,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+158,147,Consumables Item 110,PORTFOLIO_2026_V1-PROD-110,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+159,148,Heavy Equipment Item 111,PORTFOLIO_2026_V1-PROD-111,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+160,149,Engine and Hydraulic Parts Item 112,PORTFOLIO_2026_V1-PROD-112,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+161,150,Undercarriage Parts Item 113,PORTFOLIO_2026_V1-PROD-113,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+162,151,Filters and Maintenance Parts Item 114,PORTFOLIO_2026_V1-PROD-114,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+163,152,Consumables Item 115,PORTFOLIO_2026_V1-PROD-115,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+164,153,Heavy Equipment Item 116,PORTFOLIO_2026_V1-PROD-116,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+165,154,Engine and Hydraulic Parts Item 117,PORTFOLIO_2026_V1-PROD-117,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+166,155,Undercarriage Parts Item 118,PORTFOLIO_2026_V1-PROD-118,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+167,156,Filters and Maintenance Parts Item 119,PORTFOLIO_2026_V1-PROD-119,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+168,157,Consumables Item 120,PORTFOLIO_2026_V1-PROD-120,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+169,158,Heavy Equipment Item 121,PORTFOLIO_2026_V1-PROD-121,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+170,159,Engine and Hydraulic Parts Item 122,PORTFOLIO_2026_V1-PROD-122,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+171,160,Undercarriage Parts Item 123,PORTFOLIO_2026_V1-PROD-123,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+172,161,Filters and Maintenance Parts Item 124,PORTFOLIO_2026_V1-PROD-124,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+173,162,Consumables Item 125,PORTFOLIO_2026_V1-PROD-125,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+174,163,Heavy Equipment Item 126,PORTFOLIO_2026_V1-PROD-126,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+175,164,Engine and Hydraulic Parts Item 127,PORTFOLIO_2026_V1-PROD-127,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+176,165,Undercarriage Parts Item 128,PORTFOLIO_2026_V1-PROD-128,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+177,166,Filters and Maintenance Parts Item 129,PORTFOLIO_2026_V1-PROD-129,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+178,167,Consumables Item 130,PORTFOLIO_2026_V1-PROD-130,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+179,168,Heavy Equipment Item 131,PORTFOLIO_2026_V1-PROD-131,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+180,169,Engine and Hydraulic Parts Item 132,PORTFOLIO_2026_V1-PROD-132,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+181,170,Undercarriage Parts Item 133,PORTFOLIO_2026_V1-PROD-133,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+182,171,Filters and Maintenance Parts Item 134,PORTFOLIO_2026_V1-PROD-134,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+183,172,Consumables Item 135,PORTFOLIO_2026_V1-PROD-135,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+184,173,Heavy Equipment Item 136,PORTFOLIO_2026_V1-PROD-136,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+185,174,Engine and Hydraulic Parts Item 137,PORTFOLIO_2026_V1-PROD-137,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+186,175,Undercarriage Parts Item 138,PORTFOLIO_2026_V1-PROD-138,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+187,176,Filters and Maintenance Parts Item 139,PORTFOLIO_2026_V1-PROD-139,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+188,177,Consumables Item 140,PORTFOLIO_2026_V1-PROD-140,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+189,178,Heavy Equipment Item 141,PORTFOLIO_2026_V1-PROD-141,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+190,179,Engine and Hydraulic Parts Item 142,PORTFOLIO_2026_V1-PROD-142,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+191,180,Undercarriage Parts Item 143,PORTFOLIO_2026_V1-PROD-143,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+192,181,Filters and Maintenance Parts Item 144,PORTFOLIO_2026_V1-PROD-144,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+193,182,Consumables Item 145,PORTFOLIO_2026_V1-PROD-145,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+194,183,Heavy Equipment Item 146,PORTFOLIO_2026_V1-PROD-146,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+195,184,Engine and Hydraulic Parts Item 147,PORTFOLIO_2026_V1-PROD-147,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+196,185,Undercarriage Parts Item 148,PORTFOLIO_2026_V1-PROD-148,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+197,186,Filters and Maintenance Parts Item 149,PORTFOLIO_2026_V1-PROD-149,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+198,187,Consumables Item 150,PORTFOLIO_2026_V1-PROD-150,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+199,188,Heavy Equipment Item 151,PORTFOLIO_2026_V1-PROD-151,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+200,189,Engine and Hydraulic Parts Item 152,PORTFOLIO_2026_V1-PROD-152,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+201,190,Undercarriage Parts Item 153,PORTFOLIO_2026_V1-PROD-153,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+202,191,Filters and Maintenance Parts Item 154,PORTFOLIO_2026_V1-PROD-154,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+203,192,Consumables Item 155,PORTFOLIO_2026_V1-PROD-155,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+204,193,Heavy Equipment Item 156,PORTFOLIO_2026_V1-PROD-156,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+205,194,Engine and Hydraulic Parts Item 157,PORTFOLIO_2026_V1-PROD-157,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+206,195,Undercarriage Parts Item 158,PORTFOLIO_2026_V1-PROD-158,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+207,196,Filters and Maintenance Parts Item 159,PORTFOLIO_2026_V1-PROD-159,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+208,197,Consumables Item 160,PORTFOLIO_2026_V1-PROD-160,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+209,198,Heavy Equipment Item 161,PORTFOLIO_2026_V1-PROD-161,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+210,199,Engine and Hydraulic Parts Item 162,PORTFOLIO_2026_V1-PROD-162,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+211,200,Undercarriage Parts Item 163,PORTFOLIO_2026_V1-PROD-163,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+212,201,Filters and Maintenance Parts Item 164,PORTFOLIO_2026_V1-PROD-164,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+213,202,Consumables Item 165,PORTFOLIO_2026_V1-PROD-165,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+214,203,Heavy Equipment Item 166,PORTFOLIO_2026_V1-PROD-166,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+215,204,Engine and Hydraulic Parts Item 167,PORTFOLIO_2026_V1-PROD-167,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+216,205,Undercarriage Parts Item 168,PORTFOLIO_2026_V1-PROD-168,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+217,206,Filters and Maintenance Parts Item 169,PORTFOLIO_2026_V1-PROD-169,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+218,207,Consumables Item 170,PORTFOLIO_2026_V1-PROD-170,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+219,208,Heavy Equipment Item 171,PORTFOLIO_2026_V1-PROD-171,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+220,209,Engine and Hydraulic Parts Item 172,PORTFOLIO_2026_V1-PROD-172,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+221,210,Undercarriage Parts Item 173,PORTFOLIO_2026_V1-PROD-173,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+222,211,Filters and Maintenance Parts Item 174,PORTFOLIO_2026_V1-PROD-174,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+223,212,Consumables Item 175,PORTFOLIO_2026_V1-PROD-175,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+224,213,Heavy Equipment Item 176,PORTFOLIO_2026_V1-PROD-176,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+225,214,Engine and Hydraulic Parts Item 177,PORTFOLIO_2026_V1-PROD-177,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+226,215,Undercarriage Parts Item 178,PORTFOLIO_2026_V1-PROD-178,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+227,216,Filters and Maintenance Parts Item 179,PORTFOLIO_2026_V1-PROD-179,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+228,217,Consumables Item 180,PORTFOLIO_2026_V1-PROD-180,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+229,218,Heavy Equipment Item 181,PORTFOLIO_2026_V1-PROD-181,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+230,219,Engine and Hydraulic Parts Item 182,PORTFOLIO_2026_V1-PROD-182,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+231,220,Undercarriage Parts Item 183,PORTFOLIO_2026_V1-PROD-183,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+232,221,Filters and Maintenance Parts Item 184,PORTFOLIO_2026_V1-PROD-184,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+233,222,Consumables Item 185,PORTFOLIO_2026_V1-PROD-185,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+234,223,Heavy Equipment Item 186,PORTFOLIO_2026_V1-PROD-186,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+235,224,Engine and Hydraulic Parts Item 187,PORTFOLIO_2026_V1-PROD-187,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+236,225,Undercarriage Parts Item 188,PORTFOLIO_2026_V1-PROD-188,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+237,226,Filters and Maintenance Parts Item 189,PORTFOLIO_2026_V1-PROD-189,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+238,227,Consumables Item 190,PORTFOLIO_2026_V1-PROD-190,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+239,228,Heavy Equipment Item 191,PORTFOLIO_2026_V1-PROD-191,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+240,229,Engine and Hydraulic Parts Item 192,PORTFOLIO_2026_V1-PROD-192,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+241,230,Undercarriage Parts Item 193,PORTFOLIO_2026_V1-PROD-193,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+242,231,Filters and Maintenance Parts Item 194,PORTFOLIO_2026_V1-PROD-194,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+243,232,Consumables Item 195,PORTFOLIO_2026_V1-PROD-195,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+244,233,Heavy Equipment Item 196,PORTFOLIO_2026_V1-PROD-196,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+245,234,Engine and Hydraulic Parts Item 197,PORTFOLIO_2026_V1-PROD-197,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+246,235,Undercarriage Parts Item 198,PORTFOLIO_2026_V1-PROD-198,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+247,236,Filters and Maintenance Parts Item 199,PORTFOLIO_2026_V1-PROD-199,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+248,237,Consumables Item 200,PORTFOLIO_2026_V1-PROD-200,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+249,238,Heavy Equipment Item 201,PORTFOLIO_2026_V1-PROD-201,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+250,239,Engine and Hydraulic Parts Item 202,PORTFOLIO_2026_V1-PROD-202,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+251,240,Undercarriage Parts Item 203,PORTFOLIO_2026_V1-PROD-203,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+252,241,Filters and Maintenance Parts Item 204,PORTFOLIO_2026_V1-PROD-204,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+253,242,Consumables Item 205,PORTFOLIO_2026_V1-PROD-205,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+254,243,Heavy Equipment Item 206,PORTFOLIO_2026_V1-PROD-206,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+255,244,Engine and Hydraulic Parts Item 207,PORTFOLIO_2026_V1-PROD-207,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+256,245,Undercarriage Parts Item 208,PORTFOLIO_2026_V1-PROD-208,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+257,246,Filters and Maintenance Parts Item 209,PORTFOLIO_2026_V1-PROD-209,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+258,247,Consumables Item 210,PORTFOLIO_2026_V1-PROD-210,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+259,248,Heavy Equipment Item 211,PORTFOLIO_2026_V1-PROD-211,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+260,249,Engine and Hydraulic Parts Item 212,PORTFOLIO_2026_V1-PROD-212,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+261,250,Undercarriage Parts Item 213,PORTFOLIO_2026_V1-PROD-213,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+262,251,Filters and Maintenance Parts Item 214,PORTFOLIO_2026_V1-PROD-214,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+263,252,Consumables Item 215,PORTFOLIO_2026_V1-PROD-215,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+264,253,Heavy Equipment Item 216,PORTFOLIO_2026_V1-PROD-216,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+265,254,Engine and Hydraulic Parts Item 217,PORTFOLIO_2026_V1-PROD-217,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+266,255,Undercarriage Parts Item 218,PORTFOLIO_2026_V1-PROD-218,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+267,256,Filters and Maintenance Parts Item 219,PORTFOLIO_2026_V1-PROD-219,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+268,257,Consumables Item 220,PORTFOLIO_2026_V1-PROD-220,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+269,258,Heavy Equipment Item 221,PORTFOLIO_2026_V1-PROD-221,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+270,259,Engine and Hydraulic Parts Item 222,PORTFOLIO_2026_V1-PROD-222,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+271,260,Undercarriage Parts Item 223,PORTFOLIO_2026_V1-PROD-223,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+272,261,Filters and Maintenance Parts Item 224,PORTFOLIO_2026_V1-PROD-224,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+273,262,Consumables Item 225,PORTFOLIO_2026_V1-PROD-225,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+274,263,Heavy Equipment Item 226,PORTFOLIO_2026_V1-PROD-226,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+275,264,Engine and Hydraulic Parts Item 227,PORTFOLIO_2026_V1-PROD-227,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+276,265,Undercarriage Parts Item 228,PORTFOLIO_2026_V1-PROD-228,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+277,266,Filters and Maintenance Parts Item 229,PORTFOLIO_2026_V1-PROD-229,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+278,267,Consumables Item 230,PORTFOLIO_2026_V1-PROD-230,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+279,268,Heavy Equipment Item 231,PORTFOLIO_2026_V1-PROD-231,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+280,269,Engine and Hydraulic Parts Item 232,PORTFOLIO_2026_V1-PROD-232,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+281,270,Undercarriage Parts Item 233,PORTFOLIO_2026_V1-PROD-233,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+282,271,Filters and Maintenance Parts Item 234,PORTFOLIO_2026_V1-PROD-234,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+283,272,Consumables Item 235,PORTFOLIO_2026_V1-PROD-235,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+284,273,Heavy Equipment Item 236,PORTFOLIO_2026_V1-PROD-236,Portfolio 2026 / Heavy Equipment,True,True,portfolio_transacted
+285,274,Engine and Hydraulic Parts Item 237,PORTFOLIO_2026_V1-PROD-237,Portfolio 2026 / Engine and Hydraulic Parts,True,True,portfolio_transacted
+286,275,Undercarriage Parts Item 238,PORTFOLIO_2026_V1-PROD-238,Portfolio 2026 / Undercarriage Parts,True,True,portfolio_transacted
+287,276,Filters and Maintenance Parts Item 239,PORTFOLIO_2026_V1-PROD-239,Portfolio 2026 / Filters and Maintenance Parts,True,True,portfolio_transacted
+288,277,Consumables Item 240,PORTFOLIO_2026_V1-PROD-240,Portfolio 2026 / Consumables,True,True,portfolio_transacted
+1,1,Restaurant Expenses,,All / Expenses,False,False,standard_default_non_transacted
+2,2,Hotel Accommodation,,All / Expenses,False,False,standard_default_non_transacted
+17,11,Large Cabinet,E-COM07,All / Saleable / Office Furniture,False,False,standard_default_non_transacted
+18,12,Storage Box,E-COM08,All / Saleable / Office Furniture,False,False,standard_default_non_transacted
+20,14,Pedal Bin,E-COM10,All / Saleable / Office Furniture,False,False,standard_default_non_transacted
+21,15,Cabinet with Doors,E-COM11,All / Saleable / Office Furniture,False,False,standard_default_non_transacted
+23,16,Conference Chair,E-COM12,All / Saleable / Office Furniture,False,False,standard_default_non_transacted
+24,16,Conference Chair,E-COM13,All / Saleable / Office Furniture,False,False,standard_default_non_transacted
+37,28,Local Delivery,Delivery_010,All / Saleable / Services,False,False,standard_default_non_transacted
+47,36,Deposit,,All / Saleable / Services,False,False,standard_default_non_transacted

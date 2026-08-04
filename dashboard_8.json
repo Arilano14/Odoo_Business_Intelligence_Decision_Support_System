@@ -1,0 +1,214 @@
+{
+  "version": 21,
+  "settings": {
+    "locale": {
+      "name": "English (US)",
+      "code": "en_US",
+      "formulaPrefix": "="
+    }
+  },
+  "pivots": {
+    "1": {
+      "type": "ODOO",
+      "id": "1",
+      "formulaId": "1",
+      "name": "Stock Quants Summary",
+      "model": "stock.quant",
+      "domain": [
+        [
+          "company_id",
+          "=",
+          2
+        ]
+      ],
+      "measures": [
+        {
+          "id": "__count",
+          "fieldName": "__count"
+        },
+        {
+          "id": "quantity",
+          "fieldName": "quantity"
+        }
+      ],
+      "rows": [],
+      "columns": [],
+      "fieldMatching": {}
+    },
+    "2": {
+      "type": "ODOO",
+      "id": "2",
+      "formulaId": "2",
+      "name": "Completed Pickings",
+      "model": "stock.picking",
+      "domain": [
+        [
+          "company_id",
+          "=",
+          2
+        ],
+        [
+          "state",
+          "=",
+          "done"
+        ]
+      ],
+      "measures": [
+        {
+          "id": "__count",
+          "fieldName": "__count"
+        }
+      ],
+      "rows": [],
+      "columns": [],
+      "fieldMatching": {}
+    }
+  },
+  "lists": {
+    "1": {
+      "id": "1",
+      "name": "Stock Quants List",
+      "model": "stock.quant",
+      "domain": [
+        [
+          "company_id",
+          "=",
+          2
+        ]
+      ],
+      "columns": [
+        "product_id",
+        "location_id",
+        "quantity",
+        "reserved_quantity"
+      ],
+      "orderBy": [
+        {
+          "name": "quantity",
+          "asc": false
+        }
+      ]
+    }
+  },
+  "globalFilters": [
+    {
+      "id": "gf_inv_product",
+      "type": "relation",
+      "label": "Product",
+      "modelName": "product.product",
+      "defaultValue": []
+    }
+  ],
+  "sheets": [
+    {
+      "id": "sheet_dashboard",
+      "name": "Inventory Operations",
+      "colNumber": 12,
+      "rowNumber": 50,
+      "cells": {
+        "A1": {
+          "content": "PT Prima Alat Nusantara \u2014 Inventory Operations Dashboard (FY 2026)",
+          "style": 1
+        },
+        "A3": {
+          "content": "[View Inventory Quants](odoo://view/{\"viewType\":\"list\",\"action\":{\"domain\":[[\"company_id\",\"=\",2]],\"modelName\":\"stock.quant\",\"views\":[[false,\"list\"]]},\"name\":\"Stock Quants\"})"
+        }
+      },
+      "figures": [
+        {
+          "id": "scorecard_inv_quants",
+          "tag": "chart",
+          "width": 260,
+          "height": 110,
+          "x": 20,
+          "y": 60,
+          "data": {
+            "type": "scorecard",
+            "title": {
+              "text": "Stock Quants Count",
+              "bold": true,
+              "color": "#1E3A8A"
+            },
+            "keyValue": "Data!B2",
+            "background": "#EFF6FF"
+          }
+        },
+        {
+          "id": "scorecard_inv_qty",
+          "tag": "chart",
+          "width": 260,
+          "height": 110,
+          "x": 300,
+          "y": 60,
+          "data": {
+            "type": "scorecard",
+            "title": {
+              "text": "Total Stock Quantity",
+              "bold": true,
+              "color": "#065F46"
+            },
+            "keyValue": "Data!B3",
+            "background": "#ECFDF5"
+          }
+        },
+        {
+          "id": "scorecard_inv_pickings",
+          "tag": "chart",
+          "width": 260,
+          "height": 110,
+          "x": 580,
+          "y": 60,
+          "data": {
+            "type": "scorecard",
+            "title": {
+              "text": "Completed Pickings",
+              "bold": true,
+              "color": "#92400E"
+            },
+            "keyValue": "Data!B4",
+            "background": "#FFFBEB"
+          }
+        }
+      ]
+    },
+    {
+      "id": "sheet_data",
+      "name": "Data",
+      "colNumber": 10,
+      "rowNumber": 20,
+      "cells": {
+        "A1": {
+          "content": "Metric Name"
+        },
+        "B1": {
+          "content": "Value"
+        },
+        "A2": {
+          "content": "Stock Quants Count"
+        },
+        "B2": {
+          "content": "=PIVOT.VALUE(1,\"__count\")"
+        },
+        "A3": {
+          "content": "Total Stock Quantity"
+        },
+        "B3": {
+          "content": "=PIVOT.VALUE(1,\"quantity\")"
+        },
+        "A4": {
+          "content": "Completed Pickings"
+        },
+        "B4": {
+          "content": "=PIVOT.VALUE(2,\"__count\")"
+        }
+      }
+    }
+  ],
+  "styles": {
+    "1": {
+      "fontSize": 14,
+      "bold": true,
+      "textColor": "#1E3A8A"
+    }
+  }
+}
