@@ -14,6 +14,7 @@
             <field name="sequence">10</field>
             <field name="is_published" eval="True"/>
             <field name="group_ids" eval="[(4, ref('group_obidss_user'))]"/>
+            <field name="spreadsheet_binary_data" type="base64" file="obidss_operational_bi/data/files/executive_operations.json"/>
         </record>
 
         <!-- 3. Sales Operations Dashboard Record -->
@@ -23,6 +24,7 @@
             <field name="sequence">20</field>
             <field name="is_published" eval="True"/>
             <field name="group_ids" eval="[(4, ref('group_obidss_user'))]"/>
+            <field name="spreadsheet_binary_data" type="base64" file="obidss_operational_bi/data/files/sales_operations.json"/>
         </record>
 
         <!-- 4. Purchase & Suppliers Dashboard Record -->
@@ -32,6 +34,7 @@
             <field name="sequence">30</field>
             <field name="is_published" eval="True"/>
             <field name="group_ids" eval="[(4, ref('group_obidss_user'))]"/>
+            <field name="spreadsheet_binary_data" type="base64" file="obidss_operational_bi/data/files/purchase_suppliers.json"/>
         </record>
 
         <!-- 5. Inventory Operations Dashboard Record -->
@@ -41,6 +44,7 @@
             <field name="sequence">40</field>
             <field name="is_published" eval="True"/>
             <field name="group_ids" eval="[(4, ref('group_obidss_user'))]"/>
+            <field name="spreadsheet_binary_data" type="base64" file="obidss_operational_bi/data/files/inventory_operations.json"/>
         </record>
 
         <!-- 6. Data Quality & Reconciliation Dashboard Record -->
@@ -50,15 +54,30 @@
             <field name="sequence">60</field>
             <field name="is_published" eval="True"/>
             <field name="group_ids" eval="[(4, ref('group_obidss_reviewer'))]"/>
+            <field name="spreadsheet_binary_data" type="base64" file="obidss_operational_bi/data/files/data_quality.json"/>
         </record>
 
-        <!-- 7. Finance & Invoicing Dashboard Record -->
+        <!-- 7. Finance & Invoicing Dashboard Record (Unpublished) -->
         <record id="dashboard_finance" model="spreadsheet.dashboard">
             <field name="name">Finance &amp; Invoicing</field>
             <field name="dashboard_group_id" ref="dashboard_group_obidss"/>
             <field name="sequence">50</field>
             <field name="is_published" eval="False"/>
             <field name="group_ids" eval="[(4, ref('group_obidss_manager'))]"/>
+        </record>
+
+        <!-- 8. Unpublish Standard Odoo Sample Dashboards using XML IDs (Do NOT delete) -->
+        <record id="spreadsheet_dashboard_account.dashboard_invoicing" model="spreadsheet.dashboard">
+            <field name="is_published" eval="False"/>
+        </record>
+        <record id="spreadsheet_dashboard_stock_account.spreadsheet_dashboard_warehouse_metrics" model="spreadsheet.dashboard">
+            <field name="is_published" eval="False"/>
+        </record>
+        <record id="spreadsheet_dashboard_sale.spreadsheet_dashboard_sales" model="spreadsheet.dashboard">
+            <field name="is_published" eval="False"/>
+        </record>
+        <record id="spreadsheet_dashboard_sale.spreadsheet_dashboard_product" model="spreadsheet.dashboard">
+            <field name="is_published" eval="False"/>
         </record>
     </data>
 </odoo>
