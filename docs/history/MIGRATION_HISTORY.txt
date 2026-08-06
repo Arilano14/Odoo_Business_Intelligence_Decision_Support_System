@@ -1,0 +1,9 @@
+FILE MIGRATION & RESTRUCTURING HISTORY
+=====================================
+- Root dashboard builders -> dashboard_tools/builders/
+- Root dashboard validators -> dashboard_tools/validators/
+- Root dashboard diagnostics -> dashboard_tools/diagnostics/
+- Root dashboard repair scripts -> dashboard_tools/maintenance/
+- Root JSON templates -> dashboard_assets/templates/pivot/ & fallback/
+- ERP-BIDSS standalone scripts -> ERP-BIDSS/tools/ & ERP-BIDSS/tests/
+- Legacy Markdown phase reports -> archive/deletion_review/markdown/

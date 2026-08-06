@@ -1,17 +1,61 @@
-*.pyc
-*.pyo
-*.pyd
-__pycache__
-.pytest_cache
-.vscode
-.idea
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environments
+.venv/
+venv/
+env/
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+secrets*.json
+
+# Logs
 *.log
+logs/
+
+# Local database files
+*.sql
+*.dump
+*.backup
+*.sqlite
+database_backups/
+
+# IDE
+.vscode/
+.idea/
+.vs/
+
+# Workspace artifacts
+.gemini/
+.antigravity/
+brain/
+scratch/
+scratchpad/
+task.md
+walkthrough.md
+implementation_plan.md
+
+# Runtime and server data
+clone_data_dir/
+odoo_data/
+filestore/
+sessions/
+
+# Power BI temporary files
+~$*.pbix
+*.pbix.tmp
+
+# Operating system
+Thumbs.db
+Desktop.ini
 .DS_Store
-
-# Backend Environment
-ERP-BIDSS/backend/.venv/
-ERP-BIDSS/backend/.env
-ERP-BIDSS/backend/venv/
-
-# Option A: Uncomment the line below to IGNORE the 1GB Odoo core code
-# odoo/

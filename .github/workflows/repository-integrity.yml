@@ -1,0 +1,28 @@
+name: Repository Integrity Workflow
+
+on:
+  push:
+    branches: [ main, chore/* ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  static-integrity-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Verify Canonical Attribution
+        run: |
+          grep -q "https://github.com/Arilano14/Odoo_Business_Intelligence_Decision_Support_System.git" README.md
+          grep -q "@Arilano14" .github/CODEOWNERS
+
+      - name: Python Compilation Check
+        run: python -m compileall -q .
+
+      - name: JSON Template Validation
+        run: python -c "import glob, json; [json.load(open(f)) for f in glob.glob('dashboard_assets/**/*.json', recursive=True)]"

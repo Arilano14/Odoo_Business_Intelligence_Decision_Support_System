@@ -1,0 +1,6 @@
+PYTHON STRUCTURE:
+- dashboard_tools/
+- ERP-BIDSS/backend/
+- ERP-BIDSS/tools/
+- ERP-BIDSS/tests/
+- scripts/

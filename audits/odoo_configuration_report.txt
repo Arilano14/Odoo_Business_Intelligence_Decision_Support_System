@@ -1,0 +1,3 @@
+Main Odoo Config (odoo.conf): Port 8069, DB Business_Intelegent_Project_v2
+Clone Odoo Config (clone_odoo.conf): Port 8070, DB Business_Intelegent_Project_v2_fresh_clone
+Custom Addon Path: custom_addons/obidss_operational_bi

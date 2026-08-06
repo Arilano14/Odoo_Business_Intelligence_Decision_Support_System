@@ -1,0 +1,14 @@
+# Global Code Owners for Odoo BI & DSS Repository
+# Owner & Code Maintainer: @Arilano14
+
+* @Arilano14
+/.github/ @Arilano14
+/SECURITY.md @Arilano14
+/odoo.conf @Arilano14
+/clone_odoo.conf @Arilano14
+/custom_addons/ @Arilano14
+/ERP-BIDSS/ @Arilano14
+/PowerBI/ @Arilano14
+/docs/ @Arilano14
+/scripts/ @Arilano14
+/audits/ @Arilano14

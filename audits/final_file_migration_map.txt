@@ -1,0 +1,15 @@
+FINAL FILE MIGRATION MAP
+========================
+- dashboard_5.json ... dashboard_8.json -> dashboard_assets/templates/pivot/
+- dashboard_29_no_pivot.json ... dashboard_34_no_pivot.json -> dashboard_assets/templates/fallback/
+- verified_portfolio_product_ids.txt -> dashboard_assets/reference/
+- generate_dashboard_artifacts.py ... build_sales_dashboard.py -> dashboard_tools/builders/
+- verify_dashboards.py, product_scope_gate.py, audit_baselines.py -> dashboard_tools/validators/
+- debug_monthly_forensics.py, query_dashboard.py -> dashboard_tools/diagnostics/
+- fix_dashboards.py, cleanup_duplicates.py, assign_group.py -> dashboard_tools/maintenance/
+- inspect_fact_sales.py -> ERP-BIDSS/tools/inspection/inspect_data_mart_schema.py
+- check_v2_progress.py -> ERP-BIDSS/tools/monitoring/check_scenario_v2_progress.py
+- test_odoo_xmlrpc.py, test_portfolio_scope.py -> ERP-BIDSS/tests/integration/
+- dryrun_scenario_v2.py -> ERP-BIDSS/backend/scenarios/scenario_v2/generate_demand.py
+- create_odoo_transactions_v2.py -> ERP-BIDSS/backend/scenarios/scenario_v2/materialize_odoo_orders.py
+- run_etl_and_benchmark_v2.py -> ERP-BIDSS/backend/pipelines/run_scenario_v2_pipeline.py

@@ -591,6 +591,7 @@ def reset_dataset():
         if result.returncode == 0:
             print("  -> ETL Pipeline Completed Successfully.")
         else:
+            print(f"  -> ETL Pipeline Error: {result.stderr}")
     except Exception as e:
         print(f"  -> Error running ETL: {e}")
 
@@ -602,6 +603,7 @@ def reset_dataset():
         if val_result.returncode == 0:
             print("  -> Validation Completed Successfully.")
         else:
+            print(f"  -> Validation Error: {val_result.stderr}")
     except Exception as e:
         print(f"  -> Error running Validation: {e}")
 
@@ -718,7 +720,7 @@ def fix_dashboard():
                     # Try to write using ORM write
                     dash.write({'spreadsheet_data': valid_json})
             except Exception as e:
-                
+                pass
         cr.commit()
         print("Done fixing dashboards!")
 

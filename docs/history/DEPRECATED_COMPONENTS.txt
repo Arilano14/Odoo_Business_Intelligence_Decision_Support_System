@@ -1,0 +1,5 @@
+DEPRECATED & RETIRED COMPONENTS LOG
+==================================
+- Raw text log artifacts (buttons.txt, oops_details.txt, etc.) retired to archive/deletion_review/phase_1b/.
+- Legacy Phase 9 and Phase 11 raw Markdown progress notes retired to archive/deletion_review/markdown/.
+- Scratch scripts in backend/scratch/ retired to archive/deletion_review/python/.

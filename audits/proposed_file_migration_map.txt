@@ -1,0 +1,39 @@
+PROPOSED RESTRUCTURING & FILE MIGRATION MAP (SAFETY_MODE=STRICT)
+================================================================
+Target Directory Structure:
+  - scripts/             : Scripts otomasi build, validate, & governance
+  - docs/                : Dokumentasi arsitektur, setup, & governance
+  - audits/              : Laporan audit, manifest penghapusan, & log
+
+Planned File Moves (Phase 1 Low-Risk Migration):
+  - generate_audited_artifacts.py -> scripts/generate_audited_artifacts.py
+  - generate_dashboard_artifacts.py -> scripts/generate_dashboard_artifacts.py
+  - generate_final_perfect_artifacts.py -> scripts/build_dashboard_spreadsheets.py
+  - build_sales_dashboard.py -> scripts/build_sales_dashboard.py
+  - product_scope_gate.py -> scripts/validate_product_scope.py
+  - verify_dashboards.py -> scripts/verify_dashboards.py
+  - verify_final_dashboards.py -> scripts/verify_final_dashboards.py
+  - audit_baselines.py -> scripts/audit_baselines.py
+  - inspect_models.py -> scripts/inspect_models.py
+  - investigate_scope.py -> scripts/investigate_scope.py
+  - check_portfolio.py -> scripts/check_portfolio.py
+  - check_portfolio2.py -> scripts/check_portfolio.py
+  - check_sales.py -> scripts/check_sales.py
+  - check_xml_ids.py -> scripts/check_xml_ids.py
+  - cleanup_duplicates.py -> scripts/cleanup_duplicates.py
+  - fix_dashboards.py -> scripts/fix_dashboards.py
+  - debug_monthly_forensics.py -> scripts/debug_monthly_forensics.py
+  - test_granularity.py -> scripts/test_granularity.py
+  - test_pivot5_evaluation.py -> scripts/test_pivot5_evaluation.py
+  - test_pivot_dump.py -> scripts/test_pivot_dump.py
+  - test_positional.py -> scripts/test_positional.py
+  - query_dashboard.py -> scripts/query_dashboard.py
+  - assign_group.py -> scripts/assign_group.py
+  - buttons.txt -> audits/buttons.txt
+  - buttons_pivot.txt -> audits/buttons_pivot.txt
+  - buttons_pivot2.txt -> audits/buttons_pivot2.txt
+  - icons_pivot2.txt -> audits/icons_pivot2.txt
+  - oops_details.txt -> audits/oops_details.txt
+  - odoo_conf_modified_line.txt -> audits/odoo_conf_modified_line.txt
+  - build_playwright.log -> audits/build_playwright.log
+  - clone_upgrade.log -> audits/clone_upgrade.log

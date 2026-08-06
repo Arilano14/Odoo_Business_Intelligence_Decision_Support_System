@@ -1,0 +1,6 @@
+MARKDOWN CLEANUP REPORT
+=======================
+Total MD Scanned: 118
+Kept Active MD: 5
+Consolidated & Quarantined MD: 113
+Status: PASS

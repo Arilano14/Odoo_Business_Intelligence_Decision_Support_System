@@ -1,0 +1,4 @@
+JSON STRUCTURE:
+- dashboard_assets/templates/pivot/
+- dashboard_assets/templates/fallback/
+- dashboard_assets/reference/

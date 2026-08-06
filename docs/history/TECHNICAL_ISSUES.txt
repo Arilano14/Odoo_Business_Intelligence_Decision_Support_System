@@ -1,0 +1,17 @@
+TECHNICAL ISSUES AND RESOLUTIONS ARCHIVE
+========================================
+ISSUE-001
+Title: Odoo 18 Spreadsheet Pivot Date Axis Granularity
+Affected component: custom_addons/obidss_operational_bi
+Symptoms: Pivot tables rendered dates as raw timestamps instead of monthly periods.
+Root cause: Odoo default spreadsheet payload missing explicit granularity token.
+Resolution: Modified dashboard_pivot_fix.py to inject 'granularity': 'month' into pivot field definitions.
+Status: RESOLVED
+
+ISSUE-002
+Title: Data Mart Table Replace Dependency Error
+Affected component: ERP-BIDSS/backend/phase11/run_etl_and_benchmark_v2.py
+Symptoms: psycopg2.errors.DependentObjectsStillExist when calling to_sql(if_exists='replace').
+Root cause: Dependent views (obidss_data_quality) references mart.fact_sales.
+Resolution: Replaced pandas drop/replace with TRUNCATE TABLE mart.fact_sales followed by append.
+Status: RESOLVED

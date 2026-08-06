@@ -1,0 +1,10 @@
+DATABASE RECONCILIATION REPORT
+==============================
+Odoo Source Database:
+  sale_order       : 1456 (Expected: 1456) [PASS]
+  sale_order_line  : 9792 (Expected: 9792) [PASS]
+
+Data Mart Schema 'mart':
+  fact_sales                      : 7618 (Expected: 7618) [PASS]
+  fact_forecast_model_comparison: 17280 (Expected: 17280) [PASS]
+  fact_forecast_monthly         : 2880 (Expected: 2880) [PASS]

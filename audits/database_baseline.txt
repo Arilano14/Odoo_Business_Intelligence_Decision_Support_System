@@ -1,0 +1,2 @@
+Odoo Source Database: sale_order=1456, sale_order_line=9792
+Data Mart Schema 'mart': fact_sales=7618, fact_forecast_model_comparison=17280, fact_forecast_monthly=2880

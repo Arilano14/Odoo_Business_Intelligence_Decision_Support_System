@@ -1,0 +1,11 @@
+HISTORICAL VALIDATION RESULTS
+=============================
+[2026-08-06] Phase 11.4 Final Holdout Accuracy Audit:
+- Portfolio Scope: 240 Verified SKUs (PORTFOLIO_2026_*)
+- Evaluated Months: FY 2026 (12 months)
+- Total Actual Quantity: 49,516.00 units
+- Total Absolute Error: 9,324.98 units
+- Holdout WAPE: 18.83% (Target <= 20.00%) PASS
+- Holdout Accuracy: 81.17% (Target >= 80.00%) PASS
+- Positive-Demand Accuracy: 87.60% PASS
+- Power BI PBIX Hash: 2250127b86dfcb6ecf5e3aa6270dc444625035c4b14447b0f385ff4ff88178bf MATCH

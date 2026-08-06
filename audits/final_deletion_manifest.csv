@@ -1,0 +1,7 @@
+source_path,classification,references_found,replacement_path,summary_destination,runtime_dependency,deletion_reason,validation_status,approved_for_deletion
+buttons.txt,SUMMARIZE_THEN_DELETE,0,audits/TECHNICAL_ISSUES.txt,docs/TECHNICAL_ISSUES.txt,False,Raw text log retired,PASS,True
+buttons_pivot.txt,SUMMARIZE_THEN_DELETE,0,audits/TECHNICAL_ISSUES.txt,docs/TECHNICAL_ISSUES.txt,False,Raw text log retired,PASS,True
+buttons_pivot2.txt,SUMMARIZE_THEN_DELETE,0,audits/TECHNICAL_ISSUES.txt,docs/TECHNICAL_ISSUES.txt,False,Raw text log retired,PASS,True
+icons_pivot2.txt,SUMMARIZE_THEN_DELETE,0,audits/TECHNICAL_ISSUES.txt,docs/TECHNICAL_ISSUES.txt,False,Raw text log retired,PASS,True
+oops_details.txt,SUMMARIZE_THEN_DELETE,0,audits/TECHNICAL_ISSUES.txt,docs/TECHNICAL_ISSUES.txt,False,Raw text log retired,PASS,True
+odoo_conf_modified_line.txt,SUMMARIZE_THEN_DELETE,0,audits/TECHNICAL_ISSUES.txt,docs/TECHNICAL_ISSUES.txt,False,Raw text log retired,PASS,True

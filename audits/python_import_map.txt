@@ -1,0 +1,552 @@
+build_sales_dashboard.py: import json
+build_sales_dashboard.py: import base64
+build_sales_dashboard.py: import sys
+check_portfolio.py: import sys
+check_portfolio2.py: import sys
+debug_monthly_forensics.py: import json
+fix_dashboards.py: import json
+fix_dashboards.py: import base64
+gate1_forensic_investigation.py: import json
+gate1_forensic_investigation.py: import sys
+gate1_sales_pilot.py: import json
+gate1_sales_pilot.py: import base64
+generate_audited_artifacts.py: import json
+generate_audited_artifacts.py: import base64
+generate_audited_artifacts.py: import hashlib
+generate_audited_artifacts.py: import os
+generate_dashboard_artifacts.py: import json
+generate_dashboard_artifacts.py: import base64
+generate_dashboard_artifacts.py: import hashlib
+generate_dashboard_artifacts.py: import os
+generate_final_perfect_artifacts.py: import json
+generate_final_perfect_artifacts.py: import base64
+generate_final_perfect_artifacts.py: import hashlib
+generate_final_perfect_artifacts.py: import os
+inspect_models.py: from collections import Counter
+product_scope_gate.py: import csv
+product_scope_gate.py: import os
+query_dashboard.py: import sys
+query_dashboard.py: import odoo
+query_dashboard.py: from odoo.tools import config
+scan_repository_inventory.py: import sys
+scan_repository_inventory.py: import os
+scan_repository_inventory.py: import re
+scan_repository_inventory.py: import hashlib
+scan_repository_inventory.py: import json
+scan_repository_inventory.py: import pandas as pd
+scan_repository_inventory.py: from config.database import db
+scan_repository_inventory.py: from sqlalchemy import text
+test_granularity.py: import json
+test_granularity.py: import base64
+test_pivot5_evaluation.py: import json
+test_pivot5_evaluation.py: import base64
+test_pivot_dump.py: import json
+test_pivot_dump.py: import base64
+test_positional.py: import json
+test_positional.py: import base64
+verify_dashboards.py: import json
+verify_dashboards.py: import base64
+verify_final_dashboards.py: import json
+verify_gate1.py: import json
+custom_addons\obidss_operational_bi\hooks.py: from odoo import api, SUPERUSER_ID
+custom_addons\obidss_operational_bi\hooks.py: import json
+custom_addons\obidss_operational_bi\hooks.py: import base64
+custom_addons\obidss_operational_bi\__init__.py: from . import models
+custom_addons\obidss_operational_bi\__init__.py: from .hooks import post_init_hook
+custom_addons\obidss_operational_bi\models\obidss_data_quality.py: from odoo import models, fields, api, tools
+custom_addons\obidss_operational_bi\models\__init__.py: from . import obidss_data_quality
+ERP-BIDSS\check_v2_progress.py: import sys
+ERP-BIDSS\check_v2_progress.py: import pandas as pd
+ERP-BIDSS\check_v2_progress.py: from config.database import db
+ERP-BIDSS\check_v2_progress.py: from sqlalchemy import text
+ERP-BIDSS\fix_odoo_order_dates.py: import sys
+ERP-BIDSS\fix_odoo_order_dates.py: import pandas as pd
+ERP-BIDSS\fix_odoo_order_dates.py: from config.database import db
+ERP-BIDSS\fix_odoo_order_dates.py: from sqlalchemy import text
+ERP-BIDSS\inspect_fact_sales.py: import sys
+ERP-BIDSS\inspect_fact_sales.py: import pandas as pd
+ERP-BIDSS\inspect_fact_sales.py: from config.database import db
+ERP-BIDSS\inspect_fact_sales.py: from sqlalchemy import text
+ERP-BIDSS\test_odoo_xmlrpc.py: import xmlrpc.client
+ERP-BIDSS\test_portfolio_scope.py: import sys
+ERP-BIDSS\test_portfolio_scope.py: import pandas as pd
+ERP-BIDSS\test_portfolio_scope.py: from config.database import db
+ERP-BIDSS\verify_approved_forecast.py: import sys
+ERP-BIDSS\verify_approved_forecast.py: import pandas as pd
+ERP-BIDSS\verify_approved_forecast.py: import numpy as np
+ERP-BIDSS\verify_approved_forecast.py: from config.database import db
+ERP-BIDSS\verify_approved_forecast.py: from config.settings import settings
+ERP-BIDSS\backend\fix_dashboard.py: import os
+ERP-BIDSS\backend\fix_dashboard.py: import sys
+ERP-BIDSS\backend\fix_dashboard.py: import odoo
+ERP-BIDSS\backend\generate_extra_transactions_v2.py: import os
+ERP-BIDSS\backend\generate_extra_transactions_v2.py: import sys
+ERP-BIDSS\backend\generate_extra_transactions_v2.py: import logging
+ERP-BIDSS\backend\generate_extra_transactions_v2.py: import random
+ERP-BIDSS\backend\generate_extra_transactions_v2.py: from datetime import datetime, timedelta
+ERP-BIDSS\backend\generate_extra_transactions_v2.py: import odoo
+ERP-BIDSS\backend\run_etl.py: import os
+ERP-BIDSS\backend\run_etl.py: import sys
+ERP-BIDSS\backend\run_etl.py: from etl.pipeline import run_pipeline
+ERP-BIDSS\backend\run_phase8.py: import argparse
+ERP-BIDSS\backend\run_phase8.py: import sys
+ERP-BIDSS\backend\run_phase8.py: import os
+ERP-BIDSS\backend\run_phase8.py: from odoo.audit_logic import run_audit
+ERP-BIDSS\backend\run_phase8.py: from odoo.repair_odoo_records import repair_integrity
+ERP-BIDSS\backend\run_phase8.py: from odoo.cleanup_portfolio_data import perform_cleanup
+ERP-BIDSS\backend\run_phase8.py: from odoo.setup_company import setup_company
+ERP-BIDSS\backend\run_phase8.py: from odoo.setup_partners import setup_partners
+ERP-BIDSS\backend\run_phase8.py: from odoo.setup_products import setup_products
+ERP-BIDSS\backend\run_phase8.py: from validation.validate_phase8 import validate as run_validation
+ERP-BIDSS\backend\analytics\benchmark_forecast_models.py: import sys
+ERP-BIDSS\backend\analytics\benchmark_forecast_models.py: import os
+ERP-BIDSS\backend\analytics\benchmark_forecast_models.py: import numpy as np
+ERP-BIDSS\backend\analytics\benchmark_forecast_models.py: import pandas as pd
+ERP-BIDSS\backend\analytics\benchmark_forecast_models.py: from sqlalchemy import text
+ERP-BIDSS\backend\analytics\benchmark_forecast_models.py: from config.database import db
+ERP-BIDSS\backend\analytics\benchmark_forecast_models.py: from config.settings import settings
+ERP-BIDSS\backend\analytics\build_aggregation.py: import pandas as pd
+ERP-BIDSS\backend\analytics\build_aggregation.py: import datetime
+ERP-BIDSS\backend\analytics\build_aggregation.py: from config.database import db
+ERP-BIDSS\backend\analytics\build_aggregation.py: from config.settings import settings
+ERP-BIDSS\backend\analytics\build_dimension.py: import sys
+ERP-BIDSS\backend\analytics\build_dimension.py: import os
+ERP-BIDSS\backend\analytics\build_dimension.py: import pandas as pd
+ERP-BIDSS\backend\analytics\build_dimension.py: import numpy as np
+ERP-BIDSS\backend\analytics\build_dimension.py: from config.database import db
+ERP-BIDSS\backend\analytics\build_dimension.py: from config.settings import settings
+ERP-BIDSS\backend\analytics\build_fact.py: import sys
+ERP-BIDSS\backend\analytics\build_fact.py: import os
+ERP-BIDSS\backend\analytics\build_fact.py: import pandas as pd
+ERP-BIDSS\backend\analytics\build_fact.py: import numpy as np
+ERP-BIDSS\backend\analytics\build_fact.py: from config.database import db
+ERP-BIDSS\backend\analytics\build_fact.py: from config.settings import settings
+ERP-BIDSS\backend\analytics\build_fact.py: from build_dimension import build_all_dimensions
+ERP-BIDSS\backend\analytics\build_relationship.py: import sys
+ERP-BIDSS\backend\analytics\build_relationship.py: import os
+ERP-BIDSS\backend\analytics\build_relationship.py: import pandas as pd
+ERP-BIDSS\backend\analytics\build_relationship.py: from config.database import db
+ERP-BIDSS\backend\analytics\build_relationship.py: from config.settings import settings
+ERP-BIDSS\backend\analytics\calculate_decision_support.py: import sys
+ERP-BIDSS\backend\analytics\calculate_decision_support.py: import os
+ERP-BIDSS\backend\analytics\calculate_decision_support.py: import pandas as pd
+ERP-BIDSS\backend\analytics\calculate_decision_support.py: import numpy as np
+ERP-BIDSS\backend\analytics\calculate_decision_support.py: from config.database import db
+ERP-BIDSS\backend\analytics\calculate_decision_support.py: from config.settings import settings
+ERP-BIDSS\backend\analytics\calculate_supplier_score.py: import sys
+ERP-BIDSS\backend\analytics\calculate_supplier_score.py: import os
+ERP-BIDSS\backend\analytics\calculate_supplier_score.py: import pandas as pd
+ERP-BIDSS\backend\analytics\calculate_supplier_score.py: import numpy as np
+ERP-BIDSS\backend\analytics\calculate_supplier_score.py: from config.database import db
+ERP-BIDSS\backend\analytics\calculate_supplier_score.py: from config.settings import settings
+ERP-BIDSS\backend\analytics\validate_dataset_scenario.py: import sys
+ERP-BIDSS\backend\analytics\validate_dataset_scenario.py: import os
+ERP-BIDSS\backend\analytics\validate_dataset_scenario.py: import pandas as pd
+ERP-BIDSS\backend\analytics\validate_dataset_scenario.py: from config.database import db
+ERP-BIDSS\backend\analytics\validate_dataset_scenario.py: from config.settings import settings
+ERP-BIDSS\backend\analytics\validate_mart.py: import sys
+ERP-BIDSS\backend\analytics\validate_mart.py: import os
+ERP-BIDSS\backend\analytics\validate_mart.py: import pandas as pd
+ERP-BIDSS\backend\analytics\validate_mart.py: from config.database import db
+ERP-BIDSS\backend\analytics\validate_mart.py: from config.settings import settings
+ERP-BIDSS\backend\app\main.py: from fastapi import FastAPI
+ERP-BIDSS\backend\app\main.py: from fastapi.middleware.cors import CORSMiddleware
+ERP-BIDSS\backend\app\main.py: from app.api.endpoints import router as api_router
+ERP-BIDSS\backend\app\analytics\kpi.py: import pandas as pd
+ERP-BIDSS\backend\app\analytics\kpi.py: from sqlalchemy.orm import Session
+ERP-BIDSS\backend\app\analytics\kpi.py: from app.models.schema import FactSales, FactInventory, FactCRM, FactPurchase, FactFinance
+ERP-BIDSS\backend\app\api\endpoints.py: from fastapi import APIRouter, Depends, HTTPException
+ERP-BIDSS\backend\app\api\endpoints.py: from sqlalchemy.orm import Session
+ERP-BIDSS\backend\app\api\endpoints.py: from app.database.connection import get_db
+ERP-BIDSS\backend\app\api\endpoints.py: from app.analytics.kpi import get_all_kpis
+ERP-BIDSS\backend\app\api\endpoints.py: from app.analytics.decision import generate_recommendations
+ERP-BIDSS\backend\app\database\connection.py: import os
+ERP-BIDSS\backend\app\database\connection.py: from sqlalchemy import create_engine
+ERP-BIDSS\backend\app\database\connection.py: from sqlalchemy.orm import sessionmaker
+ERP-BIDSS\backend\app\database\connection.py: from dotenv import load_dotenv
+ERP-BIDSS\backend\app\etl\extract.py: import os
+ERP-BIDSS\backend\app\etl\extract.py: import psycopg2
+ERP-BIDSS\backend\app\etl\extract.py: import pandas as pd
+ERP-BIDSS\backend\app\etl\extract.py: from dotenv import load_dotenv
+ERP-BIDSS\backend\app\etl\load.py: import pandas as pd
+ERP-BIDSS\backend\app\etl\load.py: from app.database.connection import engine
+ERP-BIDSS\backend\app\etl\scheduler.py: from apscheduler.schedulers.background import BackgroundScheduler
+ERP-BIDSS\backend\app\etl\scheduler.py: import time
+ERP-BIDSS\backend\app\etl\scheduler.py: from app.etl.extract import extract_all
+ERP-BIDSS\backend\app\etl\scheduler.py: from app.etl.transform import transform_data
+ERP-BIDSS\backend\app\etl\scheduler.py: from app.etl.load import load_data
+ERP-BIDSS\backend\app\etl\transform.py: import pandas as pd
+ERP-BIDSS\backend\app\models\schema.py: from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey
+ERP-BIDSS\backend\app\models\schema.py: from sqlalchemy.orm import declarative_base
+ERP-BIDSS\backend\config\database.py: from sqlalchemy import create_engine, text
+ERP-BIDSS\backend\config\database.py: from .settings import settings
+ERP-BIDSS\backend\config\settings.py: import os
+ERP-BIDSS\backend\config\settings.py: from dotenv import load_dotenv
+ERP-BIDSS\backend\etl\extract.py: import pandas as pd
+ERP-BIDSS\backend\etl\extract.py: from config.database import db
+ERP-BIDSS\backend\etl\extract.py: from config.settings import settings
+ERP-BIDSS\backend\etl\load.py: import pandas as pd
+ERP-BIDSS\backend\etl\load.py: from config.database import db
+ERP-BIDSS\backend\etl\load.py: from config.settings import settings
+ERP-BIDSS\backend\etl\load.py: from sqlalchemy import text
+ERP-BIDSS\backend\etl\logger.py: import logging
+ERP-BIDSS\backend\etl\logger.py: import time
+ERP-BIDSS\backend\etl\logger.py: from config.settings import settings
+ERP-BIDSS\backend\etl\pipeline.py: from Odoo 18 PostgreSQL to Analytics Mart (Star Schema).
+ERP-BIDSS\backend\etl\pipeline.py: import pandas as pd
+ERP-BIDSS\backend\etl\pipeline.py: from config.settings import settings
+ERP-BIDSS\backend\etl\pipeline.py: from etl.extract import extract_all
+ERP-BIDSS\backend\etl\pipeline.py: from etl.transform import (
+ERP-BIDSS\backend\etl\pipeline.py: from etl.load import load_all
+ERP-BIDSS\backend\etl\pipeline.py: from etl.logger import ETLLogger
+ERP-BIDSS\backend\etl\transform.py: import pandas as pd
+ERP-BIDSS\backend\etl\transform.py: import numpy as np
+ERP-BIDSS\backend\etl\transform.py: from config.settings import settings
+ERP-BIDSS\backend\odoo\audit_logic.py: import os
+ERP-BIDSS\backend\odoo\audit_logic.py: from .connection import get_connection
+ERP-BIDSS\backend\odoo\cleanup_bidss_legacy.py: import sys
+ERP-BIDSS\backend\odoo\cleanup_bidss_legacy.py: import os
+ERP-BIDSS\backend\odoo\cleanup_bidss_legacy.py: from odoo.connection import get_connection
+ERP-BIDSS\backend\odoo\cleanup_portfolio_data.py: import os
+ERP-BIDSS\backend\odoo\cleanup_portfolio_data.py: import sys
+ERP-BIDSS\backend\odoo\cleanup_portfolio_data.py: from .connection import get_connection
+ERP-BIDSS\backend\odoo\connection.py: import xmlrpc.client
+ERP-BIDSS\backend\odoo\connection.py: import os
+ERP-BIDSS\backend\odoo\repair_odoo_records.py: import os
+ERP-BIDSS\backend\odoo\repair_odoo_records.py: from .connection import get_connection
+ERP-BIDSS\backend\odoo\revise_product_prices.py: import random
+ERP-BIDSS\backend\odoo\revise_product_prices.py: import sys
+ERP-BIDSS\backend\odoo\revise_product_prices.py: import os
+ERP-BIDSS\backend\odoo\revise_product_prices.py: from odoo.connection import get_connection
+ERP-BIDSS\backend\odoo\revise_product_prices.py: import sys
+ERP-BIDSS\backend\odoo\setup_company.py: from .connection import get_connection
+ERP-BIDSS\backend\odoo\setup_partners.py: import random
+ERP-BIDSS\backend\odoo\setup_partners.py: from .connection import get_connection
+ERP-BIDSS\backend\odoo\setup_products.py: import random
+ERP-BIDSS\backend\odoo\setup_products.py: from .connection import get_connection
+ERP-BIDSS\backend\phase11\create_odoo_transactions_v2.py: import sys
+ERP-BIDSS\backend\phase11\create_odoo_transactions_v2.py: import os
+ERP-BIDSS\backend\phase11\create_odoo_transactions_v2.py: import random
+ERP-BIDSS\backend\phase11\create_odoo_transactions_v2.py: import xmlrpc.client
+ERP-BIDSS\backend\phase11\create_odoo_transactions_v2.py: import pandas as pd
+ERP-BIDSS\backend\phase11\create_odoo_transactions_v2.py: from config.settings import settings
+ERP-BIDSS\backend\phase11\create_odoo_transactions_v2.py: from config.database import db
+ERP-BIDSS\backend\phase11\create_odoo_transactions_v2.py: from sqlalchemy import text
+ERP-BIDSS\backend\phase11\dryrun_scenario_v2.py: import sys
+ERP-BIDSS\backend\phase11\dryrun_scenario_v2.py: import os
+ERP-BIDSS\backend\phase11\dryrun_scenario_v2.py: import math
+ERP-BIDSS\backend\phase11\dryrun_scenario_v2.py: import hashlib
+ERP-BIDSS\backend\phase11\dryrun_scenario_v2.py: import json
+ERP-BIDSS\backend\phase11\dryrun_scenario_v2.py: import numpy as np
+ERP-BIDSS\backend\phase11\dryrun_scenario_v2.py: import pandas as pd
+ERP-BIDSS\backend\phase11\dryrun_scenario_v2.py: from sqlalchemy import text
+ERP-BIDSS\backend\phase11\dryrun_scenario_v2.py: from config.database import db
+ERP-BIDSS\backend\phase11\dryrun_scenario_v2.py: from config.settings import settings
+ERP-BIDSS\backend\phase11\run_etl_and_benchmark_v2.py: import sys
+ERP-BIDSS\backend\phase11\run_etl_and_benchmark_v2.py: import os
+ERP-BIDSS\backend\phase11\run_etl_and_benchmark_v2.py: import math
+ERP-BIDSS\backend\phase11\run_etl_and_benchmark_v2.py: import hashlib
+ERP-BIDSS\backend\phase11\run_etl_and_benchmark_v2.py: import json
+ERP-BIDSS\backend\phase11\run_etl_and_benchmark_v2.py: import numpy as np
+ERP-BIDSS\backend\phase11\run_etl_and_benchmark_v2.py: import pandas as pd
+ERP-BIDSS\backend\phase11\run_etl_and_benchmark_v2.py: from sqlalchemy import text
+ERP-BIDSS\backend\phase11\run_etl_and_benchmark_v2.py: from config.database import db
+ERP-BIDSS\backend\phase11\run_etl_and_benchmark_v2.py: from config.settings import settings
+ERP-BIDSS\backend\phase9\batch_tags.py: from phase9.config import REF_PATTERNS
+ERP-BIDSS\backend\phase9\cleanup_phase9.py: import sys
+ERP-BIDSS\backend\phase9\cleanup_phase9.py: import os
+ERP-BIDSS\backend\phase9\cleanup_phase9.py: from odoo.connection import get_connection
+ERP-BIDSS\backend\phase9\cleanup_phase9.py: from phase9.config import BATCH_PREFIX
+ERP-BIDSS\backend\phase9\customer_allocator.py: import random
+ERP-BIDSS\backend\phase9\customer_allocator.py: from phase9.config import SEED, CUSTOMER_SEGMENTS, MONTHLY_TARGETS, TOTAL_SO_TARGET
+ERP-BIDSS\backend\phase9\demand_planner.py: import random
+ERP-BIDSS\backend\phase9\demand_planner.py: from phase9.config import SEED
+ERP-BIDSS\backend\phase9\event_scheduler.py: from phase9.config import SCENARIO_YEAR, MONTHLY_TARGETS
+ERP-BIDSS\backend\phase9\inventory_ops.py: import random
+ERP-BIDSS\backend\phase9\inventory_ops.py: from phase9.config import SEED, WAREHOUSE_CODE, TOTAL_TRANSFERS_TARGET, TOTAL_SCRAP_TARGET
+ERP-BIDSS\backend\phase9\inventory_ops.py: from phase9.batch_tags import get_int_ref, get_scrap_ref, record_exists
+ERP-BIDSS\backend\phase9\opening_inventory.py: import random
+ERP-BIDSS\backend\phase9\opening_inventory.py: from phase9.config import SEED, WAREHOUSE_CODE
+ERP-BIDSS\backend\phase9\purchase_generator.py: import random
+ERP-BIDSS\backend\phase9\purchase_generator.py: from phase9.config import SEED, PO_CATEGORY_QTY_BOUNDS, BATCH_PREFIX, COMPANY_NAME
+ERP-BIDSS\backend\phase9\purchase_generator.py: from phase9.batch_tags import get_po_ref, record_exists
+ERP-BIDSS\backend\phase9\run_phase9.py: import sys
+ERP-BIDSS\backend\phase9\run_phase9.py: import os
+ERP-BIDSS\backend\phase9\run_phase9.py: import argparse
+ERP-BIDSS\backend\phase9\run_phase9.py: from odoo.connection import get_connection
+ERP-BIDSS\backend\phase9\run_phase9.py: from phase9.config import COMPANY_NAME, WAREHOUSE_CODE, TOTAL_SO_TARGET, TOTAL_PO_TARGET
+ERP-BIDSS\backend\phase9\run_phase9.py: from phase9.demand_planner import plan_product_demand
+ERP-BIDSS\backend\phase9\run_phase9.py: from phase9.customer_allocator import allocate_customers
+ERP-BIDSS\backend\phase9\run_phase9.py: from phase9.supplier_allocator import allocate_suppliers
+ERP-BIDSS\backend\phase9\run_phase9.py: from phase9.opening_inventory import generate_opening_inventory
+ERP-BIDSS\backend\phase9\run_phase9.py: from phase9.sales_generator import generate_sales_orders
+ERP-BIDSS\backend\phase9\run_phase9.py: from phase9.purchase_generator import generate_purchase_orders
+ERP-BIDSS\backend\phase9\run_phase9.py: from phase9.inventory_ops import generate_inventory_operations
+ERP-BIDSS\backend\phase9\run_phase9.py: from phase9.event_scheduler import schedule_events
+ERP-BIDSS\backend\phase9\run_phase9.py: from phase9.cleanup_phase9 import cleanup_phase9_batch
+ERP-BIDSS\backend\phase9\run_phase9.py: from validation.validate_phase9 import validate_phase9
+ERP-BIDSS\backend\phase9\sales_generator.py: import random
+ERP-BIDSS\backend\phase9\sales_generator.py: from phase9.config import SEED, SO_CATEGORY_QTY_BOUNDS, BATCH_PREFIX, COMPANY_NAME, WAREHOUSE_CODE
+ERP-BIDSS\backend\phase9\sales_generator.py: from phase9.batch_tags import get_so_ref, record_exists
+ERP-BIDSS\backend\phase9\supplier_allocator.py: import random
+ERP-BIDSS\backend\phase9\supplier_allocator.py: from phase9.config import SEED, SUPPLIER_SEGMENTS, MONTHLY_TARGETS, TOTAL_PO_TARGET
+ERP-BIDSS\backend\scratch\attach_valid_spreadsheet_json.py: import sys
+ERP-BIDSS\backend\scratch\attach_valid_spreadsheet_json.py: import os
+ERP-BIDSS\backend\scratch\attach_valid_spreadsheet_json.py: import json
+ERP-BIDSS\backend\scratch\attach_valid_spreadsheet_json.py: import base64
+ERP-BIDSS\backend\scratch\attach_valid_spreadsheet_json.py: import psycopg2
+ERP-BIDSS\backend\scratch\audit_dashboards.py: import sys
+ERP-BIDSS\backend\scratch\audit_dashboards.py: import os
+ERP-BIDSS\backend\scratch\audit_dashboards.py: import json
+ERP-BIDSS\backend\scratch\audit_dashboards.py: import base64
+ERP-BIDSS\backend\scratch\audit_dashboards.py: from odoo.connection import get_connection
+ERP-BIDSS\backend\scratch\audit_data_scope.py: import sys
+ERP-BIDSS\backend\scratch\audit_data_scope.py: import os
+ERP-BIDSS\backend\scratch\audit_data_scope.py: from config.database import db
+ERP-BIDSS\backend\scratch\audit_data_scope.py: from sqlalchemy import text
+ERP-BIDSS\backend\scratch\audit_phase11_2.py: import sys
+ERP-BIDSS\backend\scratch\audit_phase11_2.py: import os
+ERP-BIDSS\backend\scratch\audit_phase11_2.py: from config.database import db
+ERP-BIDSS\backend\scratch\audit_phase11_2.py: from sqlalchemy import text
+ERP-BIDSS\backend\scratch\build_all_real_dashboards.py: import sys
+ERP-BIDSS\backend\scratch\build_all_real_dashboards.py: import os
+ERP-BIDSS\backend\scratch\build_all_real_dashboards.py: import json
+ERP-BIDSS\backend\scratch\build_all_real_dashboards.py: import base64
+ERP-BIDSS\backend\scratch\build_all_real_dashboards.py: from config.database import db
+ERP-BIDSS\backend\scratch\build_all_real_dashboards.py: from sqlalchemy import text
+ERP-BIDSS\backend\scratch\build_all_real_dashboards.py: from odoo.connection import get_connection
+ERP-BIDSS\backend\scratch\build_all_remaining_dashboards.py: import json
+ERP-BIDSS\backend\scratch\build_all_remaining_dashboards.py: import base64
+ERP-BIDSS\backend\scratch\build_all_remaining_dashboards.py: import psycopg2
+ERP-BIDSS\backend\scratch\build_all_remaining_dashboards.py: import os
+ERP-BIDSS\backend\scratch\build_real_dashboards.py: import sys
+ERP-BIDSS\backend\scratch\build_real_dashboards.py: import os
+ERP-BIDSS\backend\scratch\build_real_dashboards.py: import json
+ERP-BIDSS\backend\scratch\build_real_dashboards.py: import base64
+ERP-BIDSS\backend\scratch\build_real_dashboards.py: from config.database import db
+ERP-BIDSS\backend\scratch\build_real_dashboards.py: from sqlalchemy import text
+ERP-BIDSS\backend\scratch\build_real_dashboards.py: from odoo.connection import get_connection
+ERP-BIDSS\backend\scratch\build_sales_pilot_dashboard.py: import json
+ERP-BIDSS\backend\scratch\build_sales_pilot_dashboard.py: import base64
+ERP-BIDSS\backend\scratch\build_sales_pilot_dashboard.py: import psycopg2
+ERP-BIDSS\backend\scratch\build_sales_pilot_dashboard.py: import os
+ERP-BIDSS\backend\scratch\create_fresh_clone_db.py: import sys
+ERP-BIDSS\backend\scratch\create_fresh_clone_db.py: import os
+ERP-BIDSS\backend\scratch\create_fresh_clone_db.py: import psycopg2
+ERP-BIDSS\backend\scratch\create_fresh_clone_db.py: from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+ERP-BIDSS\backend\scratch\data_truth_check.py: import psycopg2
+ERP-BIDSS\backend\scratch\deep_audit_stage1.py: import sys
+ERP-BIDSS\backend\scratch\deep_audit_stage1.py: import os
+ERP-BIDSS\backend\scratch\deep_audit_stage1.py: import json
+ERP-BIDSS\backend\scratch\deep_audit_stage1.py: import base64
+ERP-BIDSS\backend\scratch\deep_audit_stage1.py: from config.database import db
+ERP-BIDSS\backend\scratch\deep_audit_stage1.py: from sqlalchemy import text
+ERP-BIDSS\backend\scratch\deep_audit_stage1.py: from odoo.connection import get_connection
+ERP-BIDSS\backend\scratch\deep_dataset_audit.py: import sys
+ERP-BIDSS\backend\scratch\deep_dataset_audit.py: import os
+ERP-BIDSS\backend\scratch\deep_dataset_audit.py: from config.database import db
+ERP-BIDSS\backend\scratch\deep_dataset_audit.py: from sqlalchemy import text
+ERP-BIDSS\backend\scratch\diagnose_spreadsheet_schema.py: import sys
+ERP-BIDSS\backend\scratch\diagnose_spreadsheet_schema.py: import os
+ERP-BIDSS\backend\scratch\diagnose_spreadsheet_schema.py: import json
+ERP-BIDSS\backend\scratch\diagnose_spreadsheet_schema.py: import base64
+ERP-BIDSS\backend\scratch\diagnose_spreadsheet_schema.py: from config.database import db
+ERP-BIDSS\backend\scratch\diagnose_spreadsheet_schema.py: from sqlalchemy import text
+ERP-BIDSS\backend\scratch\execute_stage2b_primary_deployment.py: import sys
+ERP-BIDSS\backend\scratch\execute_stage2b_primary_deployment.py: import os
+ERP-BIDSS\backend\scratch\execute_stage2b_primary_deployment.py: import hashlib
+ERP-BIDSS\backend\scratch\execute_stage2b_primary_deployment.py: import psycopg2
+ERP-BIDSS\backend\scratch\execute_stage2b_primary_deployment.py: from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+ERP-BIDSS\backend\scratch\fix_spreadsheet_schema_attributes.py: import sys
+ERP-BIDSS\backend\scratch\fix_spreadsheet_schema_attributes.py: import os
+ERP-BIDSS\backend\scratch\fix_spreadsheet_schema_attributes.py: import json
+ERP-BIDSS\backend\scratch\fix_spreadsheet_schema_attributes.py: import base64
+ERP-BIDSS\backend\scratch\fix_spreadsheet_schema_attributes.py: import uuid
+ERP-BIDSS\backend\scratch\fix_spreadsheet_schema_attributes.py: from config.database import db
+ERP-BIDSS\backend\scratch\fix_spreadsheet_schema_attributes.py: from sqlalchemy import text
+ERP-BIDSS\backend\scratch\fix_spreadsheet_schema_attributes.py: from odoo.connection import get_connection
+ERP-BIDSS\backend\scratch\forensic_dashboard_anatomy.py: import psycopg2, json, base64, zlib
+ERP-BIDSS\backend\scratch\forensic_dashboard_anatomy.py: import os
+ERP-BIDSS\backend\scratch\forensic_fields_audit.py: import sys
+ERP-BIDSS\backend\scratch\forensic_fields_audit.py: import os
+ERP-BIDSS\backend\scratch\forensic_fields_audit.py: import psycopg2
+ERP-BIDSS\backend\scratch\forensic_runtime_audit.py: import sys
+ERP-BIDSS\backend\scratch\forensic_runtime_audit.py: import os
+ERP-BIDSS\backend\scratch\forensic_runtime_audit.py: import json
+ERP-BIDSS\backend\scratch\forensic_runtime_audit.py: import urllib.request
+ERP-BIDSS\backend\scratch\forensic_runtime_audit.py: import urllib.parse
+ERP-BIDSS\backend\scratch\forensic_runtime_audit.py: import psycopg2
+ERP-BIDSS\backend\scratch\gate_2e11_orphan_cleanup.py: import psycopg2
+ERP-BIDSS\backend\scratch\gate_2e11_orphan_cleanup.py: import json
+ERP-BIDSS\backend\scratch\gate_2e11_orphan_cleanup.py: import os
+ERP-BIDSS\backend\scratch\gate_2e1_data_truth.py: import psycopg2
+ERP-BIDSS\backend\scratch\gate_2e1_data_truth.py: import csv
+ERP-BIDSS\backend\scratch\gate_2e1_data_truth.py: import os
+ERP-BIDSS\backend\scratch\gate_2e3_storage_baseline.py: import psycopg2
+ERP-BIDSS\backend\scratch\gate_2e3_storage_baseline.py: import json
+ERP-BIDSS\backend\scratch\gate_2e3_storage_baseline.py: import os
+ERP-BIDSS\backend\scratch\gate_2e5_payload_audit.py: import psycopg2
+ERP-BIDSS\backend\scratch\gate_2e5_payload_audit.py: import json
+ERP-BIDSS\backend\scratch\gate_2e5_payload_audit.py: import base64
+ERP-BIDSS\backend\scratch\gate_2e5_payload_audit.py: import os
+ERP-BIDSS\backend\scratch\gate_2e6_dynamic_test.py: import psycopg2
+ERP-BIDSS\backend\scratch\gate_2e6_dynamic_test.py: import os
+ERP-BIDSS\backend\scratch\gate_2e7_browser_validation.py: import psycopg2
+ERP-BIDSS\backend\scratch\gate_2e7_browser_validation.py: import json
+ERP-BIDSS\backend\scratch\gate_2e7_browser_validation.py: import base64
+ERP-BIDSS\backend\scratch\gate_2e7_browser_validation.py: import os
+ERP-BIDSS\backend\scratch\insert_custom_module.py: import sys
+ERP-BIDSS\backend\scratch\insert_custom_module.py: import os
+ERP-BIDSS\backend\scratch\insert_custom_module.py: from config.database import db
+ERP-BIDSS\backend\scratch\insert_custom_module.py: from sqlalchemy import text
+ERP-BIDSS\backend\scratch\inspect_charts_deep.py: import json
+ERP-BIDSS\backend\scratch\inspect_core_dashboard_schemas.py: import json
+ERP-BIDSS\backend\scratch\inspect_core_dashboard_schemas.py: import glob
+ERP-BIDSS\backend\scratch\inspect_core_dashboard_schemas.py: import os
+ERP-BIDSS\backend\scratch\inspect_live_dashboard_json.py: import json
+ERP-BIDSS\backend\scratch\inspect_odoo_dashboard_source.py: import json, os
+ERP-BIDSS\backend\scratch\inspect_odoo_dashboard_source.py: import glob
+ERP-BIDSS\backend\scratch\inspect_official_dashboard.py: import json, os
+ERP-BIDSS\backend\scratch\investigate_truth_data.py: import sys
+ERP-BIDSS\backend\scratch\investigate_truth_data.py: import os
+ERP-BIDSS\backend\scratch\investigate_truth_data.py: from config.database import db
+ERP-BIDSS\backend\scratch\investigate_truth_data.py: from sqlalchemy import text
+ERP-BIDSS\backend\scratch\link_submenus.py: import sys
+ERP-BIDSS\backend\scratch\link_submenus.py: import os
+ERP-BIDSS\backend\scratch\link_submenus.py: from config.database import db
+ERP-BIDSS\backend\scratch\link_submenus.py: from sqlalchemy import text
+ERP-BIDSS\backend\scratch\preflight_db.py: import sys
+ERP-BIDSS\backend\scratch\preflight_db.py: import os
+ERP-BIDSS\backend\scratch\preflight_db.py: from odoo.connection import get_connection
+ERP-BIDSS\backend\scratch\preflight_db.py: from config.database import db
+ERP-BIDSS\backend\scratch\preflight_db.py: from sqlalchemy import text
+ERP-BIDSS\backend\scratch\read_attachment_file.py: import sys
+ERP-BIDSS\backend\scratch\read_attachment_file.py: import os
+ERP-BIDSS\backend\scratch\restore_clone_dashboards.py: import xmlrpc.client
+ERP-BIDSS\backend\scratch\restore_clone_dashboards.py: import base64
+ERP-BIDSS\backend\scratch\restore_clone_dashboards.py: import os
+ERP-BIDSS\backend\scratch\restore_official_core_dashboards.py: import sys
+ERP-BIDSS\backend\scratch\restore_official_core_dashboards.py: import os
+ERP-BIDSS\backend\scratch\restore_official_core_dashboards.py: import json
+ERP-BIDSS\backend\scratch\restore_official_core_dashboards.py: import base64
+ERP-BIDSS\backend\scratch\restore_official_core_dashboards.py: from odoo.connection import get_connection
+ERP-BIDSS\backend\scratch\seed_clone_dashboards.py: import sys
+ERP-BIDSS\backend\scratch\seed_clone_dashboards.py: import os
+ERP-BIDSS\backend\scratch\seed_clone_dashboards.py: import psycopg2
+ERP-BIDSS\backend\scratch\seed_obidss_menus.py: import sys
+ERP-BIDSS\backend\scratch\seed_obidss_menus.py: import os
+ERP-BIDSS\backend\scratch\seed_obidss_menus.py: import json
+ERP-BIDSS\backend\scratch\seed_obidss_menus.py: from config.database import db
+ERP-BIDSS\backend\scratch\seed_obidss_menus.py: from sqlalchemy import text
+ERP-BIDSS\backend\scratch\setup_clone_database.py: import sys
+ERP-BIDSS\backend\scratch\setup_clone_database.py: import os
+ERP-BIDSS\backend\scratch\setup_clone_database.py: import psycopg2
+ERP-BIDSS\backend\scratch\setup_clone_database.py: from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+ERP-BIDSS\backend\scratch\update_client_actions.py: import sys
+ERP-BIDSS\backend\scratch\update_client_actions.py: import os
+ERP-BIDSS\backend\scratch\update_client_actions.py: from config.database import db
+ERP-BIDSS\backend\scratch\update_client_actions.py: from sqlalchemy import text
+ERP-BIDSS\backend\scratch\update_module_db.py: import psycopg2
+ERP-BIDSS\backend\scratch\update_module_db.py: import hashlib
+ERP-BIDSS\backend\scratch\update_module_db.py: import os
+ERP-BIDSS\backend\scratch\verify_attachment_structure.py: import psycopg2, json, base64
+ERP-BIDSS\backend\scratch\verify_clone_implementation.py: import sys
+ERP-BIDSS\backend\scratch\verify_clone_implementation.py: import os
+ERP-BIDSS\backend\scratch\verify_clone_implementation.py: import psycopg2
+ERP-BIDSS\backend\scripts\database_manager.py: import psycopg2
+ERP-BIDSS\backend\scripts\database_manager.py: from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+ERP-BIDSS\backend\scripts\database_manager.py: from app.models.schema import Base
+ERP-BIDSS\backend\scripts\database_manager.py: from app.database.connection import engine
+ERP-BIDSS\backend\scripts\database_manager.py: import psycopg2
+ERP-BIDSS\backend\scripts\database_manager.py: from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+ERP-BIDSS\backend\scripts\dataset_generator.py: import sys
+ERP-BIDSS\backend\scripts\dataset_generator.py: import random
+ERP-BIDSS\backend\scripts\dataset_generator.py: from datetime import datetime, timedelta
+ERP-BIDSS\backend\scripts\dataset_generator.py: import logging
+ERP-BIDSS\backend\scripts\dataset_generator.py: import odoo
+ERP-BIDSS\backend\scripts\dataset_generator.py: import os
+ERP-BIDSS\backend\scripts\dataset_generator.py: import sys
+ERP-BIDSS\backend\scripts\dataset_generator.py: import logging
+ERP-BIDSS\backend\scripts\dataset_generator.py: import random
+ERP-BIDSS\backend\scripts\dataset_generator.py: from datetime import datetime
+ERP-BIDSS\backend\scripts\dataset_generator.py: import odoo
+ERP-BIDSS\backend\scripts\dataset_generator.py: import os
+ERP-BIDSS\backend\scripts\dataset_generator.py: import sys
+ERP-BIDSS\backend\scripts\dataset_generator.py: import logging
+ERP-BIDSS\backend\scripts\dataset_generator.py: import random
+ERP-BIDSS\backend\scripts\dataset_generator.py: from datetime import datetime
+ERP-BIDSS\backend\scripts\dataset_generator.py: import odoo
+ERP-BIDSS\backend\scripts\dataset_generator.py: import sys
+ERP-BIDSS\backend\scripts\dataset_generator.py: import os
+ERP-BIDSS\backend\scripts\dataset_generator.py: import odoo
+ERP-BIDSS\backend\scripts\dataset_generator.py: import generate_mock_data
+ERP-BIDSS\backend\scripts\dataset_generator.py: import subprocess
+ERP-BIDSS\backend\scripts\dataset_generator.py: import sys
+ERP-BIDSS\backend\scripts\dataset_generator.py: import os
+ERP-BIDSS\backend\scripts\dataset_generator.py: import odoo
+ERP-BIDSS\backend\scripts\dataset_generator.py: import os
+ERP-BIDSS\backend\scripts\dataset_generator.py: import sys
+ERP-BIDSS\backend\scripts\dataset_generator.py: import odoo
+ERP-BIDSS\backend\scripts\dataset_generator.py: import os
+ERP-BIDSS\backend\scripts\dataset_generator.py: import sys
+ERP-BIDSS\backend\scripts\dataset_generator.py: import odoo
+ERP-BIDSS\backend\utils\helper.py: import hashlib
+ERP-BIDSS\backend\validation\validate_phase10.py: import sys
+ERP-BIDSS\backend\validation\validate_phase10.py: import os
+ERP-BIDSS\backend\validation\validate_phase10.py: from config.database import db
+ERP-BIDSS\backend\validation\validate_phase10.py: from config.settings import settings
+ERP-BIDSS\backend\validation\validate_phase10.py: from sqlalchemy import text
+ERP-BIDSS\backend\validation\validate_phase11.py: import sys
+ERP-BIDSS\backend\validation\validate_phase11.py: import os
+ERP-BIDSS\backend\validation\validate_phase11.py: from config.database import db
+ERP-BIDSS\backend\validation\validate_phase11.py: from config.settings import settings
+ERP-BIDSS\backend\validation\validate_phase11.py: from sqlalchemy import text
+ERP-BIDSS\backend\validation\validate_phase11.py: import pandas as pd
+ERP-BIDSS\backend\validation\validate_phase11.py: import numpy as np
+ERP-BIDSS\backend\validation\validate_phase8.py: from odoo.connection import get_connection
+ERP-BIDSS\backend\validation\validate_phase9.py: import sys
+ERP-BIDSS\backend\validation\validate_phase9.py: import os
+ERP-BIDSS\backend\validation\validate_phase9.py: from odoo.connection import get_connection
+ERP-BIDSS\backend\validation\validate_phase9.py: from phase9.config import MONTHLY_TARGETS, TOTAL_SO_TARGET, TOTAL_PO_TARGET, TOTAL_TRANSFERS_TARGET, TOTAL_SCRAP_TARGET
+odoo\addons\account_payment\models\__init__.py: from . import account_journal
+odoo\addons\account_payment\models\__init__.py: from . import account_move
+odoo\addons\account_payment\models\__init__.py: from . import account_payment
+odoo\addons\account_payment\models\__init__.py: from . import account_payment_method
+odoo\addons\account_payment\models\__init__.py: from . import account_payment_method_line
+odoo\addons\account_payment\models\__init__.py: from . import onboarding_onboarding_step
+odoo\addons\account_payment\models\__init__.py: from . import payment_provider
+odoo\addons\account_payment\models\__init__.py: from . import payment_transaction
+odoo\addons\base_sparse_field\models\__init__.py: from . import fields
+odoo\addons\base_sparse_field\models\__init__.py: from . import models
+odoo\addons\crm_mail_plugin\models\__init__.py: from . import crm_lead
+odoo\addons\http_routing\models\ir_http.py: import logging
+odoo\addons\http_routing\models\ir_http.py: import re
+odoo\addons\http_routing\models\ir_http.py: import traceback
+odoo\addons\http_routing\models\ir_http.py: import typing
+odoo\addons\http_routing\models\ir_http.py: import werkzeug.exceptions
+odoo\addons\http_routing\models\ir_http.py: import werkzeug.routing
+odoo\addons\http_routing\models\ir_http.py: import werkzeug.urls
+odoo\addons\http_routing\models\ir_http.py: import urllib.parse
+odoo\addons\http_routing\models\ir_http.py: from werkzeug.exceptions import HTTPException, NotFound
+odoo\addons\http_routing\models\ir_http.py: import odoo
+odoo\addons\http_routing\models\ir_http.py: from odoo import api, models, exceptions, tools, http
+odoo\addons\http_routing\models\ir_http.py: from odoo.addons.base.models import ir_http
+odoo\addons\http_routing\models\ir_http.py: from odoo.addons.base.models.ir_http import RequestUID
+odoo\addons\http_routing\models\ir_http.py: from odoo.addons.base.models.ir_qweb import keep_query, QWebException
+odoo\addons\http_routing\models\ir_http.py: from odoo.addons.base.models.res_lang import LangData
+odoo\addons\http_routing\models\ir_http.py: from odoo.exceptions import AccessError, MissingError
+odoo\addons\http_routing\models\ir_http.py: from odoo.http import request, Response
+odoo\addons\http_routing\models\ir_http.py: from odoo.osv import expression
+odoo\addons\link_tracker\models\__init__.py: from . import link_tracker
+odoo\addons\link_tracker\models\__init__.py: from . import mail_render_mixin
+odoo\addons\link_tracker\models\__init__.py: from . import utm
+odoo\addons\obidss_operational_bi\__init__.py: from . import models
+odoo\addons\obidss_operational_bi\models\obidss_data_quality.py: from odoo import models, fields, api, tools
+odoo\addons\obidss_operational_bi\models\__init__.py: from . import obidss_data_quality
+odoo\addons\obidss_operational_bi\obidss_operational_bi\__init__.py: from . import models
+odoo\addons\obidss_operational_bi\obidss_operational_bi\models\obidss_data_quality.py: from odoo import models, fields, api, tools
+odoo\addons\obidss_operational_bi\obidss_operational_bi\models\__init__.py: from . import obidss_data_quality
+odoo\addons\stock\report\report_stock_rule.py: from odoo import api, models, _
+odoo\addons\stock\report\report_stock_rule.py: from odoo.exceptions import UserError
+odoo\addons\website_sale_wishlist\tests\test_wishlist_process.py: from odoo.fields import Command
+odoo\addons\website_sale_wishlist\tests\test_wishlist_process.py: from odoo.tests import HttpCase, tagged

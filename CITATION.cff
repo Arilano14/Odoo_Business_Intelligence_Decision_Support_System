@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Pinem"
+    given-names: "Arilano"
+title: "Odoo Business Intelligence Decision Support System (OBIDSS)"
+version: 2.0.0
+date-released: 2026-08-06
+repository-code: "https://github.com/Arilano14/Odoo_Business_Intelligence_Decision_Support_System.git"

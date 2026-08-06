@@ -1,0 +1,18 @@
+HISTORICAL TECHNICAL BUILD CHRONOLOGY
+====================================
+[2024-12-29] Initial Odoo Data Mart & Addon Infrastructure
+- Created obidss_operational_bi custom addon structure.
+- Connected Odoo 18.0 PostgreSQL source schema.
+
+[2026-07-15] Spreadsheet Pivot Monthly Date Alignment
+- Applied granularity patch in custom_addons/obidss_operational_bi/models/dashboard_pivot_fix.py.
+- Validated month format (01/2026 ... 12/2026) across executive, sales, purchase, and inventory dashboards.
+
+[2026-08-04] Forecast Engine Stabilization & Rolling Horizon Benchmark
+- Implemented product-isolated rolling windows with Zero-History Rule.
+- Benchmark 6 models: Naive, MA3, SES, Croston, SBA, TSB.
+
+[2026-08-06] Phase 11.4 Synthetic Transaction Scenario V2 & Governance Restructuring
+- Injected 7,618 sales order lines via XML-RPC ORM across 240 Verified Portfolio SKUs.
+- Holdout Accuracy: 81.17% (WAPE = 18.83%).
+- Restructured repository layout (dashboard_tools/, dashboard_assets/, ERP-BIDSS/tools/, docs/history/).
