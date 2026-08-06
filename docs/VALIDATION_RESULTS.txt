@@ -1,0 +1,8 @@
+VALIDATION RESULTS & ACCURACY AUDIT
+===================================
+Verified Portfolio Scope: 240 SKUs
+Total Holdout Actual: 49,516.00 units
+Total Holdout Abs Error: 9,324.98 units
+Holdout WAPE: 18.83%
+Holdout Accuracy: 81.17%
+Positive Demand Accuracy: 87.60%

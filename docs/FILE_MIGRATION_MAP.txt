@@ -1,0 +1,3 @@
+FILE MIGRATION MAP
+==================
+Legacy scripts and tools organized into scripts/, dashboard_tools/, ERP-BIDSS/tools/, and ERP-BIDSS/tests/.

@@ -1,0 +1,4 @@
+TECHNICAL ISSUES & RESOLUTIONS LOG
+==================================
+1. Odoo Pivot Date Granularity: Fixed via explicit 'granularity': 'month' in dashboard spreadsheet JSON.
+2. Forecast Grid Completeness: Product-isolated rolling windows applied with Zero-History Rule.
