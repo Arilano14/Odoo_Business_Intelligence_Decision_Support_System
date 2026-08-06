@@ -265,12 +265,20 @@ def calculate_decision_support():
 
 def calculate_forecast():
     print("\n" + "=" * 60)
-    print("PHASE 11 -- Calculating 3-Month Moving Average Forecast")
+    print("PHASE 11 -- Calculating 3-Month Moving Average Forecast (Approved Logic)")
     print("=" * 60)
     
     SCHEMA = settings.TARGET_SCHEMA
     
-    # 1. Get Monthly Demand per Product
+    # 1. Fetch All Portfolio Products from dim_product to guarantee complete product scope (283 products)
+    try:
+        prod_query = f"SELECT sk_product_id AS product_id FROM {SCHEMA}.dim_product ORDER BY product_id"
+        prod_df = pd.read_sql(prod_query, db.target_engine)
+        all_products = prod_df['product_id'].unique()
+    except Exception:
+        all_products = None
+
+    # 2. Get Monthly Demand per Product from fact_sales
     query = f"""
         SELECT 
             product_id,
@@ -291,59 +299,86 @@ def calculate_forecast():
         print("No sales data available for forecasting.")
         return
 
-    # Pivot to ensure missing months are 0
+    # Convert month_id to Datetime for grid generation
     df['month_id'] = pd.to_datetime(df['month_id'], format='%Y%m')
     
-    # Generate full combinations of product & month
-    all_products = df['product_id'].unique()
-    all_months = pd.date_range(start=df['month_id'].min(), end=df['month_id'].max(), freq='MS')
+    if all_products is None or len(all_products) == 0:
+        all_products = df['product_id'].unique()
+
+    # Fixed FY 2026 12-month calendar range
+    min_date = pd.to_datetime('2026-01-01')
+    max_date = pd.to_datetime('2026-12-01')
+    all_months = pd.date_range(start=min_date, end=max_date, freq='MS')
+
+    # 3. Generate Complete Grid (Products x 12 Months)
     full_idx = pd.MultiIndex.from_product([all_products, all_months], names=['product_id', 'month_id'])
     
-    df = df.set_index(['product_id', 'month_id']).reindex(full_idx, fill_value=0).reset_index()
+    grid = df.set_index(['product_id', 'month_id']).reindex(full_idx, fill_value=0).reset_index()
+    grid['actual_qty'] = pd.to_numeric(grid['actual_qty'], errors='coerce').fillna(0.0)
+    grid = grid.sort_values(['product_id', 'month_id']).reset_index(drop=True)
     
-    # Calculate 3-Month Moving Average (requires 3 historical months min_periods=3)
-    raw_ma3 = df.groupby('product_id')['actual_qty'].transform(
-        lambda x: x.rolling(window=3, min_periods=3).mean().shift(1)
+    # 4. Product-Level Rolling Calculation using shift(1)
+    prev_actual = grid.groupby('product_id')['actual_qty'].shift(1)
+    rolling_mean = prev_actual.groupby(grid['product_id']).rolling(window=3, min_periods=3).mean().reset_index(level=0, drop=True)
+    rolling_sum = prev_actual.groupby(grid['product_id']).rolling(window=3, min_periods=3).sum().reset_index(level=0, drop=True)
+    
+    grid['forecast_available'] = rolling_mean.notna()
+    
+    # 5. Zero-History Rule & Nullability
+    grid['ma3_forecast'] = np.where(
+        ~grid['forecast_available'],
+        np.nan,
+        np.where(rolling_sum == 0, 0.0, rolling_mean.round(0))
     )
-    df['forecast_available'] = raw_ma3.notna()
-    df['ma3_forecast'] = raw_ma3.fillna(0).round(0).astype(int)
-    df['absolute_error'] = np.where(df['forecast_available'], abs(df['actual_qty'] - df['ma3_forecast']), 0)
     
-    # Calculate Forecast Error (%)
-    df['forecast_error_pct'] = np.where(
-        df['actual_qty'] > 0,
-        abs(df['actual_qty'] - df['ma3_forecast']) / df['actual_qty'] * 100,
-        np.where(df['ma3_forecast'] > 0, 100, 0)
-    ).round(2)
+    grid['absolute_error'] = np.where(
+        grid['forecast_available'],
+        np.abs(grid['actual_qty'] - grid['ma3_forecast']),
+        np.nan
+    )
     
-    # Generate Interpretation
-    def get_interpretation(row):
+    grid['forecast_error_pct'] = np.where(
+        grid['forecast_available'] & (grid['actual_qty'] > 0),
+        np.round(grid['absolute_error'] / grid['actual_qty'] * 100, 2),
+        np.nan
+    )
+    
+    # 6. 7-Class Interpretation System
+    def classify(row):
         if not row['forecast_available']:
-            return "Baseline (Tidak cukup data historis - Membutuhkan 3 bulan)"
-            
-        error = row['forecast_error_pct']
-        if error <= 10:
-            return "Akurat. Prediksi sesuai dengan permintaan aktual."
-        elif row['actual_qty'] > row['ma3_forecast']:
-            return f"Under-forecast (Error {error}%). Permintaan aktual lebih tinggi dari prediksi."
+            return "Forecast Not Available"
+        act = row['actual_qty']
+        fct = row['ma3_forecast']
+        err = row['forecast_error_pct']
+        
+        if act == 0 and fct == 0:
+            return "Correct Zero Forecast"
+        elif act == 0 and fct > 0:
+            return "Zero-Demand Over-Forecast"
+        elif act > 0 and fct == 0:
+            return "Missed Demand"
+        elif not np.isnan(err) and err <= 10:
+            return "Accurate"
+        elif fct > act:
+            return "Over-Forecast"
         else:
-            return f"Over-forecast (Error {error}%). Permintaan aktual lebih rendah dari prediksi."
+            return "Under-Forecast"
 
-    df['interpretation'] = df.apply(get_interpretation, axis=1)
+    grid['interpretation'] = grid.apply(classify, axis=1)
     
-    # Convert month_id back to integer format YYYYMM
-    df['month_id'] = df['month_id'].dt.strftime('%Y%m').astype(int)
+    # Convert month_id back to integer YYYYMM format
+    grid['month_id'] = grid['month_id'].dt.strftime('%Y%m').astype(int)
     
-    # Save to Analytics Mart
+    # 7. Safe Write to Analytics Mart
     try:
-        df.to_sql(
+        grid.to_sql(
             'fact_forecast_monthly',
             db.target_engine,
             schema=SCHEMA,
             if_exists='replace',
             index=False
         )
-        print(f"  [OK] Successfully wrote {len(df)} rows to {SCHEMA}.fact_forecast_monthly")
+        print(f"  [OK] Successfully wrote {len(grid)} rows to {SCHEMA}.fact_forecast_monthly")
     except Exception as e:
         print(f"  [FAIL] Failed to write Forecast data: {e}")
 
