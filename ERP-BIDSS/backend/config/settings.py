@@ -23,7 +23,7 @@ class Settings:
     LOG_FILE = os.getenv("ETL_LOG_FILE", "etl_execution.log")
 
     # Phase 10 Centralized Alignment Settings
-    ANALYSIS_START_DATE = os.getenv("ANALYSIS_START_DATE", "2026-01-01")
+    ANALYSIS_START_DATE = os.getenv("ANALYSIS_START_DATE", "2024-01-01")
     ANALYSIS_END_DATE = os.getenv("ANALYSIS_END_DATE", "2026-12-31")
     TARGET_COMPANY_ID = int(os.getenv("TARGET_COMPANY_ID", "2"))
     CUSTOMER_REF_PREFIX = os.getenv("CUSTOMER_REF_PREFIX", "PORTFOLIO_2026_V1-CUST-")
