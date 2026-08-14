@@ -7,7 +7,6 @@ Project ini dibangun untuk mengeksplorasi satu pertanyaan utama:
 > **Bagaimana data ERP dapat dikembangkan dari sekadar pencatatan transaksi menjadi informasi yang mendukung keputusan bisnis?**
 
 Arsitektur project menghubungkan:
-
 **Odoo 18 → PostgreSQL → Python ETL → Dimensional Data Mart → Forecasting & Decision Support → Power BI**
 
 Project menggunakan skenario ERP sintetis yang reproducible sehingga proses ETL, analytical modeling, forecasting, dan validasi dapat dijalankan kembali secara konsisten tanpa bergantung pada data perusahaan nyata.
